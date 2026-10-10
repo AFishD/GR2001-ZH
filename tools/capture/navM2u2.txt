@@ -1,0 +1,30 @@
+# navM2u2.txt -- 用户卡: 主菜单 -> 战役 -> X -> 存档界面 -> 下 -> X -> M02 简报页
+# (用户给的路径: 战役里按一次 Dpad 下到达存档界面, 再按一次 X 到达简报界面)
+# 用户卡启动后停在「选择文件」层 (2 个 TEQSUNSET + 空位 + 新建), 光标在「新建」
+1000 start tap
+1300 start tap
+1600 start tap
+1900 start tap
+2200 start tap
+2500 start tap
+2800 start tap
+# --- 选择文件: 上移 1 次 -> 第二个存档 ---
+3600 up hold
+3602 up release
+# --- 载入该档案 -> 主菜单 ---
+4400 cross hold
+4402 cross release
+# --- 主菜单: 下移 2 次 -> 战役 ---
+5400 down hold
+5402 down release
+5800 down hold
+5802 down release
+# --- 进入战役 (存档界面) ---
+6600 cross hold
+6602 cross release
+# --- 存档界面: 下移 1 次 -> 第二个存档 (M02) ---
+7400 down hold
+7402 down release
+# --- 进入简报页 ---
+8200 cross hold
+8202 cross release

@@ -1,0 +1,175 @@
+{
+ "format": "text-csv/3",
+ "iso": "C:\\Users\\84363\\Desktop\\Ghost_Recon_2001_Locolization\\work\\builds\\GR_ZH91\\GR_ZH91.iso",
+ "iso_sha256": "42d04a4f61982a00b2b31b6a4ecc97ec0d814810b56e0695befdb63b4b92ec88",
+ "charset": "tools\\font_pipeline\\data\\charset_compiled_zh16.json",
+ "long_min": 40,
+ "generated": "2026-10-10T16:43:56",
+ "wrap_profiles": {
+  "LANG": {
+   "wrap_w": 0,
+   "source": "unknown",
+   "evidence": "语言表被多种组件消费, 宽度各不同; 见 work/archive/cmp/r29_csv/wrap_fit.md"
+  },
+  "SFXML": {
+   "wrap_w": 270,
+   "source": "calibrated",
+   "evidence": "docs/REPORT_wrap_and_title.md (EE RAM frame 11030: comp[0x40]=270)"
+  }
+ },
+ "en": {
+  "iso": "work/builds/GR_EN_ORIG/GR_EN_ORIG.iso",
+  "iso_sha256": "2b42ea7ce9bd0a85972a07ca59b1b9d79422ed318b85737db3cfd17daa788531",
+  "source": {
+   "lang": "EN_STRINGS.RES@MENU",
+   "sfxml": "EN_SPECIAL_FEATURE.XML",
+   "note": "只读第一份拷贝 (与中文盘 dump 的主拷贝一致)"
+  },
+  "align_key": {
+   "LANG": "id (G###.I###)",
+   "SFXML": "条目序 (T####)"
+  },
+  "policy": "text_en 只读参考: 注入器完全忽略这一列, 改了不会进游戏",
+  "lang": {
+   "entries": 2232,
+   "nonempty": 2192,
+   "empty": 40,
+   "bytes": 114617,
+   "bytes_hist": {
+    "0xB5": 21,
+    "0xB1": 7,
+    "0x92": 14,
+    "0xAE": 27,
+    "0xE7": 1,
+    "0xF1": 1
+   }
+  },
+  "sfxml": {
+   "entries": 69,
+   "nonempty": 58,
+   "empty": 11,
+   "empty_ids": [
+    "SFXML:T0001",
+    "SFXML:T0002",
+    "SFXML:T0003",
+    "SFXML:T0004",
+    "SFXML:T0005",
+    "SFXML:T0006",
+    "SFXML:T0007",
+    "SFXML:T0008",
+    "SFXML:T0009",
+    "SFXML:T0041",
+    "SFXML:T0042"
+   ],
+   "bytes": 84065,
+   "bytes_hist": {
+    "0xBE": 1,
+    "0xE9": 1,
+    "0x85": 1
+   }
+  },
+  "byte_map": {
+   "0x85": "…",
+   "0x92": "’",
+   "0xA0": " ",
+   "0xAE": "®",
+   "0xB1": "{{BTN:E0B1}}",
+   "0xB5": "{{BTN:E0B5}}",
+   "0xBE": "¾",
+   "0xE7": "ç",
+   "0xE9": "é",
+   "0xF1": "ñ"
+  },
+  "byte_map_note": "0xB1/0xB5 = 手柄按键图标占位(引擎直接画图标); 其余 = Windows-1252 可见字符",
+  "copies_differ": [
+   "LANG:G012.I002",
+   "LANG:G013.I002",
+   "LANG:G014.I002",
+   "LANG:G015.I002",
+   "LANG:G016.I002",
+   "LANG:G017.I002",
+   "LANG:G018.I002",
+   "LANG:G019.I006",
+   "LANG:G021.I008",
+   "LANG:G044.I010",
+   "LANG:G049.I009",
+   "LANG:G050.I010"
+  ],
+  "aligned": {
+   "nonempty": 2250,
+   "blank": 11,
+   "unaligned": 0,
+   "unaligned_ids": [],
+   "rows_with_raw_bytes": 49
+  }
+ },
+ "resources": {
+  "LANG": {
+   "entries": 2192,
+   "long": 255,
+   "short": 1937,
+   "locked": 0,
+   "bytes": 54696,
+   "cp_mismatch": 0,
+   "ctrl": 23,
+   "ctrl_marks": 30,
+   "hints": 0,
+   "free": 53942,
+   "used_end": 68616,
+   "blob_len": 128545,
+   "container": "EN_STRINGS.RES@MENU+GR.IMG#902"
+  },
+  "SFXML": {
+   "entries": 69,
+   "long": 58,
+   "short": 11,
+   "locked": 0,
+   "bytes": 45186,
+   "ctrl": 0,
+   "ctrl_marks": 0,
+   "hints": 1548,
+   "free": 20485,
+   "used_end": 77430,
+   "blob_len": 116486,
+   "container": "EN_SPECIAL_FEATURE.XML"
+  }
+ },
+ "carry": {
+  "csv": "C:\\Users\\84363\\Desktop\\Ghost_Recon_2001_Locolization\\work\\builds\\GR_ZH91\\temp\\GR_ZH91_text_v2_用户改动保留.csv",
+  "csv_format": "text-csv/2",
+  "edited_rows": 1,
+  "carried": [
+   {
+    "id": "SFXML:T0010",
+    "resource": "SFXML",
+    "kind": "long",
+    "mark": 7,
+    "cell_chars": 144,
+    "old_cell_chars": 153,
+    "break_positions": [
+     15,
+     28,
+     38,
+     52,
+     63,
+     78,
+     92
+    ],
+    "disk_len_now": 174
+   }
+  ],
+  "missing": [],
+  "wrap_marks_carried": 7,
+  "policy": "旧表里 text_edited != text_zh 的行原样搬到新表; 新表里这些行会被注入器视为\"人工改过\""
+ },
+ "roundtrip": {
+  "checked": 2261,
+  "failed": 0,
+  "wrap_mark": "{WRAP}",
+  "wrap_marks_in_text_columns": 0,
+  "wrap_hints_total": 1548,
+  "wrap_marks_carried": 7,
+  "failures": [],
+  "policy": "text_zh 用注入器口径 (cell_to_bytes_text) 必须逐字节还原盘上原字节; kind=locked 除外。dump 端**绝不**自动插 {WRAP} (引擎折行点只进只读列 wrap_hint/wrap_preview)"
+ }
+}

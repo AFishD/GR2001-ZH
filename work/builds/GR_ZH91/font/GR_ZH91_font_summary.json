@@ -1,0 +1,195 @@
+{
+ "tool": "tools/iso_build/dump_font.py",
+ "reproducible": "本文件及三个 CSV/PNG 都不含时间戳: 同一 ISO dump 两次, sha256 完全相同",
+ "how_to_read": {
+  "atlas_png": "字库图集: 黑=有墨(字形), 白=空; 默认 2 倍最近邻放大, 一眼能看字形全貌",
+  "ft_csv": "码位 → 图集位置 的记录表 (ASCII/单字节走这张表); has_ink=0 表示这个码位画不出来",
+  "charset_csv": "本盘能打出的字符清单 (ascii/single/pair/icon); has_glyph=0 = 缺字形, 会画成空白",
+  "summary_json": "本文件: 上面三样的统计与 sha256"
+ },
+ "source_iso": "work/builds/GR_ZH91/GR_ZH91.iso",
+ "source_iso_sha256": "42d04a4f61982a00b2b31b6a4ecc97ec0d814810b56e0695befdb63b4b92ec88",
+ "font_res": {
+  "index": 4,
+  "name": "FONT.RES",
+  "container_offset": 758048,
+  "iso_offset": 1590591776,
+  "stored": 4421,
+  "expanded": 5942,
+  "slot_sha256": "a2e130971cde26bab910b78099f3bf21464e0bfe28375ad917ae6a31827f496b",
+  "expanded_sha256": "68b374cde0b0f4e49986d659f652f5722e5ec2965d5d1b3e9bced70313a98467"
+ },
+ "atlas": {
+  "index": 3,
+  "name": "COMMON.PAK",
+  "record": "new_font_revised",
+  "container_offset": 357376,
+  "psm": 20,
+  "width": 1024,
+  "height": 512,
+  "px_offset_in_pak": 5229,
+  "px_size_declared": 262160,
+  "pixel_bytes_used": 262144,
+  "pixel_sha256": "bf7d523387c966824372f116c1df692ba0b3e48d4d323ad5b24790e60e13b32d",
+  "ink_texels": 99136,
+  "total_texels": 524288
+ },
+ "faces": [
+  {
+   "index": 0,
+   "name": "large",
+   "records": 224,
+   "nrec_field": 224,
+   "fields": [
+    10,
+    26,
+    32,
+    32,
+    32,
+    7,
+    0,
+    0,
+    1140850688,
+    1140850688,
+    0,
+    0,
+    32,
+    26
+   ]
+  },
+  {
+   "index": 1,
+   "name": "default",
+   "records": 224,
+   "nrec_field": 224,
+   "fields": [
+    10,
+    26,
+    32,
+    32,
+    32,
+    7,
+    0,
+    1129316352,
+    1140850688,
+    1140850688,
+    0,
+    0,
+    32,
+    26
+   ]
+  },
+  {
+   "index": 2,
+   "name": "huge",
+   "records": 96,
+   "nrec_field": 96,
+   "fields": [
+    10,
+    16,
+    52,
+    42,
+    16,
+    6,
+    0,
+    1137704960,
+    1140850688,
+    1140850688,
+    0,
+    0,
+    32,
+    42
+   ]
+  }
+ ],
+ "counts": {
+  "faces": 3,
+  "ft_records": 544,
+  "ft_records_with_ink": 451,
+  "ft_records_without_ink": 93,
+  "charset_rows": 1456,
+  "by_kind": {
+   "ascii": 95,
+   "single": 76,
+   "pair": 1281,
+   "icon": 4
+  },
+  "has_glyph": 1423,
+  "missing_glyph": 33
+ },
+ "glyph_face_checked": {
+  "face": 1,
+  "name": "default",
+  "note": "单字节/ASCII 的字形判定由 tcslib.GlyphCache 按该 face 的记录表做 (现役盘实测引擎用的就是这个 face)"
+ },
+ "grid": {
+  "ncol": 62,
+  "cw": 16,
+  "ch": 16,
+  "y0": 2,
+  "skip_row": 12,
+  "skip_rows": 3,
+  "formula": "slot=(b1-0xA1)*94+(b2-0xA1); row=slot//ncol; col=slot%ncol; x=4+16*col; y=2+16*(row+3*[row>=12])"
+ },
+ "missing_glyph_chars": [
+  "^",
+  "_",
+  "`",
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z",
+  "|",
+  "~",
+  "欣",
+  "袁"
+ ],
+ "missing_glyph_truncated": false,
+ "png": {
+  "scale": 2,
+  "width": 2048,
+  "height": 1024,
+  "ink_pixels": 99136,
+  "legend": "黑 = 墨 (texel 0), 白 = 空 (texel 非 0); 最近邻放大, 未加网格线"
+ },
+ "files": {
+  "ft_csv": {
+   "path": "work/builds/GR_ZH91/font/GR_ZH91_font_ft.csv",
+   "bytes": 25901,
+   "sha256": "d759fdf7810c9a5f50d0abb853f8541d5a332ba22f87e1959cb25caa13956a32"
+  },
+  "charset_csv": {
+   "path": "work/builds/GR_ZH91/font/GR_ZH91_font_charset.csv",
+   "bytes": 122891,
+   "sha256": "073959605e3d124d0a270b29910abcbf5ca7f0a24e4fcd7648663532ba14301d"
+  },
+  "atlas_png": {
+   "path": "work/builds/GR_ZH91/font/GR_ZH91_font_atlas.png",
+   "bytes": 46805,
+   "sha256": "6bd21a0439309db7c97f14b5a60c2f169dc3e96c19cbd78d9e1145770f25c297"
+  }
+ },
+ "notes": []
+}

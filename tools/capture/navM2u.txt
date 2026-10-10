@@ -1,0 +1,55 @@
+# navM2u.txt -- 用户卡(含 GHOST001/002 存档) 战役路径 -> M02 简报页
+#
+# 用户给的路径: 主菜单 -> 第三项战役 -> X 进入 -> 下移 1 次选存档 -> X 进入简报页
+# 本 nav 在 9200 选档后不再按键, 保证简报页稳定可截
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+3400 start tap
+3600 start tap
+3800 start tap
+4000 start tap
+4200 start tap
+4400 start tap
+4600 start tap
+4800 start tap
+5000 start tap
+5200 start tap
+5400 start tap
+5600 start tap
+5800 start tap
+6000 start tap
+# --- 档案选择层: 上移到顶 ---
+6300 up hold
+6302 up release
+6500 up hold
+6502 up release
+6700 up hold
+6702 up release
+# --- 确认载入 -> 主菜单 ---
+7000 cross hold
+7002 cross release
+# --- 主菜单: 下移 2 次 -> 战役 ---
+7400 down hold
+7402 down release
+7800 down hold
+7802 down release
+# --- 进入战役 (存档列表) ---
+8200 cross hold
+8202 cross release
+# --- 下移 1 次选第二个存档 ---
+8600 down hold
+8602 down release
+# --- 进入简报页 ---
+9200 cross hold
+9202 cross release

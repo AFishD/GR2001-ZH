@@ -1,0 +1,247 @@
+{
+ "format": "text-csv/4",
+ "iso": "C:\\Users\\84363\\Desktop\\Ghost_Recon_2001_Locolization\\work\\builds\\GR_ZH92\\GR_ZH92.iso",
+ "iso_sha256": "1d30c1067beb8fc8534193486f23f75489447eb0487ab24d06ef66c0627120b6",
+ "charset": "tools\\font_pipeline\\data\\charset_compiled_zh16.json",
+ "long_min": 40,
+ "generated": "2026-10-10T18:28:13",
+ "wrap_profiles": {
+  "LANG": {
+   "wrap_w": 0,
+   "source": "unknown",
+   "evidence": "语言表被多种组件消费, 宽度各不同; 见 work/archive/cmp/r29_csv/wrap_fit.md"
+  },
+  "SFXML": {
+   "wrap_w": 270,
+   "source": "calibrated",
+   "evidence": "docs/REPORT_wrap_and_title.md (EE RAM frame 11030: comp[0x40]=270)"
+  }
+ },
+ "en": {
+  "iso": "work/builds/GR_EN_ORIG/GR_EN_ORIG.iso",
+  "iso_sha256": "2b42ea7ce9bd0a85972a07ca59b1b9d79422ed318b85737db3cfd17daa788531",
+  "source": {
+   "lang": "EN_STRINGS.RES@MENU",
+   "sfxml": "EN_SPECIAL_FEATURE.XML",
+   "note": "只读第一份拷贝 (与中文盘 dump 的主拷贝一致)"
+  },
+  "align_key": {
+   "LANG": "id (G###.I###)",
+   "SFXML": "条目序 (T####)"
+  },
+  "policy": "text_en 只读参考: 注入器完全忽略这一列, 改了不会进游戏",
+  "lang": {
+   "entries": 2232,
+   "nonempty": 2192,
+   "empty": 40,
+   "bytes": 114617,
+   "bytes_hist": {
+    "0xB5": 21,
+    "0xB1": 7,
+    "0x92": 14,
+    "0xAE": 27,
+    "0xE7": 1,
+    "0xF1": 1
+   }
+  },
+  "sfxml": {
+   "entries": 69,
+   "nonempty": 58,
+   "empty": 11,
+   "empty_ids": [
+    "SFXML:T0001",
+    "SFXML:T0002",
+    "SFXML:T0003",
+    "SFXML:T0004",
+    "SFXML:T0005",
+    "SFXML:T0006",
+    "SFXML:T0007",
+    "SFXML:T0008",
+    "SFXML:T0009",
+    "SFXML:T0041",
+    "SFXML:T0042"
+   ],
+   "bytes": 84065,
+   "bytes_hist": {
+    "0xBE": 1,
+    "0xE9": 1,
+    "0x85": 1
+   }
+  },
+  "byte_map": {
+   "0x85": "…",
+   "0x92": "’",
+   "0xA0": " ",
+   "0xAE": "®",
+   "0xB1": "{{BTN:E0B1}}",
+   "0xB5": "{{BTN:E0B5}}",
+   "0xBE": "¾",
+   "0xE7": "ç",
+   "0xE9": "é",
+   "0xF1": "ñ"
+  },
+  "byte_map_note": "0xB1/0xB5 = 手柄按键图标占位(引擎直接画图标); 其余 = Windows-1252 可见字符",
+  "copies_differ": [
+   "LANG:G012.I002",
+   "LANG:G013.I002",
+   "LANG:G014.I002",
+   "LANG:G015.I002",
+   "LANG:G016.I002",
+   "LANG:G017.I002",
+   "LANG:G018.I002",
+   "LANG:G019.I006",
+   "LANG:G021.I008",
+   "LANG:G044.I010",
+   "LANG:G049.I009",
+   "LANG:G050.I010"
+  ],
+  "aligned": {
+   "nonempty": 2250,
+   "blank": 11,
+   "unaligned": 0,
+   "unaligned_ids": [],
+   "rows_with_raw_bytes": 49
+  }
+ },
+ "resources": {
+  "LANG": {
+   "entries": 2192,
+   "long": 255,
+   "short": 1937,
+   "locked": 0,
+   "bytes": 54696,
+   "cp_mismatch": 0,
+   "ctrl": 23,
+   "ctrl_marks": 30,
+   "hints": 0,
+   "free": 53942,
+   "used_end": 68616,
+   "blob_len": 128545,
+   "container": "EN_STRINGS.RES@MENU+GR.IMG#902"
+  },
+  "SFXML": {
+   "entries": 69,
+   "long": 58,
+   "short": 11,
+   "locked": 0,
+   "bytes": 45206,
+   "ctrl": 0,
+   "ctrl_marks": 0,
+   "hints": 1541,
+   "free": 20488,
+   "used_end": 77450,
+   "blob_len": 116486,
+   "container": "EN_SPECIAL_FEATURE.XML"
+  }
+ },
+ "carry": {
+  "csvs": [
+   "C:\\Users\\84363\\Desktop\\Ghost_Recon_2001_Locolization\\work\\builds\\GR_ZH91\\text\\GR_ZH91_text.csv"
+  ],
+  "sources": [
+   {
+    "csv": "C:\\Users\\84363\\Desktop\\Ghost_Recon_2001_Locolization\\work\\builds\\GR_ZH91\\text\\GR_ZH91_text.csv",
+    "kind": "",
+    "csv_format": "text-csv/3",
+    "edited_rows": 1
+   }
+  ],
+  "csv_format": "text-csv/3",
+  "edited_rows": 1,
+  "carried": [
+   {
+    "id": "SFXML:T0010",
+    "resource": "SFXML",
+    "kind": "long",
+    "mark": 7,
+    "cell_chars": 144,
+    "old_cell_chars": 111,
+    "break_positions": [
+     15,
+     28,
+     38,
+     52,
+     63,
+     78,
+     92
+    ],
+    "disk_len_now": 194
+   }
+  ],
+  "missing": [],
+  "conflicts": [],
+  "wrap_marks_carried": 7,
+  "policy": "旧表里 text_edited != text_zh 的行原样搬到新表; 新表里这些行会被注入器视为\"人工改过\""
+ },
+ "roundtrip": {
+  "checked": 2261,
+  "failed": 0,
+  "wrap_mark": "{WRAP}",
+  "wrap_marks_in_text_columns": 0,
+  "wrap_hints_total": 1541,
+  "wrap_marks_carried": 7,
+  "failures": [],
+  "policy": "text_zh 用注入器口径 (cell_to_bytes_text) 必须逐字节还原盘上原字节; kind=locked 除外。dump 端**绝不**自动插 {WRAP} (引擎折行点只进只读列 wrap_hint/wrap_preview)"
+ },
+ "tables": {
+  "base": "work/builds/GR_ZH92/text/GR_ZH92_text",
+  "glob": "*_text_*.csv",
+  "kinds": [
+   "long",
+   "long_nowrap",
+   "short"
+  ],
+  "kinds_present": [
+   "long",
+   "long_nowrap",
+   "short"
+  ],
+  "kinds_requested": [],
+  "unknown_kinds": [],
+  "tables": 3,
+  "rows_total": 2261,
+  "rows_dumped": 2261,
+  "rows_not_written": 0,
+  "files": [
+   {
+    "path": "C:/Users/84363/Desktop/Ghost_Recon_2001_Locolization/work/builds/GR_ZH92/text/GR_ZH92_text_long.csv",
+    "name": "GR_ZH92_text_long.csv",
+    "kind": "long",
+    "rows": 58,
+    "bytes": 326595,
+    "sha256": "c5252b99b58a0454d2217eb825206a22e1ed5fbcd52313d082261a5036ba2ff6"
+   },
+   {
+    "path": "C:/Users/84363/Desktop/Ghost_Recon_2001_Locolization/work/builds/GR_ZH92/text/GR_ZH92_text_long_nowrap.csv",
+    "name": "GR_ZH92_text_long_nowrap.csv",
+    "kind": "long_nowrap",
+    "rows": 255,
+    "bytes": 289456,
+    "sha256": "31fe96049b0c0124489571f86c0e7cb14a61b95784449f4086bf54014ab73980"
+   },
+   {
+    "path": "C:/Users/84363/Desktop/Ghost_Recon_2001_Locolization/work/builds/GR_ZH92/text/GR_ZH92_text_short.csv",
+    "name": "GR_ZH92_text_short.csv",
+    "kind": "short",
+    "rows": 1948,
+    "bytes": 338198,
+    "sha256": "9759b3b1a689a3d04e640b6a76460a0ad3425e37a06cb8b2188022957033e730"
+   }
+  ],
+  "empty_tables": [],
+  "naming": "<基准>_<kind>.csv —— 每张表 16 列, 表头与原大表完全相同",
+  "no_merged_csv": "不再产出合并的大 CSV (避免\"改了一张、另一张没改\"的歧义); TXT 快照仍然合并成一份: GR_ZH92_text.txt",
+  "stale_merged_csv": null,
+  "policy": "注入: --csv 可给多次, 也可给本目录 (自动读全部 *_text_*.csv); 多表按 id 合并, 同一个 id 的 text_edited 不一致会报错"
+ },
+ "txt": {
+  "path": "work/builds/GR_ZH92/text/GR_ZH92_text.txt",
+  "rows": 2261,
+  "bytes": 202085,
+  "sha256": "ae60f337d28c78e65840cb4185426fa96e84655528b55dd5d3b191b6969a7731",
+  "chars": 65714,
+  "cjk_chars": 45737,
+  "scope": "本次写出的多张表合并而成 (一份, 便于 git diff)",
+  "format": "每行 id<TAB>正文(单行); 换行=\\n 制表=\\t 反斜杠=\\\\"
+ }
+}

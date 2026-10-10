@@ -1,0 +1,135 @@
+{
+ "version": "GR_ZH92",
+ "base": "work/builds/GR_ZH91/GR_ZH91.iso",
+ "patch": null,
+ "inject_csv": [
+  {
+   "csv": "work/builds/GR_ZH91/temp/GR_ZH91_text_carry.csv",
+   "report": "work/builds/GR_ZH92/temp/inject1_report.json",
+   "iso_sha256": "1d30c1067beb8fc8534193486f23f75489447eb0487ab24d06ef66c0627120b6"
+  }
+ ],
+ "iso_sha256": "1d30c1067beb8fc8534193486f23f75489447eb0487ab24d06ef66c0627120b6",
+ "iso_bytes": 1648164864,
+ "built": "2026-10-10 17:10",
+ "text_table": "C:\\Users\\84363\\Desktop\\Ghost_Recon_2001_Locolization\\work\\builds\\GR_ZH92\\temp\\textdump\\all_text.xlsx",
+ "text_snapshot": {
+  "version": "GR_ZH92",
+  "iso_sha256": "1d30c1067beb8fc8534193486f23f75489447eb0487ab24d06ef66c0627120b6",
+  "generated": "2026-10-10 17:10:33",
+  "dump_seconds": 2.9,
+  "format": "text-csv/3",
+  "csv": "work/builds/GR_ZH92/text/GR_ZH92_text.csv",
+  "csv_bytes": 953733,
+  "csv_sha256": "ff413ff89be6d0f54310999a90198c931f085a00c30fbffde5189b1aea13679d",
+  "txt": "work/builds/GR_ZH92/text/GR_ZH92_text.txt",
+  "txt_bytes": 202085,
+  "txt_sha256": "ae60f337d28c78e65840cb4185426fa96e84655528b55dd5d3b191b6969a7731",
+  "meta": "work/builds/GR_ZH92/text/GR_ZH92_text.meta.json",
+  "entries": 2261,
+  "long": 313,
+  "locked": 0,
+  "short": 1948,
+  "chars": 65714,
+  "cjk_chars": 45737,
+  "resources": {
+   "LANG": {
+    "entries": 2192,
+    "long": 255,
+    "short": 1937,
+    "locked": 0,
+    "bytes": 54696,
+    "container": "EN_STRINGS.RES@MENU+GR.IMG#902"
+   },
+   "SFXML": {
+    "entries": 69,
+    "long": 58,
+    "short": 11,
+    "locked": 0,
+    "bytes": 45206,
+    "container": "EN_SPECIAL_FEATURE.XML"
+   }
+  },
+  "txt_format": "每行 id<TAB>正文(单行); 换行=\\n 制表=\\t 反斜杠=\\\\",
+  "note": "版本文本副本只留在本版本文件夹的 text/ 里 (work/text_versions/ 归档已取消)"
+ },
+ "font_dump": {
+  "dir": "work/builds/GR_ZH92/font",
+  "generated": "2026-10-10 17:10:33",
+  "deterministic": "四件套不含时间戳; 同一 ISO 两次 dump 的 sha256 完全相同",
+  "atlas_png": {
+   "path": "work/builds/GR_ZH92/font/GR_ZH92_font_atlas.png",
+   "bytes": 46805,
+   "sha256": "6bd21a0439309db7c97f14b5a60c2f169dc3e96c19cbd78d9e1145770f25c297"
+  },
+  "ft_csv": {
+   "path": "work/builds/GR_ZH92/font/GR_ZH92_font_ft.csv",
+   "bytes": 25901,
+   "sha256": "d759fdf7810c9a5f50d0abb853f8541d5a332ba22f87e1959cb25caa13956a32"
+  },
+  "charset_csv": {
+   "path": "work/builds/GR_ZH92/font/GR_ZH92_font_charset.csv",
+   "bytes": 122891,
+   "sha256": "073959605e3d124d0a270b29910abcbf5ca7f0a24e4fcd7648663532ba14301d"
+  },
+  "summary_json": {
+   "path": "work/builds/GR_ZH92/font/GR_ZH92_font_summary.json",
+   "bytes": 3892,
+   "sha256": "15800f13f7e3df732987a7d7a8194f9c4d2b550a7eab9b1b330db5385a7243ba"
+  },
+  "atlas": {
+   "width": 1024,
+   "height": 512,
+   "psm": 20,
+   "pixel_sha256": "bf7d523387c966824372f116c1df692ba0b3e48d4d323ad5b24790e60e13b32d"
+  },
+  "faces": 3,
+  "ft_records": 544,
+  "chars": 1456,
+  "by_kind": {
+   "ascii": 95,
+   "single": 76,
+   "pair": 1281,
+   "icon": 4
+  },
+  "has_glyph": 1423,
+  "missing_glyph": 33,
+  "missing_glyph_chars": [
+   "^",
+   "_",
+   "`",
+   "a",
+   "b",
+   "c",
+   "d",
+   "e",
+   "f",
+   "g",
+   "h",
+   "i",
+   "j",
+   "k",
+   "l",
+   "m",
+   "n",
+   "o",
+   "p",
+   "q",
+   "r",
+   "s",
+   "t",
+   "u",
+   "v",
+   "w",
+   "x",
+   "y",
+   "z",
+   "|",
+   "~",
+   "欣",
+   "袁"
+  ],
+  "ft_records_with_ink": 451,
+  "ft_res_sha256": "a2e130971cde26bab910b78099f3bf21464e0bfe28375ad917ae6a31827f496b"
+ }
+}
