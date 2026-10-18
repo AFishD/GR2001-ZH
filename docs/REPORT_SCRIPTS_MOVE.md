@@ -300,7 +300,101 @@ GR_ZH98    260 文件 /   15.6 MB      GR_ZH97      40 /  8.4     GR_OOMFIX   14
 
 ## 6. 提交与推送
 
-*（本节在推送完成后回填 —— 见本文件末尾「§6 回填」或 `docs\STATUS.md` §8 的当前值。）*
+### 6.1 本地 `main`（开发线，**不推送**）
+
+| # | 提交 | 说明 |
+|---|---|---|
+| 1 | **`3dd317c4f6bbf835f9e1047813823d3ab29b114b`** | `scripts: 脚本统一归入 tools\、work 仅留成品与取证工具` —— 1,293 A + 2 M（1,287 个脚本 + 4 个 `tools\maint\` 机具 + `tools\README_scripts.md` + `tools\scripts_move_map.csv` + `docs\REPORT_SCRIPTS_MOVE.md`；改 `docs\CORRECTIONS.md` §9、`docs\STATUS.md` §1/§7） |
+| 2 | **`0150ec85`** | `snapshot: 2026-10-20 快照机具（tools\snapshot\make_snapshot_20261020.ps1 + 公开 README + 提交信息）` |
+
+> 说明：`work/**` 从未被 git 跟踪（`.gitignore` 有 `work/**`，`git ls-files work` = 0），
+> 所以搬迁**没有 `git mv` 可用**，一律「普通移动 + `git add` 新路径」。脚本本身无 git 历史可保留。
+> 唯一例外是 `work\_planc\*.py`（34 个）：它们**在**旧提交 `fe4991d1` 里，故用 `git show` 逐字节取回后落到
+> `tools\rounds\planc\`，其历史保留在 `fe4991d1`。
+
+### 6.2 公开孤儿快照
+
+手法沿用既有：临时索引 `GIT_INDEX_FILE` + `read-tree --empty` + 显式 `add` + `hash-object`/`update-index` +
+`write-tree` + `commit-tree`，**不切分支、不动工作区**。
+
+```
+$env:GIT_INDEX_FILE = _archive_scratch\snap.index
+git read-tree --empty
+# 逐个 git add -f  <tools/** 已跟踪文件(1572) + docs/** 文本(142)>
+# README.md / .gitignore / .gitattributes 用 hash-object + update-index --cacheinfo 注入
+tree:   70b5a62970d556de7af61c32c1258eb9659b001e
+commit: 787a6ac1421934b657834c057f08102d10ce47e4     (父 = 7f067ce1 = 上一快照 tip)
+```
+
+**快照体积与内容审计（从 tree 本身算，不信工作区）**
+
+```
+tree files: 1717   tree bytes: 12807785 (12.21 MB)
+--- by extension ---
+   .py      1456     .md      156     .ps1     36     .txt     35
+   .java      16     .json      6     .csv      5     .gitkeep  4
+   .sh         1     .gitattributes 1  .gitignore 1
+forbidden-extension files: 0
+hooks check (must all be True):
+   docs/REPORT_HOOKEMU_QT2_REBUILD.md present = True
+   tools/final_fix files in tree = 6
+   tools/re/toolbelt files in tree = 264
+   tools/README_scripts.md present = True
+   tools/final_fix/apply_fix.py present = True
+   docs/REPORT_SCRIPTS_MOVE.md present = True
+--- tree by top dir ---
+tools          8728.3 KB  1572 files
+docs           3772.4 KB   142 files
+README.md         5.2 KB     1 file
+.gitignore        1.7 KB     1 file
+.gitattributes    0.1 KB     1 file
+```
+
+排除的 `.gitignore` 命中 **256 个**（`docs/han_v2` 的 `.bin/.MIS/.rsb/.BMB/*.png`、各 `__pycache__/*.pyc`、
+`tools/iso_build/assets_*/**.bin`、`tools/font_pipeline/data/*`、`tools/hanliu/texts|fonts/*`）。
+**禁用类型扫描 = 0 命中**（`.iso .elf .bin .mis .rsb .bmb .png .p2s .xlsx .dll .exe .zip .7z`）。
+
+### 6.3 推送原文（**两次都是真快进，全程未用任何 `--force` / `--force-with-lease`**）
+
+```
+$ git push public 787a6ac1421934b657834c057f08102d10ce47e4:refs/heads/main
+To https://github.com/AFishD/GR2001-ZH.git
+   7f067ce1..787a6ac1  787a6ac1421934b657834c057f08102d10ce47e4 -> main
+EXIT=0
+
+$ git push public 787a6ac1421934b657834c057f08102d10ce47e4:refs/heads/snapshot-2026-10-20
+remote: Create a pull request for 'snapshot-2026-10-20' on GitHub by visiting:
+remote:      https://github.com/AFishD/GR2001-ZH/pull/new/snapshot-2026-10-20
+To https://github.com/AFishD/GR2001-ZH.git
+ * [new branch]        787a6ac1421934b657834c057f08102d10ce47e4 -> snapshot-2026-10-20
+EXIT=0
+```
+
+`7f067ce1..787a6ac1` 是 `..`（非 `+`）⇒ **服务端判定为 fast-forward**，无需强推。
+
+### 6.4 `git fetch --all` 后复核（远端实测）
+
+```
+$ git ls-remote --heads public
+787a6ac1421934b657834c057f08102d10ce47e4	refs/heads/main
+f0583003ab15e69955c70d2c02b1b66495f7ee07	refs/heads/snapshot-2026-10-11
+5803b9ce9da9e4a067a35daeb2f1c13f173fa4dc	refs/heads/snapshot-2026-10-18
+7f067ce1d6b4c44c0cfe460a89a1fd51ec692adc	refs/heads/snapshot-2026-10-19
+787a6ac1421934b657834c057f08102d10ce47e4	refs/heads/snapshot-2026-10-20
+```
+
+| 项 | 值 |
+|---|---|
+| 远端 `main` | **`787a6ac1421934b657834c057f08102d10ce47e4`** |
+| 远端 `snapshot-2026-10-20` | **`787a6ac1421934b657834c057f08102d10ce47e4`**（与 `main` 同指） |
+| 上一快照 | `snapshot-2026-10-19` = `7f067ce1`（**未删未改**） |
+| 更早快照 | `snapshot-2026-10-18` = `5803b9ce` · `snapshot-2026-10-11` = `f0583003`（**未删未改**） |
+| 远端文件数 / 体积 | **1,717 文件 / 12,807,785 B（12.21 MB）** |
+| 禁用类型 | **0** |
+| 远端存在性 | `tools/final_fix/apply_fix.py` ✅ · `tools/README_scripts.md` ✅ · `tools/scripts_move_map.csv` ✅ · `docs/REPORT_SCRIPTS_MOVE.md` ✅ · `tools/final_fix/repro_from_eng.ps1` ✅ · `docs/CORRECTIONS.md` ✅ · `README.md` ✅ · `.gitignore` ✅ |
+
+> 远端 `main` / `snapshot-2026-10-20` 的**当前值**以 `git ls-remote --heads public` 为准
+> （本节写在快照自身里，故无法自指回填后的最终哈希；回填提交见 `docs\STATUS.md` §8）。
 
 ---
 

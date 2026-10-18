@@ -157,22 +157,26 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 
 ---
 
-## 8. 归档与云端（2026-10-18 第三轮 · 收尾刷新）
+## 8. 归档与云端（2026-10-18 脚本归位轮 · 最新刷新）
 
 | 项 | 值 |
 |---|---|
-| 公开快照分支 | **`snapshot-2026-10-19`**（本轮新建；与云端 `main` **同指一个提交**） |
-| 快照提交 | **`569b8a543d1eea0d5a17300cd51ae1118156436a`**（首推 `f1a39efb` → 文档回填后 `569b8a54`；父 = 上一轮快照 ⇒ 两次都是**真快进**，**全程未用任何 `--force` / `--force-with-lease`**） |
-| 快照体积 | **166 文件 / 4,447,911 B（4.24 MB）**，**全文本**（`.md` 142 · `.json` 13 · `.txt` 5 · `.py` 2 · `.ps1` 2 · `.gitignore`/`.gitattributes`；**禁用类型 0 个** —— `docs/han_v2` 的 `.bin/.MIS/.rsb/.BMB`、`docs/img/*.png` 一律排除） |
-| 云端 `main` | **`5803b9ce → f1a39efb → 569b8a54`**（推送原文 `   5803b9ce..f1a39efb  snapshot-2026-10-19 -> main` 与 `   f1a39efb..569b8a54  snapshot-2026-10-19 -> main`，两次 exit 0） |
-| 旧公开状态备份 | 分支 **`snapshot-2026-10-11`** = `f0583003`（267 文件，**未删除、未改写**） |
-| 上一轮快照 | 分支 **`snapshot-2026-10-18`** = `5803b9ce`（67 文件，**未删除、未改写**） |
+| 公开快照分支 | **`snapshot-2026-10-20`**（本轮新建；与云端 `main` **同指一个提交**） |
+| 快照提交 | **`787a6ac1421934b657834c057f08102d10ce47e4`**（父 = 上一快照 `7f067ce1` ⇒ **真快进**，`7f067ce1..787a6ac1`，**全程未用任何 `--force` / `--force-with-lease`**） |
+| 快照体积 | **1,717 文件 / 12,807,785 B（12.21 MB）**（`.py` 1456 · `.md` 156 · `.ps1` 36 · `.txt` 35 · `.java` 16 · `.json` 6 · `.csv` 5 · `.gitkeep` 4 · `.sh` 1 · `.gitignore`/`.gitattributes`；**禁用类型 0 个** —— 256 个 `.gitignore` 命中一律排除） |
+| 云端 `main` | **`7f067ce1 → 787a6ac1`**（推送原文 `   7f067ce1..787a6ac1  787a6ac1421934b657834c057f08102d10ce47e4 -> main`，exit 0） |
+| 快照内容 | `tools/**`（1572 文件，含新迁入的 1,287 个脚本 + 权威归档 `tools\final_fix\` 6 个）· `docs/**` 文本（142）· 快照 README + `.gitignore`/`.gitattributes` |
+| 远端存在性复核 | `tools/final_fix/apply_fix.py` ✅ · `tools/README_scripts.md` ✅ · `tools/scripts_move_map.csv` ✅ · `docs/REPORT_SCRIPTS_MOVE.md` ✅ |
+| 旧公开状态备份 | 分支 **`snapshot-2026-10-11`** = `f0583003`（**未删除、未改写**） |
+| 更早快照 | **`snapshot-2026-10-18`** = `5803b9ce` · **`snapshot-2026-10-19`** = `7f067ce1`（**均未删除、未改写**） |
 | 远端 | `public` = `https://github.com/AFishD/GR2001-ZH.git` |
-| 本轮新增入库 | `docs\REPORT_HOOKEMU_QT2_REBUILD.md`（**修掉上一轮快照里的 404**）· `docs\README.md` · `docs\CORRECTIONS.md` · `docs\REPORT_FINALIZE.md` · `docs\_obsolete\**` · `tools\final_fix\rebuild_base.py` · `tools\final_fix\repro_from_eng.ps1` |
-| 完整记录 | **`docs\REPORT_FINALIZE.md`**（A–D 全命令与原始输出、未达成项） |
+| 本轮新增入库 | `tools\README_scripts.md` · `tools\scripts_move_map.csv` · `tools\re\toolbelt\**`（264）· `tools\re\ghidra_scripts\**`（17）· `tools\rounds\**`（36 主题 / 1000）· `tools\snapshot\**` · `tools\maint\**` · `docs\REPORT_SCRIPTS_MOVE.md` |
+| 完整记录 | **`docs\REPORT_SCRIPTS_MOVE.md`**（A–D 全命令与原始输出、事故与恢复、未达成项） |
 
 > 说明：本小节写在**快照自身**里，因此**无法自指**当前提交哈希。云端 `main` /
-> `snapshot-2026-10-19` 的**当前值**以 `git ls-remote --heads public` 为准。
+> `snapshot-2026-10-20` 的**当前值**以 `git ls-remote --heads public` 为准。
+> 本轮 `docs\REPORT_SCRIPTS_MOVE.md` §6 已回填推送原文与远端复核；
+> 回填后快照会再快进一次（`787a6ac1 → 回填提交`），届时以 `ls-remote` 为准。
 
 ---
 
