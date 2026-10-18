@@ -1,5 +1,9 @@
 # REPORT_SENTINEL.md —— 候选 R（`0xB1/0xB5` 图标哨兵）四张对照盘 + 候选 C（u8 引用计数）静态跟进
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §7。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+> 📦 本文档已归档到 `docs/_obsolete/`：被否证路线：候选 R（0xB1/0xB5 图标哨兵）四张对照盘；保留的是 REPORT_SENTINEL_FIX.md；索引见 `docs/README.md`。
+
 > 执行者：汉化执行者（哨兵对照盘子代理）· 2026-10-16
 > 仓库根 `C:\Users\84363\Desktop\Ghost_Recon_2001_Locolization`
 > **只读**：`work\builds\GR_CVAR\**`、`work\builds\GR_TXT\**`、`work\builds\GR_HOOK\**`、

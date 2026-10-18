@@ -1,5 +1,8 @@
 # REPORT_font_content_logic_split.md — 字库「内容 / 逻辑」分离的反编译结论
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §1。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 > 面向目标：**结合 PC 版结构，把内容与逻辑彻底拆开，最终完全利用 ISO 空位实现完全扩容不缺字**。
 > 本轮用 Ghidra（r5900 处理器工程 `GRLocEE`）反编译了字体与资源查找链，回答"容量上限到底在哪一层"。
 

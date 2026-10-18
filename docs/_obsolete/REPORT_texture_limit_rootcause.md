@@ -1,5 +1,9 @@
 # ★ 根因报告：像素容器/纹理变大后引擎卡死（round85）
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §4。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+> 📦 本文档已归档到 `docs/_obsolete/`：被否证的根因说（"纹理/容器变大 => 卡死"；见 CORRECTIONS 4）；索引见 `docs/README.md`。
+
 > 作者：执行任务（round85）· 工作目录 `C:\Users\84363\Desktop\Ghost_Recon_2001_Locolization`
 > 结论一句话：**卡点是"引擎在读/搬运 `new_font_revised` 像素容器时，一个全局读流游标停在
 > PAK 内 428,032 B 处不再前进"，此后该盘上所有后续文件加载全部失败。**

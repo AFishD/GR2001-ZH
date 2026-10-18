@@ -1,5 +1,8 @@
 # REPORT_MEMDRIFT_ZH113b — 「随时间累积的损坏」专项取证
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §1。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 > 执行者：汉化工程执行任务（内存漂移专项）。仓库根 `C:\Users\84363\Desktop\Ghost_Recon_2001_Locolization`。
 > 纪律：**所有既有 ISO / `third_party\orig\**` / PCSX2 配置全程只读**，未写任何 ISO；
 > 写入仅限 `work\builds\GR_MEMDRIFT\**` 与本文件。模拟器全程单实例。日志一律等进程退出后才读。

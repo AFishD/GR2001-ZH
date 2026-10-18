@@ -1,5 +1,8 @@
 # CAPACITY_2400.md — 几何/容量落地：h=644 / **64 列** / GATE 0xBA ⇒ 对偶槽 2,350
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §1。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 > 执行者：**geom2400**（几何/容量落地）· 工作目录 `C:\Users\84363\Desktop\Ghost_Recon_2001_Locolization`
 > 地面真值：`work/builds/GR_ZH98/temp/LEAD_CAPACITY_2400.md`
 > 写盘范围（严格）：`work/builds/GR_CAP2400/**` · `work/tools/cap_*.py` · `docs/CAPACITY_2400.md` ·

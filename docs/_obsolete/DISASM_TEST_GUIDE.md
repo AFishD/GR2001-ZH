@@ -1,5 +1,9 @@
 # DISASM_TEST_GUIDE —— 候选修复的实机判定表（给盘重建完成后的验证轮）
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §5、§7。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+> 📦 本文档已归档到 `docs/_obsolete/`：被否证路线：F1F2 / pkt 候选修复判定表（实机否证；最终为 F4+OOMFIX+F7）；索引见 `docs/README.md`。
+
 > 生成：2026-10-17 · 执行者：GR_DISASM 子代理
 > 依据：`docs\REPORT_DISASM_ROOTCAUSE.md` + `work\builds\GR_DISASM\audit\*`
 > 工具：`work\builds\GR_DISASM\tools\dfix_apply.py`（**输入盘只读**，逐站点原字断言）

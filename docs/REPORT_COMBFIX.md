@@ -1,5 +1,8 @@
 # REPORT_COMBFIX —— 「任务完成提示处卡死」的失效模式判定 + 四张组合修复盘 + 验证
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §7。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 * 轮次：**GR_COMBFIX**（2026-10-18，Asia/Hong_Kong）
 * 输入（**直接采用，不重查**）：6 份新 F10 手抓 dump（`work\builds\GR_HOOKEMU_QT2\qt\hookdumps\hook_{10470,13112,14025,16893,19095,19671}_hotkey_f10\**`）+ 同目录 `logs\emulog.txt`（4,697 行）；
   `docs\REPORT_SPINFIX.md`（F4/F1F2 站点、残余风险）、`docs\REPORT_OOMFIX.md`（解压器 NULL 检查）、`docs\REPORT_USERDUMP_ANALYSIS.md`、`docs\REPORT_HEAP_EXHAUSTION.md`

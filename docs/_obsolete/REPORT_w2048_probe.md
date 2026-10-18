@@ -1,5 +1,9 @@
 # REPORT_w2048_probe.md — 单变量探针：图集 W 1024 → 2048（h 保持 512）
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §1。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+> 📦 本文档已归档到 `docs/_obsolete/`：被否证路线：图集 W 1024 -> 2048（实机黑屏）；索引见 `docs/README.md`。
+
 > 分支 `round73/font-decompile` ｜ **未切分支、未 commit、未 merge**
 > 只读：历史 ISO · `third_party/orig/**` · `%LOCALAPPDATA%\PCSX2\**` · `work/temp/NEW_Mem/**`
 > 只写：`work/builds/GR_TEST_W2048*/**` · `work/tools/zx_w2048_*.py` · 本报告

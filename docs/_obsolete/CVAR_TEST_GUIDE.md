@@ -1,5 +1,9 @@
 # CVAR 控制变量测试指南 — 定位「游玩一段时间后 IOP 空指针死循环」
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §1、§2。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+> 📦 本文档已归档到 `docs/_obsolete/`：一次性轮次指南（CVAR 控制变量盘已清理；结论已并入 REPORT_DISASM_ROOTCAUSE / REPORT_HOOK_BISECT）；索引见 `docs/README.md`。
+
 > **目标症状**：游玩一段时间后硬卡死、画面静止、必须重启。
 > 日志特征（`work\builds\GR_ZH113b_fix\emulog.txt` 尾部，同一时间戳无限重复）：
 > `TLB Miss, pc=0x1024d0 addr=0x8` / `pc=0x102584 addr=0x14`

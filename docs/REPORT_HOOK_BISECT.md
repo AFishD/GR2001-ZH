@@ -1,5 +1,8 @@
 # REPORT_HOOK_BISECT.md — 「钩子二分」：文字链钩子按运行时机分组 + 5 张打靶盘 + CVAR_04 同源性判定
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §4、§6。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 > 执行者 = 汉化执行者（钩子二分打靶子代理）· 2026-10-16
 > 仓库根 `C:\Users\84363\Desktop\Ghost_Recon_2001_Locolization`
 > **只读**：`GR_ZH113b.iso`、`GR_CVAR\**`、`GR_AB\**`、`GR_HUGE\**`、`GR_EN_ORIG.iso`、

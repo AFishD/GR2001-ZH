@@ -1,8 +1,28 @@
 # tools\final_fix\ —— 幽灵行动 PS2 汉化 2400 线 · **卡死修复三件套 + 成品** 唯一归档
 
-> 本目录 = 整个 2400 产品线「修复 + 出盘 + 校验」的**唯一一份脚本**（收尾归档时从
+> ## ★★ 强制规则（2026-10-18 收尾确立 · 不可绕过）
+>
+> **今后一切构筑必须从英文原版 ISO 出发：**
+>
+> ```
+> third_party\orig\ps2\Tom Clancy's Ghost Recon (USA).iso
+> sha256 2b42ea7ce9bd0a85972a07ca59b1b9d79422ed318b85737db3cfd17daa788531   (1,648,164,864 B)
+> ```
+>
+> **禁止以上一版汉化 ISO 为基底。** 目的 = 可复现：基底必须是「外部只读原盘 + 只读 cdvd 转储」
+> 的函数，而不是历史产物链上的某一环（那样一旦中间盘被清理，链条就断）。
+>
+> * 执行体：`rebuild_base.py`（原盘 ⊕ K2 转储 ⇒ 基底）+ `repro_from_eng.ps1`（端到端一条命令）
+> * `work\builds\GR_REBUILD\GR_REBUILD2400.iso` 降级为**开发期快捷基底**（§4 路径 A）；
+>   它本身也可由本规则重建（实测 4.4 秒，逐字节相同）。
+> * 旧配方「必须从 `GR_REBUILD2400.iso` 起」**作废**（该表述已被本节取代）。
+> * 实测证据：2026-10-18 从英文原盘跑完整条链 ⇒ 产出 sha256 `d8007873…1b2ab5` == 成品
+>   （`docs\REPORT_FINALIZE.md` §B）。
+>
+> 本目录 = 整个 2400 产品线「修复 + 出盘 + 校验 + 基底重建」的**唯一一份脚本**（收尾归档时从
 > `work\builds\GR_COMBFIX|GR_SPINFIX|GR_OOMFIX\tools\` 归并而来，实验分支已清理）。
-> 成品盘：`work\builds\GR_RELEASE\GR_ZH2400_FINAL.iso`
+> 成品盘：`work\builds\GR_RELEASE\GR_ZH126.iso`（2026-10-18 由 `GR_ZH2400_FINAL.iso` **改名**而来，
+> 只动文件名与引用，ISO 内容一字节未改 —— 见 §4.3）
 > 全量验收：`docs\REPORT_RELEASE_VERIFY.md` · 交付说明：`docs\RELEASE_NOTES_2400.md`
 
 ---
@@ -31,13 +51,15 @@ Game CRC (PCSX2)  CFDB8C97   ⇒ 即时存档名必须写 SLUS-20613 (CFDB8C97).
 
 ---
 
-## 1. 目录内容（只有这 4 个文件）
+## 1. 目录内容（只有这 6 个文件）
 
 | 文件 | 作用 |
 |---|---|
 | `apply_fix.py` | **唯一**打补丁 / 校验器（施工 + 8 项自查 + 成品身份比对） |
-| `fix_spec.json` | 补丁表与全部事实的**单一真源**：站点/原字/新字/cave 逐字、声明窗口、参照区、基底链、成品身份、验收结论索引、已知残余、已归档盘 sha256 |
-| `repro.ps1` | 一键复跑（从基底出成品并核对 sha256） |
+| `fix_spec.json` | 补丁表与全部事实的**单一真源**：站点/原字/新字/cave 逐字、声明窗口、参照区、基底链、成品身份、验收结论索引、已知残余、已归档盘 sha256、**强制规则** |
+| `rebuild_base.py` | **从英文原盘重建基底**（原盘 ⊕ K2 cdvd 转储 ⇒ `GR_REBUILD2400.iso`，含 7 组硬断言） |
+| `repro_from_eng.ps1` | ★ **端到端一键复跑（权威配方）**：英文原盘 → 基底 → 三件套 → 成品，逐项核 sha256 |
+| `repro.ps1` | 快捷复跑（路径 A：直接用现成基底出成品 / `-VerifyOnly` 校验成品盘） |
 | `README.md` | 本文件 |
 
 > 为什么放 `tools\` 而不是 `work\`：`.gitignore:61` 是 `work/**`（整个 work 不入库），
@@ -52,7 +74,7 @@ $py = 'C:\Users\84363\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 
 & $py tools\final_fix\apply_fix.py `
       --base work\builds\GR_REBUILD\GR_REBUILD2400.iso `
-      --out  D:\somewhere\GR_ZH2400_FINAL.iso
+      --out  D:\somewhere\GR_ZH126.iso
 ```
 
 脚本会（**任一条不通过就拒绝写盘 / 非 0 退出**）：
@@ -72,7 +94,7 @@ $py = 'C:\Users\84363\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 
 ```powershell
 & $py tools\final_fix\apply_fix.py --verify-only `
-      --iso  work\builds\GR_RELEASE\GR_ZH2400_FINAL.iso `
+      --iso  work\builds\GR_RELEASE\GR_ZH126.iso `
       --base work\builds\GR_REBUILD\GR_REBUILD2400.iso
 ```
 
@@ -80,7 +102,7 @@ $py = 'C:\Users\84363\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 * 带 `--base`：追加「参照区未被动 + 差异 78 B / 25 run 全在窗口内」。
 
 > 实测（本机）：**5.5 秒，26 条断言全 OK，失败 0 条**，结论「该盘就是交付成品」。
-> 本仓库里 `COMBFIX_2400.iso` 与 `GR_ZH2400_FINAL.iso` 逐字节相同，用同一条命令都可校验。
+> 本仓库里 `COMBFIX_2400.iso` 与 `GR_ZH126.iso` 逐字节相同，用同一条命令都可校验。
 
 ### 真正的「全量验收」不在这份脚本里
 
@@ -95,47 +117,79 @@ $py = 'C:\Users\84363\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 
 ## 4. 一键复跑
 
-### 路径 A（**已实测通过**，最短链路）
+### 路径 B ★（**权威配方 · 从英文原盘起 · 已实测逐字节成功**）
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro_from_eng.ps1
+```
+
+做的四件事（每步都硬断言，任一不符即非 0 退出）：
+
+1. 核英文原盘 sha256（`2b42ea7c…8531`）+ 打印两块 cdvd 转储的路径与 sha256；
+2. `rebuild_base.py`：**英文原盘 ⊕ K2 块转储 ⇒ 基底**，断言基底 sha256 == `d7f83d7e…443ca0`；
+3. `apply_fix.py`：基底 ⇒ 三件套 ⇒ 成品，断言 sha256 == `d8007873…1b2ab5`；
+4. 与交付成品 `work\builds\GR_RELEASE\GR_ZH126.iso` 逐字节比对（sha256 相同）。
+
+> **实测（本机，2026-10-18）**：`rebuild_base.py` **4.4 秒**出基底、sha256 与声明值一致；
+> `apply_fix.py` 出成品、sha256 与交付成品一致 ⇒ **整链从英文原盘逐字节复现成功**。
+> 命令原文、断言清单与两份 stdout 见 `docs\REPORT_FINALIZE.md` §B。
+
+#### 路径 B 的输入（全部只读；两个转储在**仓库外**的用户级缓存里，随时可能被清）
+
+| 输入 | 现状 | sha256 | 字节 |
+|---|---|---|---|
+| `third_party\orig\ps2\Tom Clancy's Ghost Recon (USA).iso` | ✅ 盘上（只读） | `2b42ea7ce9bd0a85972a07ca59b1b9d79422ed318b85737db3cfd17daa788531` | 1,648,164,864 |
+| `%LOCALAPPDATA%\PCSX2\cdvd-dump\GR_FA2400_K2 (2026-10-17 15-08-20).dump` | ⚠ 盘上但在仓库外 | `11f371f294e4f8e353c21931a9c38d73c1309832a21e74cfb3e31d7095daadd9` | 74,286,520 |
+| `%LOCALAPPDATA%\PCSX2\cdvd-dump\GR_ZH113b (2026-10-15 19-39-44).dump` | ⚠ 同上 | `57c9e9d147106c7c7dbc5e41b6a80ffa6ce7ea984ec21b33505fb765b40dbf74` | 77,748,244 |
+
+> ★ K2 的**真 ELF** 不再需要任何中间文件：`rebuild_base.py` 从 K2 转储的
+> **LBA 295 起 18,288 扇区**（ISO 604,160 .. 38,057,891）现取，截到 37,453,732 B，
+> 断言 sha256 == `5cb59175d28bfea3f37a9eb485399ea3925a2ca6f73d32d65e226d274abf47d8`。
+> 这正是 2026-10-18 断链的修复点 —— 旧配方读的 `work\builds\GR_CSFIX\temp\K2_SLUS_206.13.elf`
+> **已被历史清理删除**，故 `work\builds\GR_REBUILD\tools\rb_build.py` 今天必在 [A1] 处
+> `FileNotFoundError` 中止。该脚本**已退役**，不要再按它复现；它的数学已被
+> `rebuild_base.py` 逐行承接下来（`fix_spec.json · single_source_of_truth` 有登记）。
+>
+> 换句话说：**断链已修**。上面三点是唯一的硬依赖；仓库内 `work\**` 一个文件都不需要。
+
+### 路径 A（**开发期快捷基底**，最短链路；不是发布口径）
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 ```
 
 做的事：核对基底 sha256 → `apply_fix.py` 出盘到临时目录 → 把出盘 sha256 与交付成品比 → 报 PASS/FAIL。
-**前提只剩一个**：`work\builds\GR_REBUILD\GR_REBUILD2400.iso`（= 链路第 1 步的产物，本仓库保留着，
+**前提只剩一个**：`work\builds\GR_REBUILD\GR_REBUILD2400.iso`（= 路径 B 第 1 步的产物，本仓库保留着，
 sha256 `d7f83d7ec4a8fe1ec8d60de4b17b94513bd1540dc929d3b667086f4910443ca0`）。
+它不是发布口径的起点（发布口径必须走路径 B），只是省掉 4.4 秒重建的开发便利。
 
-### 路径 B（从**英文原盘**起）—— 目前被已删除的中间件卡住，**如实登记**
+### 4.3 成品改名（2026-10-18）
 
-```
-python work\builds\GR_REBUILD\tools\rb_build.py --out work\builds\GR_REBUILD\GR_REBUILD2400.iso
-```
+`GR_ZH2400_FINAL.iso` → **`GR_ZH126.iso`**（`GR_ZH2400_FINAL.meta.json` → `GR_ZH126.meta.json`）：
+按版本号规则去掉 `_FINAL` 后缀、取下一个未用轮次号（依据见 `docs\REPORT_FINALIZE.md` §A）。
+**只动文件名与引用，ISO 内容一字节未改** —— sha256 `d8007873…1b2ab5` / md5 `d24c324e…6da2c` /
+尺寸 1,648,164,864 B / ELF CRC `CFDB8C97` 改名前后完全相同。
+历史运行目录 `runs\smoke_GR_ZH2400_FINAL\` 等**保留原名**（那是当时实跑的原始记录，里面的
+命令行/emulog 是史实，不做改写）。
 
-`rb_build.py` 是 2026-10-17 那轮「从幸存工具链重建」的总装器（英文原盘 ⊕ K2 块转储 ⇒ 2400 基底）。
-今天再跑会在 **[A1] 断言**处 `FileNotFoundError` 中止（**实测**，2026-10-18）：
+### 4.4 已删对照盘 `LAY_fix1_bytecount.iso`（**订正旧记载**）
 
-```
-FileNotFoundError: work\builds\GR_CSFIX\temp\K2_SLUS_206.13.elf
-```
+旧版本 §4 曾写"收尾归档时**特意保留** `GR_LAYOUT\LAY_fix1_bytecount.iso`（同现场回归的未修对照盘）"。
+**该表述已过时且与事实矛盾**：那张盘**已按指示删除**（不在盘上，实测 `Test-Path` = False）。
 
-它需要 3 个**外部/已删除**输入：
+* 它的身份仍可核对：sha256 `a69a9ca44049eaed4085239a2b8d10af58888f54f62a51e40c1ece22dd2d2808`
+  （1,648,164,864 B；ELF sha256 `0a986bb3…87b9`，Game CRC `7A761FCA`）；
+* **结论仍然在**：它的作用 = 「同现场回归」里那张未修对照盘 —— 未修盘 46 帧内 **70,266 次 Trap**
+  直接死 / 另一现场纯读死循环，而本成品盘同现场跑完、Trap 0 / F7 bail 命中 3 次
+  （`docs\REPORT_RELEASE_VERIFY.md` §F、`docs\REPORT_COMBFIX.md`、`docs\REPORT_OOMFIX.md`）；
+* **原始日志/截图/存档仍在**：`work\builds\GR_RELEASE\runs\reg_p1_FINAL_S1\`、
+  `runs\reg_p2_FINAL_S1b\`、`work\builds\GR_LAYOUT\`（`results_fix1_bytecount.txt` / `run_fix1_bytecount.txt` /
+  `LAY_fix1_bytecount.meta.json`）、`work\builds\GR_SPINFIX\runs\smoke_LAY_fix1_bytecount\`。
+* 该盘**不可由 EN 原盘逐字节重建**（它是 2400 基底 + 1 字节 `0x21AC40` 的实验组合，且基底线路特殊），
+  所以"删了就删了"——留 sha256 是为了判定"手上这张是不是它"。
 
-| 输入 | 现状 | 期望 sha256 |
-|---|---|---|
-| `third_party\orig\ps2\Tom Clancy's Ghost Recon (USA).iso` | ✅ 在盘上（只读） | `2b42ea7ce9bd0a85972a07ca59b1b9d79422ed318b85737db3cfd17daa788531` |
-| `%LOCALAPPDATA%\PCSX2\cdvd-dump\GR_FA2400_K2 (2026-10-17 15-08-20).dump` | ⚠ 在盘上，但**在仓库外**（用户级缓存，随时可能被清） | `11f371f294e4f8e353c21931a9c38d73c1309832a21e74cfb3e31d7095daadd9` |
-| `%LOCALAPPDATA%\PCSX2\cdvd-dump\GR_ZH113b (2026-10-15 19-39-44).dump` | ⚠ 同上 | `57c9e9d147106c7c7dbc5e41b6a80ffa6ce7ea984ec21b33505fb765b40dbf74` |
-| `work\builds\GR_CSFIX\temp\K2_SLUS_206.13.elf` | ❌ **已被历史清理删除**（目录还在，文件没了） | `5cb59175d28bfea3f37a9eb485399ea3925a2ca6f73d32d65e226d274abf47d8` |
-
-**解封配方**（一步，需先有上面第 2 个转储）：用 `work\builds\GR_CSFIX\tools\csfix_bdump.py`
-（或任何认识该块转储索引的读法）从 K2 转储里取 **LBA 295 起连续 18,288 个扇区**（ISO 604,160..38,057,892，
-共 37,453,732 B）写成 `work\builds\GR_CSFIX\temp\K2_SLUS_206.13.elf`，sha256 必须等于
-`5cb59175d28bfea3f37a9eb485399ea3925a2ca6f73d32d65e226d274abf47d8`；随后路径 B 即可整链复跑
-（`rb_build.py` 约 4~5 秒出基底，再走路径 A 出成品）。
-
-> 因此这条链**今天的最短可靠起点**就是 `GR_REBUILD2400.iso`（sha256 见上）——
-> 这也是收尾归档时**特意保留**这张 1.57 GB 基底盘的原因（另外保留的 `GR_LAYOUT\LAY_fix1_bytecount.iso`
-> 是「同现场回归」里那张**未修对照盘**，其基底已删、不可重建，故一并保留）。
+> `GR_REBUILD2400.iso` 则**仍然保留在盘上**（1.57 GB）：它现在是**可重建的**（路径 B，4.4 秒），
+> 保留它只是省时间；真要清理也不影响复现链。
 
 ---
 

@@ -1,5 +1,8 @@
 # DFIX_REPORT —— 候选修复盘（可实机测试）与本机冒烟
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §7。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 > 生成：2026-10-17 · 执行者：**GR_DFIX** 子代理
 > 输入（只读）：`work\builds\GR_REBUILD\GR_REBUILD2400.iso`、`work\builds\GR_DISASM\tools\dfix_apply.py`、`docs\REPORT_DISASM_ROOTCAUSE.md`、`docs\DISASM_TEST_GUIDE.md`
 > 产物（本目录）：`work\builds\GR_DFIX\**`；追加文档：`docs\DISASM_TEST_GUIDE.md` §7

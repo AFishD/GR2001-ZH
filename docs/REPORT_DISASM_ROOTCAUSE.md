@@ -1,5 +1,8 @@
 # GR_DISASM · 反汇编根因报告：游玩中卡死 / 2fps 挂起
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §4、§5。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 > 生成：2026-10-17 · 执行者：GR_DISASM 子代理
 > **全程只读**：所有 ISO / 产物 / PCSX2 目录只读；写入仅限 `work\builds\GR_DISASM\**`、
 > `docs\REPORT_DISASM_ROOTCAUSE.md`、`docs\DISASM_TEST_GUIDE.md`。**没有写任何 ISO。**

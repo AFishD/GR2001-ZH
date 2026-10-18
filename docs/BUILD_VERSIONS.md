@@ -1,5 +1,8 @@
 **★ 现役盘 (2026-10-11 · round43) = `GR_ZH93`** (`work/builds/GR_ZH93/GR_ZH93.iso`)
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §4。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 - sha256 **e037f6292940811144e2d0d629ec4c4f3e2cfc306d099a4c96b44f6ee08d19be** (1,648,164,864 B)
 - = `GR_ZH92` (`1d30c106…`) + **方案 C 字库扩容**（`tools/iso_build/patch_zh93_planc.py`：
   ELF 4 处 gate `sltiu …,0xAE`→`0xB1` ⇒ lead 区间 `0xA1..0xB0`，对偶容量 **1504**）

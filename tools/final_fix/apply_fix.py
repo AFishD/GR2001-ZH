@@ -12,14 +12,22 @@ r"""apply_fix.py —— 《幽灵行动》PS2 (SLUS-206.13) 汉化 2400 产品�
 补丁表是数据，不是代码：全部站点、cave 字、闸门、窗口、成品身份都在同目录的
 `fix_spec.json` 里（单一真源），本脚本只负责按表施工 + 自查。
 
+★ 强制规则（2026-10-18）：今后一切构筑**必须从英文原版 ISO 出发**
+    third_party\orig\ps2\Tom Clancy's Ghost Recon (USA).iso
+    sha256 2b42ea7ce9bd0a85972a07ca59b1b9d79422ed318b85737db3cfd17daa788531
+**禁止以上一版汉化 ISO 为基底**。本脚本只接受 `--base` = 声明的那一张基底
+（sha256 d7f83d7e…443ca0，即「英文原盘 ⊕ K2 cdvd 转储」的产物，由
+`tools\final_fix\rebuild_base.py` 现场重建）；指纹不符即拒绝施工。
+端到端（含基底重建）一键复跑 = `tools\final_fix\repro_from_eng.ps1`。
+
 用法
 ----
     # ① 出盘：基底（GR_REBUILD2400.iso）-> 成品
     python tools\final_fix\apply_fix.py --base work\builds\GR_REBUILD\GR_REBUILD2400.iso ^
-                                       --out  D:\out\GR_ZH2400_FINAL.iso
+                                       --out  D:\out\GR_ZH126.iso
 
     # ② 只校验一张已存在的盘（不写盘；加上 --base 还能核「相对基底的 78 B / 25 run」）
-    python tools\final_fix\apply_fix.py --verify-only --iso work\builds\GR_RELEASE\GR_ZH2400_FINAL.iso ^
+    python tools\final_fix\apply_fix.py --verify-only --iso work\builds\GR_RELEASE\GR_ZH126.iso ^
                                        --base work\builds\GR_REBUILD\GR_REBUILD2400.iso
 
 退出码：0 = 全部断言通过（且出盘 sha256 == 成品身份）；非 0 = 有断言失败（会逐条打印）。

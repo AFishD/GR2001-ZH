@@ -1,5 +1,8 @@
 # REPORT_SPINFIX —— 分配器内部自旋：本机复现、四处修复、四张盘与验证
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §7。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 * 轮次：GR_SPINFIX（2026-10-18，Asia/Hong_Kong）
 * 输入（**直接采用，不重查**）：`docs\REPORT_USERDUMP_ANALYSIS.md`（用户双 dump 定案：桶 126 是分配器自己写坏的；卡死 = malloc 在桶链里自旋）、
   `docs\REPORT_HEAP_EXHAUSTION.md`（堆结构 / 桶自指公式）、`docs\REPORT_OOMFIX.md`（"只改 ISO 在读旧存档时不生效"）

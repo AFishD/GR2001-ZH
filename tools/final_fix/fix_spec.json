@@ -2,11 +2,23 @@
  "schema": "gr-ps2-zh-final-fix/1",
  "generated": "2026-10-18",
  "project": "《幽灵行动》PS2 版 (SLUS-206.13 / SLUS_206.13) 汉化 —— 2400 产品线正式交付",
+ "product_tag": "GR_ZH126",
+ "product_tag_note": "2026-10-18 收尾改名: 原 GR_ZH2400_FINAL -> **GR_ZH126** (标准 GR_ZH<数字>, 无后缀)。依据见 docs/REPORT_FINALIZE.md §A: 轮次号系列最高已用 = GR_ZH125 (docs/TEXT_MIGRATION_0xBA.md:350、REPORT_DISASM_ROOTCAUSE.md:31、cdvd 转储 GR_ZH125) ⇒ 下一个未用 = 126; '2400' 是容量/产品线标签 (2350 对偶槽 / 64 列 / GATE 0xBA), 不是轮次号。",
+ "mandatory_rule": {
+  "rule": "今后一切构筑**必须从英文原版 ISO 出发**；禁止以上一版汉化 ISO 为基底。",
+  "eng_iso": "third_party\\orig\\ps2\\Tom Clancy's Ghost Recon (USA).iso",
+  "eng_iso_sha256": "2b42ea7ce9bd0a85972a07ca59b1b9d79422ed318b85737db3cfd17daa788531",
+  "why": "保证可复现: 基底是外部只读原盘 + 两块 cdvd 转储的函数, 而不是历史产物链上的某一环。",
+  "enforcer": "tools\\final_fix\\rebuild_base.py (基底) + tools\\final_fix\\repro_from_eng.ps1 (端到端)",
+  "note": "GR_REBUILD2400.iso 降级为**开发期快捷基底** (README.md §4 路径 A); 它本身也可由本规则重建。"
+ },
  "single_source_of_truth": {
   "patch_tool": "tools/final_fix/apply_fix.py",
   "spec": "tools/final_fix/fix_spec.json",
-  "repro": "tools/final_fix/repro.ps1",
-  "note": "本工程此前分散在 work/builds/GR_COMBFIX|GR_SPINFIX|GR_OOMFIX/tools/ 的补丁脚本已归并为这一份；A/B 实验分支（F1/F1b、flavor A/B）已删除，只保留成品盘真正使用的那一组。"
+  "repro_from_eng": "tools/final_fix/repro_from_eng.ps1",
+  "base_builder": "tools/final_fix/rebuild_base.py",
+  "repro_short": "tools/final_fix/repro.ps1",
+  "note": "本工程此前分散在 work/builds/GR_COMBFIX|GR_SPINFIX|GR_OOMFIX/tools/ 的补丁脚本已归并为这一份；A/B 实验分支（F1/F1b、flavor A/B）已删除，只保留成品盘真正使用的那一组。基底重建的旧脚本 work/builds/GR_REBUILD/tools/rb_build.py 依赖一个已被清理删除的中间文件（work/builds/GR_CSFIX/temp/K2_SLUS_206.13.elf）⇒ 已由 rebuild_base.py 取代（改为从 K2 转储现场取 ELF）。"
  },
  "iso_layout": {
   "elf_name": "SLUS_206.13",
@@ -32,22 +44,24 @@
    "sha256": "d7f83d7ec4a8fe1ec8d60de4b17b94513bd1540dc929d3b667086f4910443ca0",
    "elf_sha256": "5cb59175d28bfea3f37a9eb485399ea3925a2ca6f73d32d65e226d274abf47d8",
    "bytes": 1648164864,
-   "builder": "work\\builds\\GR_REBUILD\\tools\\rb_build.py --out work\\builds\\GR_REBUILD\\GR_REBUILD2400.iso",
+   "builder": "tools\\final_fix\\rebuild_base.py --out <任意输出>   (★ 强制规则: 从英文原盘起; 旧脚本 work\\builds\\GR_REBUILD\\tools\\rb_build.py 已退役 —— 它依赖已被删除的 work\\builds\\GR_CSFIX\\temp\\K2_SLUS_206.13.elf)",
    "builder_external_inputs": [
    {
      "path": "%LOCALAPPDATA%\\PCSX2\\cdvd-dump\\GR_FA2400_K2 (2026-10-17 15-08-20).dump",
-     "bytes": 74227399,
+     "bytes": 74286520,
+     "bytes_note": "2026-10-18 实测值。旧文档写的 74,227,399 是**错误的字节数**(sha256 与实测文件一致, 只有 bytes 记错) ⇒ 已订正。",
      "sha256": "11f371f294e4f8e353c21931a9c38d73c1309832a21e74cfb3e31d7095daadd9",
-     "why": "K2 盘 4.5% 扇区转储（ELF/图集/FONT.RES/中文文本表/SF XML 全链 100% 覆盖）"
+     "why": "K2 盘 4.5% 扇区转储（ELF/图集/FONT.RES/中文文本表/SF XML 全链 100% 覆盖）；★ K2 真 ELF 由本转储 LBA 295 起 18,288 扇区现取（sha256 5cb59175…），不再需要任何中间文件"
    },
    {
      "path": "%LOCALAPPDATA%\\PCSX2\\cdvd-dump\\GR_ZH113b (2026-10-15 19-39-44).dump",
-     "bytes": 77701019,
+     "bytes": 77748244,
+     "bytes_note": "2026-10-18 实测值（旧文档写的 77,701,019 是错误字节数; sha256 一致）⇒ 已订正。",
      "sha256": "57c9e9d147106c7c7dbc5e41b6a80ffa6ce7ea984ec21b33505fb765b40dbf74",
      "why": "GR#3451 COMMON.PAK 旁证候选（GR 侧死拷贝）"
    }
    ],
-   "note": "rb_build.py 依赖 work/tools/zx_lib.py 与 tools/text_csv/tcslib.py（均在库内）；--out 目标必须不存在（防覆盖）。"
+   "note": "rebuild_base.py 只用 tools/text_csv/tcslib.py（在库内；它再引 tools/hanliu/tools 的 lzo1x）—— **不再依赖 work/tools/zx_lib.py**（work/** 不入库, 只在开发机上有）；--out 目标必须不存在（防覆盖）。实测: 4.4 秒出基底, sha256 与声明值一致。"
   },
   {
    "step": 2,
@@ -59,14 +73,15 @@
   },
   {
    "step": 3,
-   "role": "交付成品（与 step 2 逐字节相同，0 差异；仅改名归档）",
-   "path": "work\\builds\\GR_RELEASE\\GR_ZH2400_FINAL.iso",
+   "role": "交付成品（与 step 2 逐字节相同，0 差异；2026-10-18 由 GR_ZH2400_FINAL.iso 改名而来）",
+   "path": "work\\builds\\GR_RELEASE\\GR_ZH126.iso",
    "sha256": "d8007873957f81ab44f37cf4c773ac5bdf0d3d66fd5f975b48f69abea21b2ab5",
    "bytes": 1648164864
   }
  ],
  "product_identity": {
-  "tag": "GR_ZH2400_FINAL",
+  "tag": "GR_ZH126",
+  "tag_history": "GR_ZH2400_FINAL (2026-10-18 之前) -> GR_ZH126 (标准 GR_ZH<数字>, 无后缀)",
   "bytes": 1648164864,
   "sha256": "d8007873957f81ab44f37cf4c773ac5bdf0d3d66fd5f975b48f69abea21b2ab5",
   "md5": "d24c324eb955a8c8dbaf92f6c766da2c",
@@ -83,7 +98,7 @@
    "all_inside_declared_windows": true,
    "outside_windows_bytes": 0
   },
-  "meta": "work\\builds\\GR_RELEASE\\GR_ZH2400_FINAL.meta.json"
+  "meta": "work\\builds\\GR_RELEASE\\GR_ZH126.meta.json"
  },
  "gates_readback": [
   {"va": "0x00416EE8", "word": "0x2CA900BA"},
@@ -232,13 +247,13 @@
  ],
  "archived_away_disks": [
   {"path": "work/builds/GR_COMBFIX/COMBFIX_A.iso", "sha256": "e12f2770d041f5ac02079c37fcb7137a49310538adb79dba026224cbb4edccc2", "why": "单变量变体（基底 SPINFIX_F4 + OOMFIX），已被 flavor 2400 取代；meta.json 与 runs/ 证据保留", "deleted": "2026-10-18 归档清理"},
-  {"path": "work/builds/GR_COMBFIX/COMBFIX_B.iso", "sha256": "3959498be967447b0404745885a0fc7f616c85d97dfa7833979b563531c16b41", "why": "单变量变体（+F1/F1b，实测带来 660..810 帧 6 帧像素差异，未被采纳）；meta.json 与 runs/ 证据保留", "deleted": "2026-10-18 归档清理"}
+  {"path": "work/builds/GR_COMBFIX/COMBFIX_B.iso", "sha256": "3959498be967447b0404745885a0fc7f616c85d97dfa7833979b563531c16b41", "why": "单变量变体（+F1/F1b，实测带来 660..810 帧 6 帧像素差异，未被采纳）；meta.json 与 runs/ 证据保留", "deleted": "2026-10-18 归档清理"},
+  {"path": "work/builds/GR_LAYOUT/LAY_fix1_bytecount.iso", "sha256": "a69a9ca44049eaed4085239a2b8d10af58888f54f62a51e40c1ece22dd2d2808", "bytes": 1648164864, "elf_sha256": "0a986bb375176df41fad67798423f2e1a0a1c902d181ab9d673627a6d98387b9", "game_crc": "7A761FCA", "why": "「同现场回归」的**未修对照盘**（46 帧 70,266 Trap 的来源）。**2026-10-18 已按指示删除** ⇒ 旧文档里「特意保留」的表述作废（见 README §4.4）。结论/日志/截图/存档仍在: runs/reg_p1_FINAL_S1、runs/reg_p2_FINAL_S1b、GR_LAYOUT/results_fix1_bytecount.txt、GR_SPINFIX/runs/smoke_LAY_fix1_bytecount", "deleted": "2026-10-18 按收尾指示删除"}
  ],
  "retained_disks": [
-  {"path": "work/builds/GR_RELEASE/GR_ZH2400_FINAL.iso", "why": "交付成品（与 COMBFIX_2400.iso 逐字节相同）"},
+  {"path": "work/builds/GR_RELEASE/GR_ZH126.iso", "why": "交付成品（与 COMBFIX_2400.iso 逐字节相同；2026-10-18 前名为 GR_ZH2400_FINAL.iso）"},
   {"path": "work/builds/GR_COMBFIX/COMBFIX_2400.iso", "why": "成品同源候选盘"},
   {"path": "work/builds/GR_COMBFIX/COMBFIX_C.iso", "why": "用户在实机上验证过的那一张（LAY 线同补丁集合）"},
-  {"path": "work/builds/GR_REBUILD/GR_REBUILD2400.iso", "why": "★ 修复链的基底（一键复跑的第 1 步输入）；可由 rb_build.py 从英文原盘重建，但重建依赖 PCSX2 cdvd 转储，故实体保留"},
-  {"path": "work/builds/GR_LAYOUT/LAY_fix1_bytecount.iso", "why": "★ 同现场回归的「未修对照盘」（70,266 Trap 的来源）；其基底已删除 ⇒ 不可重建，故保留"}
+  {"path": "work/builds/GR_REBUILD/GR_REBUILD2400.iso", "why": "开发期快捷基底（一键复跑路径 A 的第 1 步输入）。**已降级**: 发布口径必须走「英文原盘 + K2 转储 ⇒ 基底」（repro_from_eng.ps1 / rebuild_base.py, 实测 4.4 秒逐字节相同）；保留它只是省时间, 可随时清理而不影响复现链"}
  ]
 }

@@ -1,0 +1,55 @@
+[
+ [
+  "D03_TRAINDEPOT.MIS",
+  201555680,
+  [
+   "Neutralize Tent Camp"
+  ],
+  69110
+ ],
+ [
+  "M01_CAVES.MIS",
+  201701776,
+  [
+   "Welcome to Tbilisi",
+   "Georgian government",
+   "Neutralize Tent Camp"
+  ],
+  90910
+ ],
+ [
+  "M03_RRBRIDGE.MIS",
+  201745328,
+  [
+   "Georgian government"
+  ],
+  78738
+ ],
+ [
+  "M06_CASTLE.MIS",
+  201806528,
+  [
+   "Georgian government"
+  ],
+  79010
+ ],
+ [
+  "EN_STRINGS.RES",
+  481042432,
+  [
+   "Welcome to Tbilisi",
+   "Georgian government",
+   "exit training",
+   "Neutralize Tent Camp"
+  ],
+  128668
+ ],
+ [
+  "EN_SPECIAL_FEATURE.XML",
+  1544153088,
+  [
+   "Georgian government"
+  ],
+  116488
+ ]
+]

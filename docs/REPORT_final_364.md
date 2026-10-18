@@ -1,5 +1,8 @@
 # REPORT_final_364.md — 最终盘 `GR_F364`：**364 个缺字全部落盘**
 
+> ⚠ **历史错误断言订正（2026-10-18 收尾轮）**：本文含已被实测/实机否证的表述 —— 见 `docs/CORRECTIONS.md` §1。
+> 原文保留作过程记录；**结论冲突时以 `docs/CORRECTIONS.md` + `docs/STATUS.md` 为准**。
+
 > 执行：最终轮（round-final）· 工作目录 `C:\Users\84363\Desktop\Ghost_Recon_2001_Locolization`
 > 只写 `work\tools\f364_*.py` + `work\builds\GR_F364\**` + 本文件
 > 未 commit / 未切分支 / 未 merge；`third_party/orig/**`、`%LOCALAPPDATA%\PCSX2\**`、

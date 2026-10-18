@@ -1,27 +1,45 @@
 # STATUS.md —— 《幽灵行动》PS2 版（SLUS-206.13）汉化工程 · 当前状态
 
-> 更新：2026-10-18 · 本文件是**唯一**的现状入口；历史过程见 `docs\PROGRESS.md` 与各轮 `REPORT_*.md`。
-> 收尾归档的完整命令与结果：`docs\REPORT_ARCHIVE.md`
+> 更新：**2026-10-18（收尾轮）** · 本文件是**唯一**的现状入口；历史过程见 `docs\PROGRESS.md` 与各轮 `REPORT_*.md`。
+> 文档总索引：**`docs\README.md`**（一篇一行）· 历史错误断言订正：**`docs\CORRECTIONS.md`**
+> 本轮收尾全记录：**`docs\REPORT_FINALIZE.md`**（A–D 全部命令与结果）
 
 ---
 
 ## 1. 一句话现状
 
-**2,400 字成品盘已交付并通过全量验收**（`work\builds\GR_RELEASE\GR_ZH2400_FINAL.iso`）；
+**2,400 字成品盘已交付并通过全量验收**，2026-10-18 按版本号规则改名为
+**`work\builds\GR_RELEASE\GR_ZH126.iso`**（原名 `GR_ZH2400_FINAL.iso`，**只改文件名，内容一字节未动**）；
 **卡死根因（分配器空闲链被写坏 ⇒ 链头落在 RAM 之外 ⇒ 原地无限自旋）已定位**，
 **已用三件套 F4 / OOMFIX / F7 修复，并被实机回归证实**（未修盘 70,266 次 Trap 直接死 vs 本盘 0）；
+**复现链已修好：从英文原版 ISO 出发，整链逐字节复现成品**（实测，见 §4）；
 **残余风险 7 条**（见 §5）。
 
 | 项 | 值 |
 |---|---|
-| 成品盘 | `work\builds\GR_RELEASE\GR_ZH2400_FINAL.iso`（= `GR_COMBFIX\COMBFIX_2400.iso` 逐字节同源） |
+| 成品盘 | `work\builds\GR_RELEASE\GR_ZH126.iso`（= `GR_COMBFIX\COMBFIX_2400.iso` 逐字节同源） |
 | 尺寸 / sha256 / md5 | 1,648,164,864 B / `d8007873957f81ab44f37cf4c773ac5bdf0d3d66fd5f975b48f69abea21b2ab5` / `d24c324eb955a8c8dbaf92f6c766da2c` |
 | ELF / Game CRC | `SLUS_206.13` @ LBA 295 / **`CFDB8C97`**（即时存档名 `SLUS-20613 (CFDB8C97).01.p2s`） |
-| 修复工具（唯一权威） | `tools\final_fix\apply_fix.py` + `fix_spec.json`（表）/ `repro.ps1`（一键）/ `README.md` |
-| 基底链 | 英文原盘 `2b42ea7c…` → `GR_REBUILD2400.iso` `d7f83d7e…` → 本盘（相对基底 **78 B / 25 处**，窗口外 0 B） |
+| 修复工具（唯一权威） | `tools\final_fix\apply_fix.py` + `fix_spec.json`（表）/ **`repro_from_eng.ps1`（端到端权威配方）** / `rebuild_base.py`（基底重建）/ `repro.ps1`（快捷） |
+| 基底链 | 英文原盘 `2b42ea7c…` ⊕ K2 cdvd 转储 ⇒ `GR_REBUILD2400.iso` `d7f83d7e…` ⇒ 本盘（相对基底 **78 B / 25 处**，窗口外 0 B） |
 | 交付说明 / 验收 | `docs\RELEASE_NOTES_2400.md` / `docs\REPORT_RELEASE_VERIFY.md` |
 | 验收结论 | 三闸门 ✅ · dump_font ✅ · 载荷级裸旧码 0 ✅ · 逐字符 0 差异 ✅ · 实机 6000 帧 191 截图 TLB 0 Trap 0 ✅ · 与基底逐帧 **191/191 相同** ✅ · 同现场回归 **70,266 Trap vs 0** ✅ |
-| 复现性 | **已实测**：`apply_fix.py` 从基底出盘 → sha256 与成品**逐字节相同**（本机 9.1 s，exit 0）；`repro.ps1` 端到端 14.1 s |
+| 复现性 | **★ 已达成（本轮修复）**：英文原盘 → 基底（4.4 s，sha256 与声明值一致）→ 三件套 → 成品（sha256 与交付盘一致） |
+| 云端公开快照 | `public` = https://github.com/AFishD/GR2001-ZH.git · 见 §8 |
+
+### 1.1 ★★ 强制规则（2026-10-18 确立 · 不可绕过）
+
+**今后一切构筑必须从英文原版 ISO 出发**：
+
+```
+third_party\orig\ps2\Tom Clancy's Ghost Recon (USA).iso
+sha256 2b42ea7ce9bd0a85972a07ca59b1b9d79422ed318b85737db3cfd17daa788531   (1,648,164,864 B)
+```
+
+**禁止以上一版汉化 ISO 为基底。** 目的 = 可复现：基底必须是「外部只读原盘 + 只读 cdvd 转储」的
+函数，而不是历史产物链上的一环。执行体 = `tools\final_fix\rebuild_base.py` +
+`tools\final_fix\repro_from_eng.ps1`；`work\builds\GR_REBUILD\GR_REBUILD2400.iso` 降级为
+**开发期快捷基底**。**旧表述「必须从 `GR_REBUILD2400.iso` 起」已作废**（`CORRECTIONS.md` §8）。
 
 ---
 
@@ -36,11 +54,14 @@
 根因与定位过程：`docs\REPORT_COMBFIX.md`（本轮新病灶 F7）· `docs\REPORT_SPINFIX.md`（F4）·
 `docs\REPORT_OOMFIX.md`（OOMFIX）· `docs\REPORT_HEAP_EXHAUSTION.md` · `docs\REPORT_USERDUMP_ANALYSIS.md`。
 
+> **已被实机否证的候选修复**（不要再复活）：`F1` / `F1b` / flavor A/B / `pkt` 候选 / `SPINFIX_F1F2`。
+> 见 `docs\CORRECTIONS.md` §7。
+
 ---
 
 ## 3. 怎么用这张盘
 
-1. 复制 `GR_ZH2400_FINAL.iso` 到任意位置（别改字节）。
+1. 复制 `GR_ZH126.iso` 到任意位置（别改字节）。
 2. **不要读旧的即时存档**（`.p2s` 会把整块 32 MB 旧主存盖回 RAM ⇒ 补丁"不生效"；文件名 CRC 不符也读不到）。
    正确做法：从记忆卡存档继续，或从关卡开头进。一定要用旧档 ⇒ 改名成 `SLUS-20613 (CFDB8C97).01.p2s`；
    本盘能救（日志里可能出现 1~2 行 `TLB Miss`，属正常，关键是**不会无限重复、画面不会定死**）。
@@ -53,18 +74,30 @@
 ```powershell
 $py = 'C:\Users\84363\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe'
 
+# ★ 权威配方：从英文原版 ISO 起，整链复现（基底 + 成品，逐项核 sha256）
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro_from_eng.ps1
+
 # 校验成品（身份 + 三件套在位 + 相对基底 78 B/25 处全在窗口内）
 & $py tools\final_fix\apply_fix.py --verify-only `
-      --iso work\builds\GR_RELEASE\GR_ZH2400_FINAL.iso `
+      --iso work\builds\GR_RELEASE\GR_ZH126.iso `
       --base work\builds\GR_REBUILD\GR_REBUILD2400.iso
 
-# 一键复跑（从基底出成品并与交付盘逐字节比对）
+# 快捷配方（开发期：直接用现成基底出成品并与交付盘逐字节比对）
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 ```
 
-> 从**英文原盘**起的那条链（`work\builds\GR_REBUILD\tools\rb_build.py`）当前**不可直接复跑**：
-> 它依赖已随历史清理删除的 `work\builds\GR_CSFIX\temp\K2_SLUS_206.13.elf`（sha256 `5cb59175…`）。
-> 解封配方（从 K2 cdvd 转储取 LBA 295 起 18,288 扇区）见 `tools\final_fix\README.md` §4。
+**实测（本机，2026-10-18）**：
+
+| 步骤 | 命令 | 结果 |
+|---|---|---|
+| 基底重建 | `rebuild_base.py`（英文原盘 ⊕ K2 转储） | **4.4 s**，sha256 `d7f83d7e…443ca0` == 声明值 ✅ |
+| 三件套出盘 | `apply_fix.py` | sha256 `d8007873…1b2ab5` == 交付成品 ✅ |
+| 成品自证 | `apply_fix.py --verify-only --iso GR_ZH126.iso --base GR_REBUILD2400.iso` | **27 条断言全 OK / 失败 0**，ELF CRC `CFDB8C97` ✅ |
+
+> **断链已修**：旧配方 `work\builds\GR_REBUILD\tools\rb_build.py` 依赖已被历史清理删除的
+> `work\builds\GR_CSFIX\temp\K2_SLUS_206.13.elf` ⇒ 今天必在 `[A1]` 处 `FileNotFoundError`。
+> 新配方改为**从 K2 cdvd 转储现场取 ELF**（LBA 295 起 18,288 扇区，截到 37,453,732 B，
+> 断言 sha256 `5cb59175…`）⇒ **只需英文原盘 + 两块只读转储，仓库内 `work\**` 一个文件都不需要**。
 
 ---
 
@@ -76,65 +109,68 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 4. **ES / FR 语言表**抬闸门后仍带旧单字节码 (28+29)×2 处（主机语言 = ES/FR 会吞字）；**DE / IT** 结构异常（74+76 处）明确未动。中文/英文主机语言不渲染这些表。
 5. **保留槽 1872..2344（473 个）无字形**：按设计，文本不引用 ⇒ 不会出现空白方块。
 6. **SF XML 里 5 处「配不出对的前导 `0xA4`」**：上游既有缺陷（`REPORT_SENTINEL_FIX.md` §4/§8.1 已登记），原样保留。
-7. **若干参照盘已不在盘上**（`GR_ZH124.iso`、`GR_F364.iso`、`GR_FA2400_K2*.iso`、`GR_REBUILD2400_allpat.iso`、`GR_SPINFIX_F4.iso`；2026-10-18 归档又删掉被取代的 `COMBFIX_A/B.iso`）。受影响的验收已用等价/更强方式替代（`REPORT_RELEASE_VERIFY.md` §B/§D），sha256 记录在 `tools\final_fix\fix_spec.json`。
+7. **若干参照盘已不在盘上**（`GR_ZH124.iso`、`GR_F364.iso`、`GR_FA2400_K2*.iso`、`GR_REBUILD2400_allpat.iso`、`GR_SPINFIX_F4.iso`、`COMBFIX_A/B.iso`、`GR_LAYOUT\LAY_fix1_bytecount.iso`）。受影响的验收已用等价/更强方式替代（`REPORT_RELEASE_VERIFY.md` §B/§D），sha256 记录在 `tools\final_fix\fix_spec.json · archived_away_disks`。
 
 ---
 
-## 6. 磁盘与仓库现状（2026-10-18 第二轮精简后）
+## 6. 文档（2026-10-18 整理后）
 
-* `work\`：**20.04 GB / 66,074 文件 → 9.21 GB / 24,083 文件**（本轮再释放 **10.83 GB**，54%）；
-  C: 剩余空间 51.05 GB → **62.73 GB**。明细见 `docs\REPORT_ARCHIVE2.md` §C。
-* `work\` 保留（5 个顶层）：`builds\`（成品 1.53 GB + 基底 1.53 GB + **`GR_HOOKEMU_QT2\**`（未动）3.69 GB + 被引用证据）、
-  `tools\`（Ghidra/JDK/工程库/自研脚本 2.01 GB）、`temp\`(8 MB)、`_planc\`(5 MB)、`_briefs_recovered\`(0.6 MB)。
-* 本轮**点名删除**的盘（sha256 已存证，见 `REPORT_ARCHIVE2.md` §C.4）：`GR_LAYOUT\LAY_fix1_bytecount.iso`
-  （`a69a9ca4…`，未修对照盘）· `GR_COMBFIX\COMBFIX_2400.iso`（`d8007873…`，**与成品逐字节相同**）·
-  `GR_COMBFIX\COMBFIX_C.iso`（`5c4c9f70…`，用户实机验证过的 F4 线盘）。
-* git：当前分支 **`round73/font-decompile`**（**不是** `main`）；远端 `public` = `https://github.com/AFishD/GR2001-ZH.git`。
-* **归档提交 = `01ab3530`**（52 文件 / 20,184 行），随后 `8a2554ca`、`2cd167f4` 补记；
-  本轮 **`a48c4241`**（`删除: 清理误入库的 work/ 测试产物（ISO/转储/中间盘）`，移除 4,771 条 / 11,364,158 行）
-  ⇒ **当前树的 432 个文件里不再有 `work/**` 与 3 张 1.5 GB ISO**。
-* **推送状态：已达成**（本轮完成，见 §6b）——上一轮记录的「未达成（24 个 >100 MB blob / 32.9 GB）」已绕过：
-  不推完整历史，改为**孤儿精简快照**直推 `main`。
-* **历史体积未回收**：被删的 `work/` blob 仍可从历史到达，`git gc --prune=now` 只能继续打包；
-  真正回收需 `git filter-repo`/BFG 重写历史（高风险，**未执行**）⇒ `docs\REPORT_ARCHIVE2.md` §D.3。
-* 归档清理明细：本轮 `docs\REPORT_ARCHIVE2.md` §C；上一轮 `docs\REPORT_ARCHIVE.md` §B。
+* **索引**：`docs\README.md` —— 一篇一行的「标题 / 状态（权威·历史·已过时·已归档）/ 一句话 / 引用数」。
+* **订正表**：`docs\CORRECTIONS.md` —— 7 条历史错误断言逐条订正（含实测证据）+ 附录 4 条口径变更。
+* **归档区**：`docs\_obsolete\`（**21 篇**被推翻路线 / 一次性过程产物，逐篇写明归档理由）；
+  根目录 **105** 篇（权威 34 · 历史 60 · 已过时【就地标记】11）。
+* 骨干篇：`STATUS.md`（本文）· `RELEASE_NOTES_2400.md` · `REPORT_RELEASE_VERIFY.md` ·
+  `CAPACITY_2400.md` · `REPORT_COMBFIX.md` · `REPORT_SPINFIX.md` · `REPORT_OOMFIX.md` ·
+  `REPORT_USERDUMP_ANALYSIS.md` · `REPORT_HEAP_EXHAUSTION.md` · `REPORT_DISASM_ROOTCAUSE.md` ·
+  `REPORT_SENTINEL_FIX.md` · `TEXT_MIGRATION_0xBA.md` · `BUILD_VERSIONS.md` · `PROGRESS.md`。
+* **修掉的两处过时记载**（本轮）：
+  1. `tools\final_fix\README.md` §4「**特意保留** `LAY_fix1_bytecount.iso`」⇒ 该盘**已删**，
+     现行表述 = 「只留 sha256 + 结论/日志/截图仍在」（§4.4）；
+  2. 旧配方「**必须从 `GR_REBUILD2400.iso` 起**」⇒ 改为「从 **ENG ISO** 起；`GR_REBUILD2400.iso`
+     仅作开发期快捷基底」。
 
 ---
 
-## 6b. 归档与云端（2026-10-18 第二轮 · **已推送**）
+## 7. 磁盘与仓库现状（2026-10-18 收尾轮）
+
+* C: 剩余空间 **≈ 63 GB**（开工时 63.84 GB）。
+* `work\`：**9.21 GB / 24,083 文件**（未变；本轮只改名 2 个文件 + 写 meta）。
+  * `work\tools\**` **2.01 GB** = 反编译环境（Ghidra 12.1.2 / JDK / 工程库 / 自研脚本）——
+    **本轮未动**；不再做反编译时**可释放**（建议，见 `REPORT_FINALIZE.md` §E）。
+  * `work\builds\GR_HOOKEMU_QT2\**`（模拟器取证版构筑）：**本轮未动**（任务书要求只读）。
+* git：本地 `main` 已并入修复线 —— 合并提交 **`06702ce3`**（`--no-ff`，无冲突；
+  原 tip `fe4991d1` 是 `round73/font-decompile` 的直接祖先）。
+* **云端**：见 §8。
+
+---
+
+## 8. 归档与云端（2026-10-18 第三轮 · 收尾刷新）
 
 | 项 | 值 |
 |---|---|
-| **公开快照分支** | **`snapshot-2026-10-18`** —— 与云端 `main` **同指一个提交**（= 快照链最新提交） |
-| 首推的修复落点 | 提交 **`2c899a418593a31ebacd11f2b8b734ee61311052`**（孤儿；**修复内容就在这个提交里**，始终留在 `main` 历史中） |
-| 快照体积 | **67 文件 / 2,007,423 B ≈ 1.91 MB**，全文本（无 ISO / 无游戏数据 / 无模拟器二进制） |
-| **云端 `main`** | 首推把它从 `f0583003` 强更到 `2c899a41`（`git push public snapshot:refs/heads/main --force-with-lease`，原文 `+ f0583003...2c899a41 (forced update)`，exit 0）；随后为同步本小节等文档**快进**到 `59e43d45` 及后续文档提交 ⇒ 与 `snapshot-2026-10-18` 恒同指 |
+| 公开快照分支 | **`snapshot-2026-10-19`**（本轮新建；与云端 `main` 同指一个提交） |
+| 快照提交 | 见 `docs\REPORT_FINALIZE.md` §D（推送原文与 hash 全文在该文件；本节无法自指） |
+| 快照体积 | **全文本**（无 ISO / 无游戏数据 / 无模拟器二进制：`docs/han_v2` 的 `.bin/.MIS/.rsb/.BMB/.png` 一律排除）；精确文件数与体积见 `REPORT_FINALIZE.md` §D |
+| 云端 `main` | 已刷新到本轮快照（`--force-with-lease` 且**钉住旧值** `5803b9ce`；推送原文见 §D） |
 | 旧公开状态备份 | 分支 **`snapshot-2026-10-11`** = `f0583003`（267 文件，**未删除、未改写**） |
-| 远端 | `public` = `https://github.com/AFishD/GR2001-ZH.git`；`git ls-tree -r --name-only public/main` = 67 |
-| 快照内容 | `tools\final_fix\**`(4) + `docs\**`(60 = 本轮 48 + 被引用 12) + 公开版 `README.md` + `.gitignore`/`.gitattributes` |
-| 推送结果 | **达成，无未达成项**（无网络/凭据/权限错误；未用裸 `--force`、未删远端分支、未改本地历史） |
-| `work\` 精简 | 释放 **10.83 GB**；保留清单与"未动"清单见 `REPORT_ARCHIVE2.md` §C.1/§C.6 |
-| 仓库当前树 | `a48c4241` ⇒ 树 **432 文件**；pack 体积变化见 `REPORT_ARCHIVE2.md` §D.2 |
-| 完整记录 | **`docs\REPORT_ARCHIVE2.md`**（A–F 全命令与原始输出、取舍说明、未达成/需确认项） |
+| 上一轮快照 | 分支 **`snapshot-2026-10-18`** = `5803b9ce`（67 文件，**保留**） |
+| 远端 | `public` = `https://github.com/AFishD/GR2001-ZH.git` |
+| 本轮新增入库 | `docs\REPORT_HOOKEMU_QT2_REBUILD.md`（**修掉上一轮快照里的 404**）· `docs\README.md` · `docs\CORRECTIONS.md` · `docs\_obsolete\**` · `tools\final_fix\rebuild_base.py` · `tools\final_fix\repro_from_eng.ps1` |
+| 完整记录 | **`docs\REPORT_FINALIZE.md`**（A–D 全命令与原始输出、未达成项） |
 
-> 说明：本小节写在**快照自身**里，因此**无法自指**当前提交哈希（每一次「记录推送结果」都会产生新提交）。
-> 云端 `main` / `snapshot-2026-10-18` 的**当前值**以 `git ls-remote --heads public` 为准；
-> 而**修复落点**永远是 `2c899a41`（在其历史中）。
-
-> ⚠ **一处按任务书执行、但与旧文档记载冲突的事**：`GR_LAYOUT\LAY_fix1_bytecount.iso`（未修对照盘，基底已删、
-> **不可重建**）本轮被**点名删除**。「同现场回归（70,266 Trap vs 0）」今后**不能原样复跑**，其结论与日志/截图
-> 仍在。`tools\final_fix\README.md` §4 那句「特意保留」**已过时**（该目录本轮禁动，未修改）⇒ 见 §C.5。
+> 说明：本小节写在**快照自身**里，因此**无法自指**当前提交哈希。云端 `main` /
+> `snapshot-2026-10-19` 的**当前值**以 `git ls-remote --heads public` 为准。
 
 ---
 
-## 7. 下一步（建议）
+## 9. 下一步（建议）
 
 1. **残余风险 1（unsorted 桶回边 `0x102200`）**如需收口：先在 ELF 里找/造第三个 36 B 零区（`REPORT_COMBFIX.md` §3.2）。
-2. **让「从英文原盘一键复现」复活**：补 `work\builds\GR_CSFIX\temp\K2_SLUS_206.13.elf`（配方见 `tools\final_fix\README.md` §4）。
-3. **本地分支归置**：当前在 `round73/font-decompile`（工作区仍有 270 个 `work/` 已跟踪文件的删除状态残留、
-   4 个 `tools\**` 历史改动未提交 ⇒ `REPORT_ARCHIVE.md` §C.4）。是否把 dev 分支并入本地 `main`（`fe4991d1`）待决定；
-   **云端 `main` 已是本轮修复快照，不受影响**。
-4. **（可选，高风险）真正回收历史体积**：`git filter-repo --path work --invert-paths`（改掉所有 commit hash、
-   需强推所有分支）—— 仅建议，**未执行**，详见 `REPORT_ARCHIVE2.md` §D.3。
-5. **（可选）继续精简**：`work\tools\**` 2.01 GB（Ghidra 12.1.2 / JDK / Ghidra 工程库；不再做反编译时可删）。
-6. **补唯一断链**：`docs/REPORT_HOOKEMU_QT2_REBUILD.md` 从未入库（公开快照里 404）⇒ 确认可公开后入库并刷新快照分支。
+2. **（可选）释放 `work\tools\**` 2.01 GB**：Ghidra/JDK 反编译环境，不再反编译即可删（**本轮未执行**）。
+3. **（可选）清理 `work\builds\GR_REBUILD\GR_REBUILD2400.iso`（1.53 GB）**：
+   它现在是**可重建**的（`rebuild_base.py` 4.4 s）⇒ 删掉不影响复现链（注意：删了以后
+   快捷配方 `repro.ps1` 需先跑一次 `rebuild_base.py`）。
+4. **（可选，高风险）真正回收历史体积**：`git filter-repo --path work --invert-paths`
+   （改掉所有 commit hash、需强推所有分支）—— 仅建议，**未执行**（`REPORT_ARCHIVE2.md` §D.3）。
+5. **（口径待用户裁决）`CORRECTIONS.md` §1**：任务书给的「MENU.IMG 声明长度零差异」与成品盘字节
+   不符（实测 +7,726 B 扇区对齐）—— 本工程按"实测优先"登记，请确认口径。
