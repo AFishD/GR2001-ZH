@@ -1,0 +1,87 @@
+# nav_doc_5_5.txt -- round47 实机 A/B: 主菜单 → 特别收录 → 背景 →「何为幽灵？」长文页
+#
+# 按键语义 (docs/PROGRESS.md §46 / GRResearch.cpp):
+#   `tap` 默认按住 12 帧 ⇒ 本作菜单按住 ~7 帧开始连发 ⇒ 单 tap 会移动 2~3 项且随帧相位漂移;
+#   正解 = `tap` + 紧跟一行 `release`(fr+2) 的 **2~3 帧短按** ⇒ 每次精确 ±1 项。
+# 本文件所有菜单按键都是这种短按。
+#
+# 计数依据:
+#   · 主菜单 (训练/战术演习/战役/快速任务/多人游戏/统计/特别收录/选项/制作组, 首尾环绕):
+#       从「训练」下移 **5 次** → 「特别收录」(nav_sf6 的实测口径); 6 次 → 统计, 4 次 → 多人游戏。
+#   · 特别收录列表 (影片/设定图/音乐/武器/奖励/背景/屏幕截图/访谈/预告片):
+#       下移 **5 次** → 「背景」; 该条打开即「何为幽灵？」长文页 (SFXML:T0063)。
+#   · ⚠ 实测登记次数偶发 ±1 ⇒ 每轮跑完**必须用 drawlog 判定到的是哪一页**, 不对就换计数重跑。
+#
+# 时序: 主菜单 ~f4000 已出现; 4600 cross 进特别收录; 列表加载后 6400 起下移; 7500 cross 打开条目。
+
+# ---------- 引导 ----------
+800 start tap
+802 start release
+1000 start tap
+1002 start release
+1200 start tap
+1202 start release
+1400 start tap
+1402 start release
+1600 start tap
+1602 start release
+1800 start tap
+1802 start release
+2000 start tap
+2002 start release
+2200 start tap
+2202 start release
+2400 start tap
+2402 start release
+2600 start tap
+2602 start release
+2850 up tap
+2852 up release
+2950 up tap
+2952 up release
+3050 up tap
+3052 up release
+3250 cross tap
+3272 cross release
+
+# ---------- 主菜单: 下移 5 次 → 特别收录 ----------
+3800 down tap
+3802 down release
+4000 down tap
+4002 down release
+4200 down tap
+4202 down release
+4400 down tap
+4402 down release
+4600 down tap
+4602 down release
+# ---------- 进入「特别收录」 ----------
+4900 cross tap
+4922 cross release
+
+# ---------- 特别收录列表: 下移 5 次 → 背景 ----------
+6400 down tap
+6402 down release
+6600 down tap
+6602 down release
+6800 down tap
+6802 down release
+7000 down tap
+7002 down release
+7200 down tap
+7202 down release
+# ---------- 打开「背景」⇒ 何为幽灵？长文页 ----------
+7600 cross tap
+7622 cross release
+
+# ---------- 页内下移滚动正文 (看更靠后的段落) ----------
+9000 down tap
+9002 down release
+9600 down tap
+9602 down release
+10200 down tap
+10202 down release
+10800 down tap
+10802 down release
+11400 down tap
+11402 down release

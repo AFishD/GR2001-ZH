@@ -1,0 +1,53 @@
+# nav_weapons.txt -- 主菜单 → 特别收录 → 武器条目页 → 详情页
+# 配方依据: nav_sf4(成功进主菜单) + nav_sf6(成功进特别收录, 按键间隔 1000 帧 5/5 生效)
+# 关键: 主菜单在 F7300 之后才出现, 早按会丢键 ⇒ 菜单段一律 F9000 之后、间隔 1000 帧
+# 引导跳过 (start 连打)
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+# 档案选择: 上移 3 次到已有档案, 确认
+2850 up hold
+2890 up release
+3000 up hold
+3040 up release
+3150 up hold
+3190 up release
+3300 cross hold
+3340 cross release
+# 主菜单: 光标「训练」→ 下移 5 次到「特别收录」
+9000 down hold
+9040 down release
+9900 down hold
+9940 down release
+10800 down hold
+10840 down release
+11700 down hold
+11740 down release
+12600 down hold
+12640 down release
+# 进入「特别收录」
+13600 cross hold
+13640 cross release
+# 特别收录列表: 下移 3 次到「武器」(报告实测: 3 次=武器)
+14600 down hold
+14640 down release
+15500 down hold
+15540 down release
+16400 down hold
+16440 down release
+# 打开「武器」条目页
+17300 cross hold
+17340 cross release
+# 武器列表: 第一条通常是 M18 定向地雷; 再进一次看详情
+18300 cross hold
+18340 cross release

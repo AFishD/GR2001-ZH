@@ -1,0 +1,47 @@
+snapshot 2026-10-20: 脚本统一归入 tools\ + work 收尾清理（只留成品与取证工具）
+
+公开孤儿快照。内容 = tools/**（含新迁入的 1,287 个脚本与权威归档 tools/final_fix）+ docs 文本 + 快照 README
++ .gitignore/.gitattributes。父提交 = 上一快照 7f067ce1（真快进）。无 ISO / 无游戏数据 / 无模拟器二进制。
+
+一、脚本统一归入 tools\（1,287 个 .py/.ps1，work\ 下自研脚本归零）
+  work\tools\*.py               -> tools/re/toolbelt/         (264)
+  work\tools\ghidra_scripts\*   -> tools/re/ghidra_scripts/   (17)
+  work\builds\<GR_XXX>\**       -> tools/rounds/<主题>/**     (965，保留原相对子路径)
+  work\_planc\*.py              -> tools/rounds/planc/       (34，从 git fe4991d1 恢复)
+  _archive_scratch\*.ps1|md     -> tools/snapshot/            (7)
+  规则：去 GR_ 前缀后小写 = 主题名。work/** 从未被 git 跟踪 => 无 git mv 可用，一律普通移动 + git add；
+  计划阶段重名检查 0 冲突；实跑 moved=1253 / failed=0。
+  未迁（有据）：GR_HOOKEMU_QT2/**（用户禁动，12,501 文件）· work\tools\ghidra/**（第三方 Ghidra 发行版本体，
+  含其自带 140 个 .py）· jdk/appdata/ghidra_proj*/ghidra_out（工具链与 Ghidra 分析数据库 = 派生证据）。
+
+二、引用修复（最小改动，逐条登记于 tools/README_scripts.md §5）
+  R1/R2：import 引导行与脚本引用 'work','tools' -> 'tools','re','toolbelt'；
+         'work','builds','GR_X' -> 'tools','rounds','<主题>'         187 文件 / 227 处
+  R3：REPO = HERE/../.. 再加一级 ..（深度 2->3 造成仓库根少算一级）   177 文件 / 177 处
+  68 个硬编码绝对 REPO 的脚本与所有 work/builds 数据路径未改（改了反而错）；
+  docs/** 613 行历史脚本路径属「当时路径」=> 不硬改，由 docs/CORRECTIONS.md §9 + tools/scripts_move_map.csv 登记。
+
+三、work\ 收尾清理
+  删除 76 个历史版本目录：3,482 文件 / 1.98 GB（删前打印清单，落盘 work/_cleanup_manifest_20261018b.txt）
+  work\：24,083 文件 / 9.21 GB -> 18,376 文件 / 7.117 GB
+  保留：GR_RELEASE\GR_ZH126.iso（成品）· GR_HOOKEMU_QT2/**（禁动）· work\tools/**（反汇编工具链 +
+  Ghidra 分析数据库）· work\temp\NEW_Mem/**（用户运行期证据）· work\_cleanup_manifest_*.txt
+  GR_REBUILD2400.iso（1.53 GB）按「不保留构筑信息」删除 —— 可从 repro_from_eng.ps1 4.1 s 重建。
+
+四、事故与恢复（置顶）
+  清理脚本删除阶段对 GR_RELEASE 目录整体 Remove-Item -Recurse，越界删除了本不在清单里的成品盘。
+  已按强制规则用 tools/final_fix/repro_from_eng.ps1 从英文原盘重建：
+    英文原盘 2b42ea7c…8531 + K2 转储 74,286,520 B  =>  基底 d7f83d7e…43ca0（4.1 s）
+    =>  成品 d8007873…1b2ab5 == 交付成品（逐字节相同），27 条断言全过
+  已回填并 --verify-only 复检 0 失败。清理脚本已改为「先按文件清单删文件，再删空目录」并排除仍持有
+  KEEP 文件的祖先目录。全过程见 docs/REPORT_SCRIPTS_MOVE.md §0 与 docs/CORRECTIONS.md §9。
+
+五、抽验（新路径下实跑）
+  apply_fix.py --verify-only --base --iso = 27/27 断言 OK、失败 0 条 · iso_ls.py 读成品盘 exit 0 ·
+  zero_recon.py 输出正常 · combfix_apply / make_build / spinfix_apply / rb_allpat --help exit 0 ·
+  zx_lib / tcslib / cave_dis / cave_syms / migrate_legacy 导入 OK · 1,242/1,242 个 .py 语法编译通过
+
+六、新增文档
+  tools/README_scripts.md（脚本总索引）· tools/scripts_move_map.csv（1,287 行原->新对照）·
+  docs/REPORT_SCRIPTS_MOVE.md（中止影响核实 / 映射 / 引用 / 抽验 / 清理 / 未达成）·
+  docs/CORRECTIONS.md §9（脚本位置口径订正 + 事故）· docs/STATUS.md §1/§7

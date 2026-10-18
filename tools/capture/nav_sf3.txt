@@ -1,0 +1,40 @@
+# nav_sf3.txt -- 慢速 tap 版: 引导 -> 档 -> 主菜单 -> 特别收录 -> 武器条目 (每键间隔 900 帧, 减少丢键)
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+2850 up tap
+2950 up tap
+3050 up tap
+3250 cross tap
+# --- 主菜单: 光标"训练" -> 下移 6 次到"特别收录" ---
+4400 down tap
+5300 down tap
+6200 down tap
+7100 down tap
+8000 down tap
+8900 down tap
+9700 cross tap
+# --- 特别收录列表: 逐条下移 ---
+10800 down tap
+11600 down tap
+12400 down tap
+13200 down tap
+14000 down tap
+14800 down tap
+15600 down tap
+16400 down tap
+# --- 进入当前条目 ---
+17300 cross tap
+18300 down tap
+19300 down tap
+20300 down tap

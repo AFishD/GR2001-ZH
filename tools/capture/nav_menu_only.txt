@@ -1,0 +1,47 @@
+# nav_menu_only.txt -- round47 实机 A/B (确定性版): 只引导到**主菜单**, 不做任何菜单导航。
+#
+# 为什么这样做:
+#   · 主菜单在实机里"自己会出现", 光标默认在第 1 项「训练」, 完全不依赖按键计数
+#     ⇒ 两轮的同名帧必然同画面, 可以做**逐帧对齐**的 A/B。
+#   · 主菜单上有两个**受影响字**: 「训练」(0xC2 训)、「战术演习」(0xC7 习) ——
+#     修前它们左下方那条横条应该看得见, 修后应该消失。
+#   · 按键语义 (docs/PROGRESS.md §46, GRResearch.cpp): `tap`/`press` 默认**按住 12 帧**
+#     ⇒ 本作菜单按住 ~7 帧就开始连发 ⇒ 单靠 tap 计数必然随机。
+#     正解 = `tap` 后紧跟一行 `release`(fr+2) 的 **2~3 帧短按**, 每次精确 ±1 项。
+#     本文件所有按键都用这种短按。
+#   · 3272 之后**一个键都不按** ⇒ 主菜单从 ~f4000 一直保持到帧预算结束 (若长时间无输入
+#     会进 attract/演示, 故帧预算取 12000)。
+
+# ---------- 跳过 logo / 宣传视频 / "Press START" ----------
+800 start tap
+802 start release
+1000 start tap
+1002 start release
+1200 start tap
+1202 start release
+1400 start tap
+1402 start release
+1600 start tap
+1602 start release
+1800 start tap
+1802 start release
+2000 start tap
+2002 start release
+2200 start tap
+2202 start release
+2400 start tap
+2402 start release
+2600 start tap
+2602 start release
+
+# ---------- "选择文件"屏: 上移到第 1 个档案, 然后 cross 载入 ----------
+2850 up tap
+2852 up release
+2950 up tap
+2952 up release
+3050 up tap
+3052 up release
+3250 cross tap
+3272 cross release
+
+# ---------- 之后什么都不按: 主菜单保持 (光标停在「训练」) ----------

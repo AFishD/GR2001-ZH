@@ -1,0 +1,79 @@
+# nav_r45a.txt -- round45 实机 A/B: 主菜单 → 特别收录 → 武器 → 打开第 1 个条目 → 翻条目
+# 前缀与 nav_weapons2 **逐行相同**（该前缀实测能进「特别收录」并打开武器条目详情页, 见 temp/M18_详情页_全屏.png）;
+# 详情页标题栏两端有 ◀ ▶ ⇒ 假设 left/right 翻条目 (down 可能是滚动描述框) —— 两种都试, 快照每 100 帧一张,
+# 事后**按画面内容**读每一步的结果（帧号会漂移, 不看绝对帧号看画面）。
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+2850 up tap
+2852 up release
+2950 up tap
+2952 up release
+3050 up tap
+3052 up release
+3250 cross tap
+3252 cross release
+# --- "选择文件"屏: 选第一个档案 ---
+8000 up tap
+8003 up release
+9000 up tap
+9003 up release
+10000 cross tap
+10003 cross release
+# --- 主菜单: 下移 5 次 → 特别收录 ---
+14000 down tap
+14003 down release
+15000 down tap
+15003 down release
+16000 down tap
+16003 down release
+17000 down tap
+17003 down release
+18000 down tap
+18003 down release
+# --- 进入「特别收录」 ---
+18700 cross tap
+18703 cross release
+# --- 特别收录列表: 下移 3 次 = 武器 ---
+19800 down tap
+19803 down release
+20800 down tap
+20803 down release
+21800 down tap
+21803 down release
+# --- 打开「武器」分类 ---
+22600 cross tap
+22603 cross release
+# --- 打开第 1 个条目 (M18 定向地雷) ---
+23600 cross tap
+23603 cross release
+# --- 详情页: 右移翻条目 ×6 (若 right 无效则下面 down 兜底) ---
+24600 right tap
+24603 right release
+25600 right tap
+25603 right release
+26600 right tap
+26603 right release
+27600 right tap
+27603 right release
+28600 right tap
+28603 right release
+29600 right tap
+29603 right release
+# --- 再用 down 试另一种翻页/滚动 ---
+30600 down tap
+30603 down release
+31600 down tap
+31603 down release
+# --- 保持到帧预算末尾 ---
+33500 start tap

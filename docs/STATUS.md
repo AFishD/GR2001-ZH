@@ -1,8 +1,9 @@
 # STATUS.md —— 《幽灵行动》PS2 版（SLUS-206.13）汉化工程 · 当前状态
 
-> 更新：**2026-10-18（收尾轮）** · 本文件是**唯一**的现状入口；历史过程见 `docs\PROGRESS.md` 与各轮 `REPORT_*.md`。
+> 更新：**2026-10-18（脚本归位轮）** · 本文件是**唯一**的现状入口；历史过程见 `docs\PROGRESS.md` 与各轮 `REPORT_*.md`。
 > 文档总索引：**`docs\README.md`**（一篇一行）· 历史错误断言订正：**`docs\CORRECTIONS.md`**
-> 本轮收尾全记录：**`docs\REPORT_FINALIZE.md`**（A–D 全部命令与结果）
+> 收尾轮全记录：**`docs\REPORT_FINALIZE.md`**（A–D 全部命令与结果）
+> **脚本归位 + `work\` 清理轮全记录：`docs\REPORT_SCRIPTS_MOVE.md`** · 脚本索引：**`tools\README_scripts.md`**
 
 ---
 
@@ -26,6 +27,7 @@
 | 验收结论 | 三闸门 ✅ · dump_font ✅ · 载荷级裸旧码 0 ✅ · 逐字符 0 差异 ✅ · 实机 6000 帧 191 截图 TLB 0 Trap 0 ✅ · 与基底逐帧 **191/191 相同** ✅ · 同现场回归 **70,266 Trap vs 0** ✅ |
 | 复现性 | **★ 已达成（本轮修复）**：英文原盘 → 基底（4.4 s，sha256 与声明值一致）→ 三件套 → 成品（sha256 与交付盘一致） |
 | 云端公开快照 | `public` = https://github.com/AFishD/GR2001-ZH.git · 见 §8 |
+| **脚本位置（2026-10-18 起）** | **全部在 `tools\`**：各轮脚本 `tools\rounds\<主题>\**`（36 个主题 / 1,000 文件）· 逆向工具带 `tools\re\toolbelt\`（264）· 自研 Ghidra 脚本 `tools\re\ghidra_scripts\`（17）· 快照机具 `tools\snapshot\`（7）· 权威归档 `tools\final_fix\`（6）。索引 `tools\README_scripts.md`，对照表 `tools\scripts_move_map.csv` |
 
 ### 1.1 ★★ 强制规则（2026-10-18 确立 · 不可绕过）
 
@@ -131,15 +133,26 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 
 ---
 
-## 7. 磁盘与仓库现状（2026-10-18 收尾轮）
+## 7. 磁盘与仓库现状（2026-10-18 脚本归位轮）
 
-* C: 剩余空间 **≈ 63 GB**（开工时 63.84 GB）。
-* `work\`：**9.21 GB / 24,083 文件**（未变；本轮只改名 2 个文件 + 写 meta）。
-  * `work\tools\**` **2.01 GB** = 反编译环境（Ghidra 12.1.2 / JDK / 工程库 / 自研脚本）——
-    **本轮未动**；不再做反编译时**可释放**（建议，见 `REPORT_FINALIZE.md` §E）。
-  * `work\builds\GR_HOOKEMU_QT2\**`（模拟器取证版构筑）：**本轮未动**（任务书要求只读）。
-* git：本地 `main` 已并入修复线 —— 合并提交 **`06702ce3`**（`--no-ff`，无冲突；
-  原 tip `fe4991d1` 是 `round73/font-decompile` 的直接祖先）。
+* C: 可用空间 **84.04 GB**（本阶段开工时 80.51 GB）。
+* `work\`：**7.117 GB / 18,376 文件**（本轮由 9.21 GB / 24,083 文件降下来 ⇒ 释放 ≈2.09 GB / 5,707 文件）。
+  * **★ 脚本已全部迁出 `work\`**：1,253 个 `.py`/`.ps1` 移入 `tools\`（+ 34 个从 git `fe4991d1` 恢复），
+    索引见 **`tools\README_scripts.md`**，逐条对照 **`tools\scripts_move_map.csv`**（1,287 行）。
+    `work\` 下剩余 167 个脚本 = **27 个** `GR_HOOKEMU_QT2`（用户禁动）+ **140 个** `work\tools\ghidra\**`（第三方 Ghidra 自带）
+    —— **本工程自研脚本 0 个**。
+  * `work\builds\` 现在只剩两个目录：**`GR_RELEASE\`**（成品 `GR_ZH126.iso` + meta）
+    与 **`GR_HOOKEMU_QT2\`**（12,501 文件 / 3.61 GB，禁动）。76 个历史版本目录已全部退役
+    （删前清单 `work\_cleanup_manifest_20261018b.txt`，3,482 文件 / 1.98 GB）。
+    `GR_REBUILD2400.iso`（1.53 GB）按「不保留构筑信息」删除，**可从 `repro_from_eng.ps1` 4.1 s 重建**。
+  * `work\tools\**` **2.01 GB / 5,868 文件** = 反编译环境（Ghidra 12.1.2 本体 880 MB / JDK 328 MB /
+    `ghidra_proj*` 793 MB 工程库 / `appdata` / 日志）。**保留**：`ghidra_proj*` 是 Ghidra 分析数据库
+    = 派生证据（离线不可重建），且 15 处已迁脚本仍以 `work\tools\ghidra_out` 等为落点。
+  * `work\temp\NEW_Mem\**`（3 文件 / 8.4 MB）：**用户提供的运行期证据**，被 4 篇报告标注「只读用户证据」，保留。
+* ⚠ **事故与恢复**：清理时删除阶段越界，**成品盘一度被误删**，已用 `tools\final_fix\repro_from_eng.ps1`
+  **从英文原盘重建**，sha256 `d8007873…1b2ab5` **与交付成品逐字节相同**，`--verify-only` 复检失败 0 条。
+  详见 `docs\REPORT_SCRIPTS_MOVE.md` §0 与 `docs\CORRECTIONS.md` §9。
+* git：本地 `main` —— 见 §8 与 `docs\REPORT_SCRIPTS_MOVE.md` §6。
 * **云端**：见 §8。
 
 ---

@@ -1,0 +1,3 @@
+# 本目录 (I797 重编码 blob ×2 + CSV) 为游戏衍生数据资产, 公开库不入库 (本地保留)。
+# patch_zh63.py / patch_zh68_all.py 依赖; 丢失时经 text_replace.py --mode res 再生
+# (基底 = GR_ZH62 现役 RES 裁尾, 见 docs/PATCH_INVENTORY.md §八)。

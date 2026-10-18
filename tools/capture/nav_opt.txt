@@ -1,0 +1,14 @@
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2850 up tap
+2950 up tap
+3050 up tap
+3250 cross tap

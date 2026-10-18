@@ -1,0 +1,75 @@
+# nav_r45b.txt -- round45 实机 A/B (第 2 版): 主菜单 → 特别收录 → 武器 → **武器预览页** → 条目详情页
+# 依据 (nav_r45a 的实测, dump_probe):
+#   · 前缀与 nav_weapons2 相同, 22600 的 cross 打开「武器」分类后, **预览页约 f23700 才出现**
+#     (r45a 把"打开条目"的 cross 放在 23600 ⇒ 早 100 帧, 丢键, 之后 right 全部无效);
+#   · ⇒ 本版把"打开条目"的 cross 推迟到 **25500**, 再用 right 翻条目 (标题栏两端有 ◀▶),
+#     条目 T0011..T0040 的武器描述里**全部**含受影响字符 (见 temp/r45/a2_run.log)。
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+2850 up tap
+2852 up release
+2950 up tap
+2952 up release
+3050 up tap
+3052 up release
+3250 cross tap
+3252 cross release
+# --- "选择文件"屏: 选第一个档案 ---
+8000 up tap
+8003 up release
+9000 up tap
+9003 up release
+10000 cross tap
+10003 cross release
+# --- 主菜单: 下移 5 次 → 特别收录 ---
+14000 down tap
+14003 down release
+15000 down tap
+15003 down release
+16000 down tap
+16003 down release
+17000 down tap
+17003 down release
+18000 down tap
+18003 down release
+# --- 进入「特别收录」 ---
+18700 cross tap
+18703 cross release
+# --- 特别收录列表: 下移 3 次 = 武器 ---
+19800 down tap
+19803 down release
+20800 down tap
+20803 down release
+21800 down tap
+21803 down release
+# --- 打开「武器」分类 (预览页约 f23700 出现) ---
+22600 cross tap
+22603 cross release
+# --- 打开第 1 个条目 (M18 定向地雷) → 详情页 (描述框在这) ---
+25500 cross tap
+25503 cross release
+# --- 详情页: right 翻条目 ×4 (T0010 → T0014, 后几条都有"毫米") ---
+28000 right tap
+28003 right release
+30000 right tap
+30003 right release
+32000 right tap
+32003 right release
+34000 right tap
+34003 right release
+# --- 兜底: down (可能是滚动描述框) ---
+36000 down tap
+36003 down release
+# --- 保持到帧预算末尾 ---
+37500 start tap

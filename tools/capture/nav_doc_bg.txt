@@ -1,0 +1,83 @@
+# nav_doc_bg.txt -- round47 实机 A/B (修正版): 主菜单 → 特别收录 → 背景 →「何为幽灵？」长文页
+#
+# ★ 与之前几版的**关键修正** (逐帧比对得出, 见 ab/m_filesel.png vs ab/m_filesel_before.png):
+#   1. 「选择文件」屏的**初始高亮就是第 1 个档案 (TEQSUNSET, 顶部)** —— 千万不要按 up!
+#      之前几版照抄 nav_sf6 的 "up×3", 实测会把高亮从档 1 **上绕到最底的「新建」**,
+#      于是 f3250 的 cross 变成"新建档案" ⇒ 进「输入名字」键盘屏, 永远到不了主菜单。
+#      (成功轮与失败轮在同一帧 f2900 的差别就是: 成功轮档 1 是金色高亮条, 失败轮金色在「新建」上。)
+#   2. 因此本版**只按一次 cross 载入档 1**, 之后主菜单约 f4000 起就绪。
+#   3. 菜单按键全部用 `tap` + 紧跟 `release`(fr+2) 的 **2~3 帧短按**
+#      (GRResearch.cpp: `tap` 默认按住 12 帧 ⇒ 本作菜单按住 ~7 帧即连发, 单 tap 会移 2~3 项)。
+#   4. 时序放宽: 主菜单下移从 f4800 开始 (留足菜单出现/输入解锁的时间)。
+
+# ---------- 跳过 logo / 宣传视频 / Press START ----------
+800 start tap
+802 start release
+1000 start tap
+1002 start release
+1200 start tap
+1202 start release
+1400 start tap
+1402 start release
+1600 start tap
+1602 start release
+1800 start tap
+1802 start release
+2000 start tap
+2002 start release
+2200 start tap
+2202 start release
+2400 start tap
+2402 start release
+2600 start tap
+2602 start release
+
+# ---------- 「选择文件」屏: **不按任何方向键**, 直接 cross 载入档 1 ----------
+3250 cross tap
+3272 cross release
+
+# ---------- 主菜单: 下移 5 次 → 特别收录 (训练→战术演习→战役→多人游戏→统计→特别收录) ----------
+4800 down tap
+4802 down release
+5100 down tap
+5102 down release
+5400 down tap
+5402 down release
+5700 down tap
+5702 down release
+6000 down tap
+6002 down release
+# ---------- 进入「特别收录」 ----------
+6300 cross tap
+6322 cross release
+
+# ---------- 特别收录列表: 下移 5 次 → 背景 (影片→设定图→音乐→武器→奖励→背景) ----------
+7600 down tap
+7602 down release
+7900 down tap
+7902 down release
+8200 down tap
+8202 down release
+8500 down tap
+8502 down release
+8800 down tap
+8802 down release
+# ---------- 打开「背景」⇒「何为幽灵？」长文页 ----------
+9100 cross tap
+9122 cross release
+
+# ---------- 长文页: 下移滚动正文 (看后面的段落, 含「战斗」的 斗) ----------
+10000 down tap
+10002 down release
+10600 down tap
+10602 down release
+11200 down tap
+11202 down release
+11800 down tap
+11802 down release
+12400 down tap
+12402 down release
+13000 down tap
+13002 down release
+13600 down tap
+13602 down release

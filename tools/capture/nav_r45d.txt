@@ -1,0 +1,65 @@
+# nav_r45d.txt -- round45: 主菜单 → 特别收录 → 武器 → **M18 详情页** → 用 right 翻条目
+# 依据 (nav_r45a 实测): 22600 的 cross 直接打开 M18 详情页 (f22700..f23600 画面 = 描述框),
+#   而 r45a 把下一次 cross 放在 23600 ⇒ **把详情页关掉回预览页**了, 之后的 right 全落在预览页 (无效)。
+# ⇒ 本版**不再按 cross**, 只在详情页里 right ×4 (详情页标题栏两端有 ◀▶, 条目 T0011..T0014 都含受影响字)。
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+2850 up tap
+2852 up release
+2950 up tap
+2952 up release
+3050 up tap
+3052 up release
+3250 cross tap
+3252 cross release
+8000 up tap
+8003 up release
+9000 up tap
+9003 up release
+10000 cross tap
+10003 cross release
+14000 down tap
+14003 down release
+15000 down tap
+15003 down release
+16000 down tap
+16003 down release
+17000 down tap
+17003 down release
+18000 down tap
+18003 down release
+18700 cross tap
+18703 cross release
+19800 down tap
+19803 down release
+20800 down tap
+20803 down release
+21800 down tap
+21803 down release
+22600 cross tap
+22603 cross release
+# --- M18 详情页 (约 f22700 出现): right 翻到下一个条目 ---
+24400 right tap
+24403 right release
+26400 right tap
+26403 right release
+28400 right tap
+28403 right release
+30400 right tap
+30403 right release
+# --- 兜底 down ---
+32400 down tap
+32403 down release
+# --- 保持到帧预算末尾 ---
+33800 start tap

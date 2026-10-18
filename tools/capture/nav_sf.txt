@@ -1,0 +1,41 @@
+# nav_sf.txt -- 主动线: 引导 -> 档 -> 主菜单 -> 特别收录 -> 武器条目 (验证新译文与新补字)
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+# --- 选择文件: 上移到第二个存档 -> X 载入 ---
+2850 up tap
+2950 up tap
+3050 up tap
+3250 cross tap
+# --- 主菜单: 光标"训练" -> 下移 7 次到"特别收录" ---
+4200 down tap
+4600 down tap
+5000 down tap
+5400 down tap
+5800 down tap
+6200 down tap
+6600 down tap
+7200 cross tap
+# --- 特别收录列表: 逐条下移浏览 ---
+8000 down tap
+8600 down tap
+9200 down tap
+9800 down tap
+10400 down tap
+11000 down tap
+11600 down tap
+12200 down tap
+# --- 进入当前条目 ---
+13000 cross tap
+14000 down tap
+15000 down tap

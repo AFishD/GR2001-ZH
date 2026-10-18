@@ -146,3 +146,59 @@ PY
 | 基底"必须从 `GR_REBUILD2400.iso` 起" | ❌ **作废**：今后必须从**英文原版 ISO** 起（`GR_REBUILD2400.iso` 仅作开发期快捷基底） | `tools/final_fix/README.md` 顶部 · `tools/final_fix/repro_from_eng.ps1` · `rebuild_base.py` |
 | `GR_ZH2400_FINAL` 是成品名 | ❌ **改名**为 `GR_ZH126`（版本号规则：无后缀 + 下一个未用轮次号） | `docs/REPORT_FINALIZE.md` §A |
 | 2fps / 读盘停摆 = 钩子开销 | ❌ 否证：开销在**数据侧** | `docs/REPORT_FPS_BISECT.md` |
+
+---
+
+## §9 脚本已从 `work\` 统一迁入 `tools\` —— 历史文档里的 `work\tools\*.py` / `work\builds\<版本>\*.py` 路径**一律作废**（2026-10-18）
+
+**本条不订正任何技术结论，只订正「脚本位置」这一口径。**
+
+2026-10-18 起，`work\` 下**全部** `.py`/`.ps1` 已迁出到 `tools\`（1,253 个 + 从 git `fe4991d1` 恢复的 34 个 = 1,287 个）。
+因此**本工程 66 篇过程报告里的 613 行脚本路径引用全部失效**（它们是「当时路径」的过程记录）。
+
+### 换算规则（机械，可预测）
+
+| 历史路径 | 现路径 |
+|---|---|
+| `work\tools\<name>.py` | `tools\re\toolbelt\<name>.py` |
+| `work\tools\ghidra_scripts\<name>` | `tools\re\ghidra_scripts\<name>` |
+| `work\builds\<GR_XXX>\<其余相对路径>` | `tools\rounds\<xxx>\<其余相对路径>`，`xxx` = 去 `GR_` 前缀后**小写** |
+| `work\_planc\<name>.py` | `tools\rounds\planc\<name>.py` |
+
+例：`work\builds\GR_ZH98\temp\r67\r1_verify.py` → `tools\rounds\zh98\temp\r67\r1_verify.py`；
+`work\tools\cave_dis.py` → `tools\re\toolbelt\cave_dis.py`。
+
+**逐条对照表**：`tools\scripts_move_map.csv`（1,287 行，列 `Old,New`）。
+**索引与可跑性分级**：`tools\README_scripts.md`。
+
+### 明确**不改写**历史文档的理由
+
+`docs\**` 的 613 行是**当时执行记录**（哪一轮跑了哪个脚本），改写等于篡改过程证据。
+按任务书「改不完的不要硬改 ⇒ 在该处加注或在本表登记」的口径，**一律保留原文，统一由本条登记**。
+同理 `tools\final_fix\**`（禁改权威归档）里的 5 处出处注释也保持原样。
+
+### 仍然有效、**不要**按上表换算的例外
+
+| 路径 | 为什么仍有效 |
+|---|---|
+| `work\tools\ghidra\**`（含 140 个 Ghidra 自带 `.py`） | 第三方 Ghidra 12.1.2 发行版本体，**未迁**（搬进 `tools/` 会污染仓库与快照） |
+| `work\tools\jdk\` `appdata\` `ghidra_proj\` `ghidra_proj_ee\` `ghidra_out\` | 本地工具链与 Ghidra 分析数据库，**未迁**；`.gitignore` 覆盖 |
+| `work\tools\*.log` `dl_urls*.txt` `*.txt` `gh.bat` | 非脚本，**未迁**；且被已迁脚本继续引用（如 `TOOLS = os.path.join(REPO,'work','tools')`） |
+| `work\builds\GR_HOOKEMU_QT2\**`（含 27 个脚本） | **用户明令禁动**，**未迁** |
+| `work\builds\<版本>\<盘>.iso` 之类**数据路径** | 版本目录已按指示退役；这些是数据不是脚本，**未改写** |
+
+### 附带订正：`work\` 现状
+
+| 断言 | 现状 |
+|---|---|
+| `work\` = 24,083 文件 / 9.21 GB（`STATUS.md` §7 旧值） | ❌ **过时**：现为 **18,376 文件 / 7.117 GB**（版本目录退役 + 脚本迁出） |
+| `work\tools\**` 里"自研脚本" | ❌ 已迁出：`work\tools` 现仅剩工具链与日志，**自研脚本 0 个** |
+
+### 附带订正：一次事故（已恢复）
+
+清理 `work\builds` 时，删除阶段对 `GR_RELEASE` 目录整体 `Remove-Item -Recurse`，
+**误删了并未列在清单里的成品盘** `work\builds\GR_RELEASE\GR_ZH126.iso`。
+已用 `tools\final_fix\repro_from_eng.ps1` 从英文原盘重建，
+成品 sha256 `d8007873957f81ab44f37cf4c773ac5bdf0d3d66fd5f975b48f69abea21b2ab5`
+**与交付成品逐字节相同**，`--verify-only` 复检失败 0 条。全过程见 `docs\REPORT_SCRIPTS_MOVE.md` §0。
+**教训**：删除脚本必须「先按文件清单删文件，再删空目录」，且删目录前排除仍持有 KEEP 文件的祖先目录。

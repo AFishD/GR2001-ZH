@@ -1,0 +1,61 @@
+# nav_sf5.txt -- 主菜单 → 特别收录 → 武器条目 → 详情页
+# 与 sf2/sf3/sf4 的差别:
+#  ① 用**上移 3 次**(菜单首尾环绕: 训练→制作组→选项→特别收录), 比下移 5 次少 2 次按键 ⇒ 丢键概率更低;
+#  ② 全部用 **2~3 帧短按 + 显式 release**(仓库自带"抗连发"配方), 不用 40 帧长按;
+#  ③ 主菜单按键推到 F8000 之后 (实测主菜单有时 F7300 才出现)。
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+2850 up tap
+2852 up release
+2950 up tap
+2952 up release
+3050 up tap
+3052 up release
+3250 cross tap
+3252 cross release
+# --- 主菜单: 上移 3 次 → 特别收录 ---
+8000 up tap
+8003 up release
+9000 up tap
+9003 up release
+10000 up tap
+10003 up release
+# --- 进「特别收录」 ---
+11500 cross tap
+11503 cross release
+# --- 特别收录列表: 下移 6 次 (短按) ---
+12600 down tap
+12603 down release
+13500 down tap
+13503 down release
+14400 down tap
+14403 down release
+15300 down tap
+15303 down release
+16200 down tap
+16203 down release
+17100 down tap
+17103 down release
+# --- 进入当前条目 (武器详情页, 长描述在这里) ---
+18500 cross tap
+18503 cross release
+# --- 详情页里下移, 看长描述后半段 ---
+19600 down tap
+19603 down release
+20600 down tap
+20603 down release
+21600 down tap
+21603 down release
+# --- 保持到帧预算末尾 ---
+30000 start tap

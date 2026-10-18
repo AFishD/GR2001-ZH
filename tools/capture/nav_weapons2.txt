@@ -1,0 +1,69 @@
+# nav_weapons2.txt -- 主菜单 → 特别收录 → **武器**条目 → M18 详情页
+# 前半段与 nav_sf6 **逐行相同**（实测成功进过「特别收录」）；只把列表导航改成 3 次下移。
+# 依据: docs/REPORT_plan_c_zh93.md §七 实测「列表里 3 次=武器 / 5 次=背景」。
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+2850 up tap
+2852 up release
+2950 up tap
+2952 up release
+3050 up tap
+3052 up release
+3250 cross tap
+3252 cross release
+# --- "选择文件"屏 (F7900 才出现): 选第一个档案 ---
+8000 up tap
+8003 up release
+9000 up tap
+9003 up release
+10000 cross tap
+10003 cross release
+# --- 主菜单 (约 F12500 出现): 下移 5 次 → 特别收录 ---
+14000 down tap
+14003 down release
+15000 down tap
+15003 down release
+16000 down tap
+16003 down release
+17000 down tap
+17003 down release
+18000 down tap
+18003 down release
+# --- 立即进入「特别收录」 (只留 700 帧) ---
+18700 cross tap
+18703 cross release
+# --- ★ 特别收录列表: 下移 3 次 = 武器 ---
+19800 down tap
+19803 down release
+20800 down tap
+20803 down release
+21800 down tap
+21803 down release
+# --- 打开「武器」分类 ---
+22600 cross tap
+22603 cross release
+# --- 武器列表: 选到第一个条目 (M18 定向地雷) 并打开详情 ---
+23600 cross tap
+23603 cross release
+# --- 详情页: 下移看长描述 (新译文 + 7 个断点在这里) ---
+24600 down tap
+24603 down release
+25600 down tap
+25603 down release
+26600 down tap
+26603 down release
+27600 down tap
+27603 down release
+# --- 保持到帧预算末尾 ---
+29500 start tap

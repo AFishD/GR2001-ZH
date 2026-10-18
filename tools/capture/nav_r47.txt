@@ -1,0 +1,75 @@
+# nav_r47.txt -- round47 实机 A/B (短版): 主菜单 → 特别收录 → 武器 → 条目详情页 → right 翻条目
+#
+# 目标: 拍到含「行18单字节记录码」字样的详情页 —— M18 描述里有「会/面/地」(0xCC/0xC8/0xD3),
+#       它们正是本补丁修的那 20 个记录格之一; 详情页 right 可继续翻到含「中」的长文 (T0030)。
+#       两盘跑同一条导航 ⇒ 帧号对齐, 逐像素可比。
+#
+# ⚠ 实测订正 (见 docs/REPORT_record_band_fix.md):
+#   · 「选择文件」页 f2500 出现, 光标初始在「新建」; 槽1 = TEQSUNSET ⇒ up ×3 再 cross 才载入存档。
+#   · 主菜单轨迹: 训练→战术演习(1)→战役(2)→多人游戏(3)→统计(4)→特别收录(5); 禁用项「快速任务」跳过。
+#   · 特别收录分类: 影片→设定图(1)→音乐(2)→武器(3)。
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+# --- 「选择文件」页: up ×3 → 槽1 (TEQSUNSET) → cross 载入 ---
+5000 up tap
+5003 up release
+6000 up tap
+6003 up release
+7000 up tap
+7003 up release
+8000 cross tap
+8003 cross release
+# --- 主菜单: down ×5 → 特别收录 → cross ---
+13000 down tap
+13003 down release
+13800 down tap
+13803 down release
+14600 down tap
+14603 down release
+15400 down tap
+15403 down release
+16200 down tap
+16203 down release
+17000 cross tap
+17003 cross release
+# --- 特别收录分类: down ×3 → 武器 → cross ---
+18000 down tap
+18003 down release
+18800 down tap
+18803 down release
+19600 down tap
+19603 down release
+20500 cross tap
+20503 cross release
+# --- 武器条目列表: 打开第一条 (M18 详情页) ---
+22000 cross tap
+22003 cross release
+# --- 详情页: right 逐个翻条目 ---
+23000 right tap
+23003 right release
+23600 right tap
+23603 right release
+24200 right tap
+24203 right release
+24800 right tap
+24803 right release
+25400 right tap
+25403 right release
+26000 right tap
+26003 right release
+26600 right tap
+26603 right release
+# --- 保持到帧预算末尾 ---
+27400 start tap
+27403 start release

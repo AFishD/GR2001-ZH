@@ -1,0 +1,119 @@
+# nav_r47c.txt -- round47 实机 A/B (加固版): 主菜单 → 特别收录 → 背景 →「何为幽灵？」长文页
+#
+# 与 nav_r47.txt 的差别 (全部都为了对付"按键偶发丢失"):
+#   ① 每次菜单按键改成 **按住 12 帧** (tap 后 12 帧才 release) —— nav_r47 用的是 3 帧
+#      (tap 后 3 帧 release), 实测会丢按键: 第 2 轮 5 次下移只登记了 6 次 → 落到「选项」,
+#      第 3 轮 5 次只登记了 4 次 → 落到「统计」(实机抓帧确认)。
+#   ② 进每个列表前先 **钉顶**: 主菜单 up×8、特别收录列表 up×9 (= 该列表条目数),
+#      无论菜单是"到顶夹住"还是"循环回绕", 从初始光标(第 1 项)出发按满一圈都回到第 1 项;
+#      再从顶部**精确下移 5 次** ⇒ 主菜单第 6 项「特别收录」、列表第 6 项「背景」。
+#   ③ 时序整体后移一点, 给菜单动画留时间 (实测主菜单约 f9000 就在了, 且 f10000 的 cross 无害)。
+#
+# 预算: --maxframes 32000 --snap 100 ⇒ 目标长文页从 ~f27400 一直拍到 f32000 (约 46 张快照)。
+
+# ---------- 引导: start 连打 (与 nav_r47 逐行相同) ----------
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+
+# ---------- "选择文件"屏: 选第一个档案 (按住 12 帧) ----------
+2850 up tap
+2862 up release
+2950 up tap
+2962 up release
+3050 up tap
+3062 up release
+3250 cross tap
+3262 cross release
+8000 up tap
+8012 up release
+9000 up tap
+9012 up release
+10000 cross tap
+10012 cross release
+
+# ---------- 主菜单: 先钉顶 (up ×8), 再精确下移 5 次 → 特别收录 ----------
+10600 up tap
+10612 up release
+11000 up tap
+11012 up release
+11400 up tap
+11412 up release
+11800 up tap
+11812 up release
+12200 up tap
+12212 up release
+12600 up tap
+12612 up release
+13000 up tap
+13012 up release
+13400 up tap
+13412 up release
+14600 down tap
+14612 down release
+15600 down tap
+15612 down release
+16600 down tap
+16612 down release
+17600 down tap
+17612 down release
+18600 down tap
+18612 down release
+# 进入「特别收录」
+19600 cross tap
+19612 cross release
+
+# ---------- 特别收录列表: 先钉顶 (up ×9 = 条目数), 再精确下移 5 次 → 背景 ----------
+20400 up tap
+20412 up release
+20800 up tap
+20812 up release
+21200 up tap
+21212 up release
+21600 up tap
+21612 up release
+22000 up tap
+22012 up release
+22400 up tap
+22412 up release
+22800 up tap
+22812 up release
+23200 up tap
+23212 up release
+23600 up tap
+23612 up release
+24300 down tap
+24312 down release
+24800 down tap
+24812 down release
+25300 down tap
+25312 down release
+25800 down tap
+25812 down release
+26300 down tap
+26312 down release
+# 打开第 6 条「背景」⇒ 直接进「何为幽灵？」长文页
+27200 cross tap
+27212 cross release
+
+# ---------- 长文页: 下移滚动正文 ----------
+28200 down tap
+28212 down release
+29200 down tap
+29212 down release
+30200 down tap
+30212 down release
+31200 down tap
+31212 down release
+31800 start tap
+31812 start release

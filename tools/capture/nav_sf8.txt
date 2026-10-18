@@ -1,0 +1,67 @@
+# nav_sf8.txt -- 选择文件 → 主菜单 → 特别收录 → **武器**条目详情页 (最终尝试)
+# sf7 失败在引导阶段: "选择文件"屏 F7900 才出现, 而按键在 8000/10000 ⇒ 选到了"新建"(名字输入屏)。
+# 本轮把选择文件与主菜单的按键全部再推后 (选择文件 9000..11000; 主菜单 16000..20000)。
+800 start tap
+1000 start tap
+1200 start tap
+1400 start tap
+1600 start tap
+1800 start tap
+2000 start tap
+2200 start tap
+2400 start tap
+2600 start tap
+2800 start tap
+3000 start tap
+3200 start tap
+2850 up tap
+2852 up release
+2950 up tap
+2952 up release
+3050 up tap
+3052 up release
+3250 cross tap
+3252 cross release
+# --- "选择文件"屏: 上移 3 次确保落在已有档案 TEQSUNSET, 再进入 ---
+9000 up tap
+9003 up release
+10000 up tap
+10003 up release
+11000 up tap
+11003 up release
+11800 cross tap
+11803 cross release
+# --- 主菜单 (约 F14000 出现): 下移 5 次 → 特别收录 ---
+16000 down tap
+16003 down release
+17000 down tap
+17003 down release
+18000 down tap
+18003 down release
+19000 down tap
+19003 down release
+20000 down tap
+20003 down release
+20700 cross tap
+20703 cross release
+# --- 特别收录列表: 下移 3 次 → 武器 ---
+21800 down tap
+21803 down release
+22800 down tap
+22803 down release
+23800 down tap
+23803 down release
+# --- 进入武器条目详情页 ---
+24600 cross tap
+24603 cross release
+# --- 详情页里下移, 看长描述 ---
+25600 down tap
+25603 down release
+26600 down tap
+26603 down release
+27600 down tap
+27603 down release
+28600 down tap
+28603 down release
+# --- 保持到帧预算末尾 ---
+31000 start tap

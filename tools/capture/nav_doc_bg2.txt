@@ -1,0 +1,88 @@
+# nav_doc_bg2.txt -- round47 实机 A/B (第二版修正): 主菜单 → 特别收录 → 背景 →「何为幽灵？」长文页
+#
+# ★ 与 nav_doc_bg.txt 的差别: 把"选择文件"屏的上移**推迟到 f3600~4000**。
+#   逐帧证据 (ab/m_filesel.png vs ab/m_filesel_before.png):
+#     · 该屏**初始高亮在底部的「新建」**, 上移若干次后被"夹"在顶部第 1 个档案 (TEQSUNSET) 上;
+#     · 但如果按键落在"屏刚出现/还在加载"的窗口里, 会被丢弃 ⇒ 高亮停在「新建」⇒ cross 变"新建档案"
+#       ⇒ 进「输入名字」键盘屏, 永远到不了主菜单 (本轮多轮失败的真正原因)。
+#     · 实测: 同帧 f2900 时, 成功轮金色在档 1、失败轮金色在「新建」; 而 f3250 的 cross 两轮都生效
+#       ⇒ 输入解锁发生在 f3050~3250 之间。故把 3 次上移放到 **f3600/3800/4000**, cross 放到 **f4400**。
+#
+# 菜单按键一律 `tap` + 紧跟 `release`(fr+2) 的 2~3 帧短按 (GRResearch.cpp: `tap` 默认按住 12 帧,
+# 本作菜单 ~7 帧起连发 ⇒ 单 tap 会移 2~3 项, 是历次"导航漂移"的根因)。
+
+# ---------- 跳过 logo / 宣传视频 / Press START ----------
+800 start tap
+802 start release
+1000 start tap
+1002 start release
+1200 start tap
+1202 start release
+1400 start tap
+1402 start release
+1600 start tap
+1602 start release
+1800 start tap
+1802 start release
+2000 start tap
+2002 start release
+2200 start tap
+2202 start release
+2400 start tap
+2402 start release
+2600 start tap
+2602 start release
+
+# ---------- 「选择文件」屏: 输入解锁后再上移到档 1, 然后 cross 载入 ----------
+3600 up tap
+3602 up release
+3800 up tap
+3802 up release
+4000 up tap
+4002 up release
+4400 cross tap
+4422 cross release
+
+# ---------- 主菜单 (约 f4900 起): 下移 5 次 → 特别收录 ----------
+5400 down tap
+5402 down release
+5700 down tap
+5702 down release
+6000 down tap
+6002 down release
+6300 down tap
+6302 down release
+6600 down tap
+6602 down release
+# ---------- 进入「特别收录」 ----------
+6900 cross tap
+6922 cross release
+
+# ---------- 特别收录列表: 下移 5 次 → 背景 ----------
+8200 down tap
+8202 down release
+8500 down tap
+8502 down release
+8800 down tap
+8802 down release
+9100 down tap
+9102 down release
+9400 down tap
+9402 down release
+# ---------- 打开「背景」⇒「何为幽灵？」长文页 ----------
+9700 cross tap
+9722 cross release
+
+# ---------- 长文页: 下移滚动 (看含「战斗」的段落) ----------
+10800 down tap
+10802 down release
+11400 down tap
+11402 down release
+12000 down tap
+12002 down release
+12600 down tap
+12602 down release
+13200 down tap
+13202 down release
+13800 down tap
+13802 down release

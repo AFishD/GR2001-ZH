@@ -1,0 +1,78 @@
+# nav_sf_interview.txt — 主菜单 → 特别收录 → 倒数第二个「访谈」→ 打开第一篇「开发访谈 1」
+# ★ round60 重建: 时序抄 r49_nav_doc.txt (实机验证过到特别收录内页), 只改后半段。
+#   前半段: start x10 跳片头 → up x3 → cross 进特别收录 → 等 122 秒开场动画
+#   后半段: 列表内 up x9 钉顶 → down x7 到「访谈」(第 9 行; 第 7 行是灰条自动跳过) → cross 打开
+#   实测教训: 按键太早会被片头影片吃掉 (上一版就卡在片头); 间隔取 500 帧更稳。
+#   判据: 标题栏 = 「开发访谈 1」; 正文首行 = 「字库测试页 全 1285 字 · 每行 N 字」。
+#
+# 覆盖画面: 引导/载入屏 → 选择文件 → 主菜单 → 特别收录列表 → **长文页 (密集汉字 + ASCII + 图标)**
+#           → 长文页内滚动 (滚动箭头 ▲▼ 若在此页出现即被拍到)。
+# 时序 = round48 的 nav_doc_hard_up3.txt + nav_doc_scroll.txt 的"钉顶再精确下移"策略:
+#   · 主菜单: up×8 钉顶 → down×5 精确到「特别收录」;
+#   · 特别收录列表: up×9 钉顶 → down×5 精确到「背景」;
+#   · 打开后连滚 14 次 (短按), 让正文与滚动箭头都进画面。
+# 帧预算 30200 (≈8.5 分钟)。
+# ---------- 跳过 logo / 宣传视频 / Press START ----------
+800 start tap
+802 start release
+1000 start tap
+1002 start release
+1200 start tap
+1202 start release
+1400 start tap
+1402 start release
+1600 start tap
+1602 start release
+1800 start tap
+1802 start release
+2000 start tap
+2002 start release
+2200 start tap
+2202 start release
+2400 start tap
+2402 start release
+2600 start tap
+2602 start release
+# ---------- 「选择文件」屏: up×3 短按 → 档 1 → cross ----------
+2850 up tap
+2852 up release
+2950 up tap
+2952 up release
+3050 up tap
+3052 up release
+3250 cross tap
+3272 cross release
+10600 up tap
+10602 up release
+11100 up tap
+11102 up release
+11600 up tap
+11602 up release
+12100 up tap
+12102 up release
+12600 up tap
+12602 up release
+13100 up tap
+13102 up release
+13600 up tap
+13602 up release
+14100 up tap
+14102 up release
+14600 up tap
+14602 up release
+15600 down tap
+15602 down release
+16100 down tap
+16102 down release
+16600 down tap
+16602 down release
+17100 down tap
+17102 down release
+17600 down tap
+17602 down release
+18100 down tap
+18102 down release
+18600 down tap
+18602 down release
+19800 cross tap
+19802 cross release
