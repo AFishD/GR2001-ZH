@@ -149,9 +149,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 | 项 | 值 |
 |---|---|
 | 公开快照分支 | **`snapshot-2026-10-19`**（本轮新建；与云端 `main` **同指一个提交**） |
-| 快照提交 | **`f1a39efb96267d1f0fc4c3c6bc9f3d32f316c8ee`**（父 = 上一轮快照 `5803b9ce` ⇒ main 是真**快进**，未用任何 force；回填文档后的第二次快进提交见 `REPORT_FINALIZE.md` §D.4 补记） |
-| 快照体积 | **166 文件 / 4,443,398 B（4.24 MB）**，**全文本**（`.md` 142 · `.json` 13 · `.txt` 5 · `.py` 2 · `.ps1` 2 · `.gitignore`/`.gitattributes`；**禁用类型 0 个** —— `docs/han_v2` 的 `.bin/.MIS/.rsb/.BMB`、`docs/img/*.png` 一律排除） |
-| 云端 `main` | **`5803b9ce → f1a39efb`**（推送原文 `   5803b9ce..f1a39efb  snapshot-2026-10-19 -> main`，exit 0） |
+| 快照提交 | **`569b8a543d1eea0d5a17300cd51ae1118156436a`**（首推 `f1a39efb` → 文档回填后 `569b8a54`；父 = 上一轮快照 ⇒ 两次都是**真快进**，**全程未用任何 `--force` / `--force-with-lease`**） |
+| 快照体积 | **166 文件 / 4,447,911 B（4.24 MB）**，**全文本**（`.md` 142 · `.json` 13 · `.txt` 5 · `.py` 2 · `.ps1` 2 · `.gitignore`/`.gitattributes`；**禁用类型 0 个** —— `docs/han_v2` 的 `.bin/.MIS/.rsb/.BMB`、`docs/img/*.png` 一律排除） |
+| 云端 `main` | **`5803b9ce → f1a39efb → 569b8a54`**（推送原文 `   5803b9ce..f1a39efb  snapshot-2026-10-19 -> main` 与 `   f1a39efb..569b8a54  snapshot-2026-10-19 -> main`，两次 exit 0） |
 | 旧公开状态备份 | 分支 **`snapshot-2026-10-11`** = `f0583003`（267 文件，**未删除、未改写**） |
 | 上一轮快照 | 分支 **`snapshot-2026-10-18`** = `5803b9ce`（67 文件，**未删除、未改写**） |
 | 远端 | `public` = `https://github.com/AFishD/GR2001-ZH.git` |

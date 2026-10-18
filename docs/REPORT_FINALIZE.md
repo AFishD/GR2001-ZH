@@ -363,18 +363,37 @@ PS> (git ls-tree -r --name-only public/snapshot-2026-10-19 | Measure-Object).Cou
 > 再造一个子提交（父 = `f1a39efb`）并再次快进 `main`；最终远端值与推送原文见本节末尾"补记"。
 > 这正是"快照无法自指"的必然结果（与上一轮同一处理方式）。
 
-**补记（文档回填后的第二次推送）**：
+**补记（文档回填后的第二次推送 —— 快进，无 force）**：
 
 ```
-PS> git push public snapshot-2026-10-19:refs/heads/snapshot-2026-10-19   # 快进
-PS> git push public snapshot-2026-10-19:refs/heads/main                  # 快进
+PS> git push public snapshot-2026-10-19:refs/heads/snapshot-2026-10-19
+To https://github.com/AFishD/GR2001-ZH.git
+   f1a39efb..569b8a54  snapshot-2026-10-19 -> snapshot-2026-10-19
+exit=0
+
+PS> git push public snapshot-2026-10-19:refs/heads/main
+To https://github.com/AFishD/GR2001-ZH.git
+   f1a39efb..569b8a54  snapshot-2026-10-19 -> main
+exit=0
+
+PS> git ls-remote --heads public
+569b8a543d1eea0d5a17300cd51ae1118156436a        refs/heads/main
+f0583003ab15e69955c70d2c02b1b66495f7ee07        refs/heads/snapshot-2026-10-11
+5803b9ce9da9e4a067a35daeb2f1c13f173fa4dc        refs/heads/snapshot-2026-10-18
+569b8a543d1eea0d5a17300cd51ae1118156436a        refs/heads/snapshot-2026-10-19
 ```
 
-| 项 | 最终值 |
+| 项 | 值 |
 |---|---|
-| 树 | `a28fc44a…`（166 文件 / 4.24 MB）**+ 本次回填的 docs 改动** |
-| 快照提交 / 云端 `main` | 见下方命令行实测（`git ls-remote --heads public`） |
-| 复核命令 | `git ls-remote --heads public` · `git ls-tree -r --name-only public/main \| Measure-Object` |
+| 快照树 | `c71fdad4…`（166 文件 / 4,447,911 B = 4.24 MB；含本节回填内容） |
+| **快照提交 · 云端 `main` · `snapshot-2026-10-19`** | **`569b8a543d1eea0d5a17300cd51ae1118156436a`** |
+| 首推快照提交（历史） | `f1a39efb96267d1f0fc4c3c6bc9f3d32f316c8ee` |
+| `snapshot-2026-10-18` / `snapshot-2026-10-11` | `5803b9ce` / `f0583003` —— **未删除、未改写** |
+
+> ⚠ **本文件自身也在快照里** ⇒ 每次回填都会让 `main` **前进一位**（"无法自指"的必然结果，
+> 与上一轮同样处理）。**`main` 的当前值一律以 `git ls-remote --heads public` 为准**；
+> 本节记录的 `569b8a54` 是"写入本行时"的值。第三次推送（仅为把本节写进快照）同样走
+> **`-p <上一快照>` 子提交 + 快进**，**全程未用任何 `--force`**。
 
 ---
 
