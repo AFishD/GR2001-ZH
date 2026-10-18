@@ -140,7 +140,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File work\builds\GR_RELEASE\tools
 
 ---
 
-## 7. 归档信息（2026-10-18 收尾归档）
+## 7. 归档与云端（2026-10-18 收尾归档 · 第二轮已推送）
 
 * **成品身份（复核用）**：1,648,164,864 B · sha256 `d8007873957f81ab44f37cf4c773ac5bdf0d3d66fd5f975b48f69abea21b2ab5` ·
   md5 `d24c324eb955a8c8dbaf92f6c766da2c` · ELF `SLUS_206.13`（LBA 295 / 37,453,732 B）sha256 `6fce4f45967d32593eb940bff91886a829e8871910c0c4a01a7981fc7738e73a` ·
@@ -150,12 +150,26 @@ powershell -NoProfile -ExecutionPolicy Bypass -File work\builds\GR_RELEASE\tools
   的补丁脚本已归并成这一份，只用于当轮 A/B 实验的分支代码（F1 / F1b / flavor A/B）已删除。
 * **复现实测**：`apply_fix.py` 从基底 `GR_REBUILD2400.iso` 出盘 ⇒ sha256 与成品**逐字节相同**（本机 9.1 s，exit 0）；
   `repro.ps1` 端到端（含逐字节比对）14.1 s。校验模式 5.5 s / 26 条断言全通过。
-* **构筑目录清理**：`work\builds` 删除 13,155 个实验产物 / **释放 5.228 GB**（22.42 GB → 17.19 GB）。
-  保留：成品、候选 `COMBFIX_2400`、你实机验证过的 `COMBFIX_C`、基底 `GR_REBUILD2400.iso`、
-  **未修对照盘** `GR_LAYOUT\LAY_fix1_bytecount.iso`（其基底已删、不可重建）、`GR_HOOKEMU_QT2\**`（未动）
-  与被 `docs\**` 引用的全部证据；被取代的 `COMBFIX_A/B.iso` 已删（sha256 记在 `fix_spec.json · archived_away_disks`）。
-* **git 归档提交**：见 `docs\REPORT_ARCHIVE.md` §C（本文件随该提交一起入库 ⇒ 无法自指哈希）。
-* **推送状态：未达成**。远端 `public` = `https://github.com/AFishD/GR2001-ZH.git`，**凭据可用**（探测 push 返回
-  `Everything up-to-date`），但本分支历史里含 **24 个 > 100 MB 的 blob**（早前轮次入库的 ISO / 内存快照），
-  一次 push 需上传 **32.9 GB** ⇒ 必被 GitHub 拒。三条可选路径与现成命令见 `docs\REPORT_ARCHIVE.md` §D。
+* **★ 云端位置与分支名（2026-10-18 第二轮）**：远端 `public` = `https://github.com/AFishD/GR2001-ZH.git`
+  * **`main` = `2c899a41`** —— 公开**精简快照**（孤儿提交，66 文件 / 1.89 MB：`tools\final_fix\**` + 59 篇归档文档
+    + 公开版 `README.md` + `.gitignore`/`.gitattributes`，**不含任何游戏数据**）。
+  * **`snapshot-2026-10-18` = `2c899a41`**（与 `main` 同一提交，便于引用与留档）。
+  * **`snapshot-2026-10-11` = `f0583003`** —— 上一轮公开状态（完整工具链 + `han_v2/` 手册等 267 文件），**未删除、未改写**。
+  * 推送方式：先 `git push public snapshot:refs/heads/snapshot-2026-10-18`，
+    再 `git push public snapshot:refs/heads/main --force-with-lease=refs/heads/main:f0583003…`
+    （原文 `+ f0583003...2c899a41 (forced update)`，exit 0）。**未用裸 `--force`、未删远端分支、未改本地历史。**
+* **推送状态**：**已达成**（上一轮记录的「未达成：历史含 24 个 >100 MB blob / 一次 push 需 32.9 GB」，
+  已用「不推完整历史、推孤儿精简快照直更 main」的方式绕过；细节见 `docs\REPORT_ARCHIVE2.md` §B）。
+* **`work\` 精简（第二轮）**：20.04 GB / 66,074 文件 → **9.21 GB / 24,083 文件**（释放 **10.83 GB**）。
+  保留：成品 `GR_ZH2400_FINAL.iso` + meta · 基底 `GR_REBUILD2400.iso` · **`GR_HOOKEMU_QT2\**`（未动）** ·
+  被 `docs\**` 精确引用的证据（719 文件）+ 被引用目录内小证据与 `runs/shots/evidence/audit` 取证截图 ·
+  全部自研脚本 · `work\tools\**` 逆向工具链（Ghidra/JDK/工程库）。
+  本轮点删（sha256 存证见 `REPORT_ARCHIVE2.md` §C.4）：`GR_LAYOUT\LAY_fix1_bytecount.iso`（`a69a9ca4…`，未修对照盘）、
+  `GR_COMBFIX\COMBFIX_2400.iso`（`d8007873…`，**与成品逐字节相同**）、`GR_COMBFIX\COMBFIX_C.iso`（`5c4c9f70…`）、
+  `GR_HOOKEMU\**`（旧钩子版）、各轮 `temp/`/`extract/`/`dump_*` 中间物与 `work\tools\dl\*.zip`。
+* **git 归档提交**：`01ab3530`（修复+验收归档）→ `8a2554ca`/`2cd167f4`（补记）→ **`a48c4241`**
+  （`删除: 清理误入库的 work/ 测试产物（ISO/转储/中间盘）`，移除 4,771 条 / 11,364,158 行 ⇒ 当前树 432 文件）。
+  完整记录：`docs\REPORT_ARCHIVE.md`（第一轮）与 **`docs\REPORT_ARCHIVE2.md`**（第二轮：快照/推送/精简全命令与原文）。
+* ⚠ **一处过时说明**：上文（第一轮）曾把 `GR_LAYOUT\LAY_fix1_bytecount.iso` 记为「特意保留」；
+  第二轮按任务书**点名删除**（不可重建，仅存 sha256）⇒ 「同现场回归」不能原样复跑，结论与日志仍在。
 

@@ -80,24 +80,56 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 
 ---
 
-## 6. 磁盘与仓库现状（2026-10-18 归档后）
+## 6. 磁盘与仓库现状（2026-10-18 第二轮精简后）
 
-* `work\builds`：清理掉 13,155 个实验产物文件 / **释放 5.228 GB** ⇒ 22.42 GB → **17.19 GB**；C: 剩余 **47.5 GB**。
-* 保留的关键盘：成品 `GR_ZH2400_FINAL.iso` · 候选 `COMBFIX_2400.iso` · 用户实机验证过的 `COMBFIX_C.iso` ·
-  基底 `GR_REBUILD2400.iso` · **未修对照盘** `GR_LAYOUT\LAY_fix1_bytecount.iso`（其基底已删、不可重建）。
+* `work\`：**20.04 GB / 66,074 文件 → 9.21 GB / 24,083 文件**（本轮再释放 **10.83 GB**，54%）；
+  C: 剩余空间 51.05 GB → **62.73 GB**。明细见 `docs\REPORT_ARCHIVE2.md` §C。
+* `work\` 保留（5 个顶层）：`builds\`（成品 1.53 GB + 基底 1.53 GB + **`GR_HOOKEMU_QT2\**`（未动）3.69 GB + 被引用证据）、
+  `tools\`（Ghidra/JDK/工程库/自研脚本 2.01 GB）、`temp\`(8 MB)、`_planc\`(5 MB)、`_briefs_recovered\`(0.6 MB)。
+* 本轮**点名删除**的盘（sha256 已存证，见 `REPORT_ARCHIVE2.md` §C.4）：`GR_LAYOUT\LAY_fix1_bytecount.iso`
+  （`a69a9ca4…`，未修对照盘）· `GR_COMBFIX\COMBFIX_2400.iso`（`d8007873…`，**与成品逐字节相同**）·
+  `GR_COMBFIX\COMBFIX_C.iso`（`5c4c9f70…`，用户实机验证过的 F4 线盘）。
 * git：当前分支 **`round73/font-decompile`**（**不是** `main`）；远端 `public` = `https://github.com/AFishD/GR2001-ZH.git`。
-  主分支合并策略（**未执行，待决定**）见 `docs\REPORT_ARCHIVE.md` §C。
-* **归档提交 = `01ab3530`**（`修复: 消除 PS2 版内存分配器自旋导致的游戏卡死 (F4/OOMFIX/F7) + 2,400 字成品验收归档`，
-  52 文件 / 20,184 行；父提交 `6f81e48b`），紧随其后 `8a2554ca`（补记提交/推送状态）。两者都**只在当前分支**。
-* **推送状态：未达成** —— 凭据可用（探测 push 返回 `Everything up-to-date`，远端零改动），但本分支历史含
-  **24 个 >100 MB 的 blob（合计 32.9 GB）** ⇒ 必被 GitHub 拒；三条可选路径见 `docs\REPORT_ARCHIVE.md` §D。
-* 归档清理明细（删了什么/留了什么/释放多少）：`docs\REPORT_ARCHIVE.md` §B。
+* **归档提交 = `01ab3530`**（52 文件 / 20,184 行），随后 `8a2554ca`、`2cd167f4` 补记；
+  本轮 **`a48c4241`**（`删除: 清理误入库的 work/ 测试产物（ISO/转储/中间盘）`，移除 4,771 条 / 11,364,158 行）
+  ⇒ **当前树的 432 个文件里不再有 `work/**` 与 3 张 1.5 GB ISO**。
+* **推送状态：已达成**（本轮完成，见 §6b）——上一轮记录的「未达成（24 个 >100 MB blob / 32.9 GB）」已绕过：
+  不推完整历史，改为**孤儿精简快照**直推 `main`。
+* **历史体积未回收**：被删的 `work/` blob 仍可从历史到达，`git gc --prune=now` 只能继续打包；
+  真正回收需 `git filter-repo`/BFG 重写历史（高风险，**未执行**）⇒ `docs\REPORT_ARCHIVE2.md` §D.3。
+* 归档清理明细：本轮 `docs\REPORT_ARCHIVE2.md` §C；上一轮 `docs\REPORT_ARCHIVE.md` §B。
+
+---
+
+## 6b. 归档与云端（2026-10-18 第二轮 · **已推送**）
+
+| 项 | 值 |
+|---|---|
+| **公开快照分支** | **`snapshot-2026-10-18`** = 提交 **`2c899a418593a31ebacd11f2b8b734ee61311052`**（孤儿） |
+| 快照体积 | **66 文件 / 1,979,767 B ≈ 1.89 MB**，全文本（无 ISO / 无游戏数据 / 无模拟器二进制） |
+| **云端 `main`** | **`2c899a41`**（与快照同一提交）—— `git push public snapshot:refs/heads/main --force-with-lease` 成功，原文 `+ f0583003...2c899a41 (forced update)` |
+| 旧公开状态备份 | 分支 **`snapshot-2026-10-11`** = `f0583003`（267 文件，**未删除、未改写**） |
+| 远端 | `public` = `https://github.com/AFishD/GR2001-ZH.git`；推送后 `git ls-tree -r --name-only public/main` = **66** |
+| 快照内容 | `tools\final_fix\**`(4) + `docs\**`(59 = 本轮 48 + 被引用 11) + 公开版 `README.md` + `.gitignore`/`.gitattributes` |
+| 推送结果 | **达成，无未达成项**（无网络/凭据/权限错误；未用裸 `--force`、未删远端分支、未改本地历史） |
+| `work\` 精简 | 释放 **10.83 GB**；保留清单与"未动"清单见 `REPORT_ARCHIVE2.md` §C.1/§C.6 |
+| 仓库当前树 | `a48c4241` ⇒ 树 **432 文件**；pack 体积变化见 `REPORT_ARCHIVE2.md` §D.2 |
+| 完整记录 | **`docs\REPORT_ARCHIVE2.md`**（A–F 全命令与原始输出、取舍说明、未达成/需确认项） |
+
+> ⚠ **一处按任务书执行、但与旧文档记载冲突的事**：`GR_LAYOUT\LAY_fix1_bytecount.iso`（未修对照盘，基底已删、
+> **不可重建**）本轮被**点名删除**。「同现场回归（70,266 Trap vs 0）」今后**不能原样复跑**，其结论与日志/截图
+> 仍在。`tools\final_fix\README.md` §4 那句「特意保留」**已过时**（该目录本轮禁动，未修改）⇒ 见 §C.5。
 
 ---
 
 ## 7. 下一步（建议）
 
-1. **决定主分支合并**：`main` 落后 290 个提交（远端 `public/main` 停在 10-11 公开快照），当前分支是 `round73/font-decompile` ⇒ 建议 `git switch main && git merge round73/font-decompile`（或先 review）。
-2. 若要让「从英文原盘一键复现」复活：补 `work\builds\GR_CSFIX\temp\K2_SLUS_206.13.elf`（配方见 `tools\final_fix\README.md` §4）。
-3. 残余风险 1（unsorted 桶回边）如需收口，得先在 ELF 里找/造第三个 36 B 零区。
-4. 工作区仍有历史未提交改动（`work\builds` 下 270 个已跟踪文件的删除 + 4 个 `tools\**` 的历史改动），清单见 `docs\REPORT_ARCHIVE.md` §C.4。
+1. **残余风险 1（unsorted 桶回边 `0x102200`）**如需收口：先在 ELF 里找/造第三个 36 B 零区（`REPORT_COMBFIX.md` §3.2）。
+2. **让「从英文原盘一键复现」复活**：补 `work\builds\GR_CSFIX\temp\K2_SLUS_206.13.elf`（配方见 `tools\final_fix\README.md` §4）。
+3. **本地分支归置**：当前在 `round73/font-decompile`（工作区仍有 270 个 `work/` 已跟踪文件的删除状态残留、
+   4 个 `tools\**` 历史改动未提交 ⇒ `REPORT_ARCHIVE.md` §C.4）。是否把 dev 分支并入本地 `main`（`fe4991d1`）待决定；
+   **云端 `main` 已是本轮修复快照，不受影响**。
+4. **（可选，高风险）真正回收历史体积**：`git filter-repo --path work --invert-paths`（改掉所有 commit hash、
+   需强推所有分支）—— 仅建议，**未执行**，详见 `REPORT_ARCHIVE2.md` §D.3。
+5. **（可选）继续精简**：`work\tools\**` 2.01 GB（Ghidra 12.1.2 / JDK / Ghidra 工程库；不再做反编译时可删）。
+6. **补唯一断链**：`docs/REPORT_HOOKEMU_QT2_REBUILD.md` 从未入库（公开快照里 404）⇒ 确认可公开后入库并刷新快照分支。

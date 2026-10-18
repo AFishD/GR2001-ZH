@@ -123,7 +123,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 ```
 README.md                 本文件（项目简介 / 成品身份 / 用法 / 残余 / 免责）
 tools/final_fix/          补丁与复现三件套（apply_fix.py / fix_spec.json / repro.ps1 / README.md）
-docs/                     验收归档文档（59 篇）
+docs/                     验收归档文档（60 篇）
 .gitignore .gitattributes 防止 ISO / 大二进制 / 第三方资产被带进版本库
 ```
 
