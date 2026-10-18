@@ -287,9 +287,94 @@ git ls-tree -r --name-only public/main | Measure-Object
 # 断言：无 .iso/.elf/.bin/.MIS/.rsb/.BMB/.png/.p2s；docs/REPORT_HOOKEMU_QT2_REBUILD.md 存在
 ```
 
-### D.4 结果（推送后补记）
+### D.4 结果
 
-*（本节在推送完成后回填；同时 `docs\STATUS.md` §8 的占位也随之更新并再推一次快进）*
+**快照 commit（孤儿树 + 单亲提交，父 = 上一轮快照）**：
+
+```powershell
+# 文件清单树（临时索引 GIT_INDEX_FILE=_archive_scratch\snap.index，未碰真实索引与工作区）
+git read-tree --empty ; git add -f -- <6 个 tools/final_fix 文件 + 157 个 docs 文本文件>
+git update-index --add --cacheinfo 100644,<blob>,README.md      # 快照专用 README
+git update-index --add --cacheinfo 100644,<blob>,.gitignore
+git update-index --add --cacheinfo 100644,<blob>,.gitattributes
+git write-tree                              ⇒ a28fc44a2c2019997bfd74a1b4d2a9dab534ca28
+git commit-tree a28fc44a… -p 5803b9ce… -F _archive_scratch\snapshot_msg_20261019.txt
+                                            ⇒ f1a39efb96267d1f0fc4c3c6bc9f3d32f316c8ee
+git branch -f snapshot-2026-10-19 f1a39efb
+```
+
+**树自查（脚本内硬门禁）**：
+
+```
+tools/final_fix: 6   docs(text): 157
+tree files: 166   tree bytes: 4443398 (4.24 MB)
+forbidden-extension files: 0
+docs/REPORT_HOOKEMU_QT2_REBUILD.md present = True
+tools/final_fix files in tree = 6
+```
+
+**推送原文（两条命令，均 exit 0）**：
+
+```
+PS> git push public snapshot-2026-10-19:refs/heads/snapshot-2026-10-19
+remote: Create a pull request for 'snapshot-2026-10-19' on GitHub by visiting:
+remote:      https://github.com/AFishD/GR2001-ZH/pull/new/snapshot-2026-10-19
+To https://github.com/AFishD/GR2001-ZH.git
+ * [new branch]        snapshot-2026-10-19 -> snapshot-2026-10-19
+exit=0
+
+PS> git push public snapshot-2026-10-19:refs/heads/main
+To https://github.com/AFishD/GR2001-ZH.git
+   5803b9ce..f1a39efb  snapshot-2026-10-19 -> main
+exit=0
+```
+
+> **没有用到 `--force`，也没有用到 `--force-with-lease`**：本轮快照提交是**上一轮快照
+> `5803b9ce` 的子提交**（`-p 5803b9ce`），所以 `main` 是**真快进**（`5803b9ce..f1a39efb`）。
+> 这比任务书允许的"钉住旧值的 `--force-with-lease`"更安全 ⇒ 采用快进路线。
+
+**`git fetch --all` 后复核（推送后实测）**：
+
+```
+PS> git ls-remote --heads public
+f1a39efb96267d1f0fc4c3c6bc9f3d32f316c8ee        refs/heads/main
+f0583003ab15e69955c70d2c02b1b66495f7ee07        refs/heads/snapshot-2026-10-11
+5803b9ce9da9e4a067a35daeb2f1c13f173fa4dc        refs/heads/snapshot-2026-10-18
+f1a39efb96267d1f0fc4c3c6bc9f3d32f316c8ee        refs/heads/snapshot-2026-10-19
+
+PS> (git ls-tree -r --name-only public/main | Measure-Object).Count          ⇒ 166
+PS> (git ls-tree -r --name-only public/snapshot-2026-10-19 | Measure-Object).Count ⇒ 166   # 与 main 同指
+```
+
+**内容审计（`git ls-tree -r -l public/main` 逐行统计）**：
+
+| 项 | 结果 |
+|---|---|
+| 文件数 / 体积 | **166 / 4,443,398 B（4.24 MB）** |
+| 扩展名分布 | `.md` 142 · `.json` 13 · `.txt` 5 · `.py` 2 · `.ps1` 2 · 无扩展名 2（`.gitignore`/`.gitattributes`） |
+| **禁用类型**（`.iso/.elf/.bin/.MIS/.rsb/.BMB/.png/.p2s/.xlsx/.exe/.dll/...`） | **0 个** ✅ |
+| 最大文件 | `docs/PROGRESS.md` 232,940 B（文本） |
+| `docs/REPORT_HOOKEMU_QT2_REBUILD.md` | **在**（上一轮的 404 已修） ✅ |
+| `docs/README.md` / `docs/CORRECTIONS.md` / `docs/REPORT_FINALIZE.md` / `docs/_obsolete/README.md` | **在** ✅ |
+| `tools/final_fix/rebuild_base.py` / `repro_from_eng.ps1` | **在** ✅ |
+| `snapshot-2026-10-11`（`f0583003`）· `snapshot-2026-10-18`（`5803b9ce`） | **未删除、未改写** ✅ |
+
+> **后续**：本轮文档在推送**之后**又补记了 §D.4 与 `STATUS.md` §8 的实测值 ⇒ 以**同一个树手法**
+> 再造一个子提交（父 = `f1a39efb`）并再次快进 `main`；最终远端值与推送原文见本节末尾"补记"。
+> 这正是"快照无法自指"的必然结果（与上一轮同一处理方式）。
+
+**补记（文档回填后的第二次推送）**：
+
+```
+PS> git push public snapshot-2026-10-19:refs/heads/snapshot-2026-10-19   # 快进
+PS> git push public snapshot-2026-10-19:refs/heads/main                  # 快进
+```
+
+| 项 | 最终值 |
+|---|---|
+| 树 | `a28fc44a…`（166 文件 / 4.24 MB）**+ 本次回填的 docs 改动** |
+| 快照提交 / 云端 `main` | 见下方命令行实测（`git ls-remote --heads public`） |
+| 复核命令 | `git ls-remote --heads public` · `git ls-tree -r --name-only public/main \| Measure-Object` |
 
 ---
 

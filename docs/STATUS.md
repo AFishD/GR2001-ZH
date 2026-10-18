@@ -148,14 +148,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 
 | 项 | 值 |
 |---|---|
-| 公开快照分支 | **`snapshot-2026-10-19`**（本轮新建；与云端 `main` 同指一个提交） |
-| 快照提交 | 见 `docs\REPORT_FINALIZE.md` §D（推送原文与 hash 全文在该文件；本节无法自指） |
-| 快照体积 | **全文本**（无 ISO / 无游戏数据 / 无模拟器二进制：`docs/han_v2` 的 `.bin/.MIS/.rsb/.BMB/.png` 一律排除）；精确文件数与体积见 `REPORT_FINALIZE.md` §D |
-| 云端 `main` | 已刷新到本轮快照（`--force-with-lease` 且**钉住旧值** `5803b9ce`；推送原文见 §D） |
+| 公开快照分支 | **`snapshot-2026-10-19`**（本轮新建；与云端 `main` **同指一个提交**） |
+| 快照提交 | **`f1a39efb96267d1f0fc4c3c6bc9f3d32f316c8ee`**（父 = 上一轮快照 `5803b9ce` ⇒ main 是真**快进**，未用任何 force；回填文档后的第二次快进提交见 `REPORT_FINALIZE.md` §D.4 补记） |
+| 快照体积 | **166 文件 / 4,443,398 B（4.24 MB）**，**全文本**（`.md` 142 · `.json` 13 · `.txt` 5 · `.py` 2 · `.ps1` 2 · `.gitignore`/`.gitattributes`；**禁用类型 0 个** —— `docs/han_v2` 的 `.bin/.MIS/.rsb/.BMB`、`docs/img/*.png` 一律排除） |
+| 云端 `main` | **`5803b9ce → f1a39efb`**（推送原文 `   5803b9ce..f1a39efb  snapshot-2026-10-19 -> main`，exit 0） |
 | 旧公开状态备份 | 分支 **`snapshot-2026-10-11`** = `f0583003`（267 文件，**未删除、未改写**） |
-| 上一轮快照 | 分支 **`snapshot-2026-10-18`** = `5803b9ce`（67 文件，**保留**） |
+| 上一轮快照 | 分支 **`snapshot-2026-10-18`** = `5803b9ce`（67 文件，**未删除、未改写**） |
 | 远端 | `public` = `https://github.com/AFishD/GR2001-ZH.git` |
-| 本轮新增入库 | `docs\REPORT_HOOKEMU_QT2_REBUILD.md`（**修掉上一轮快照里的 404**）· `docs\README.md` · `docs\CORRECTIONS.md` · `docs\_obsolete\**` · `tools\final_fix\rebuild_base.py` · `tools\final_fix\repro_from_eng.ps1` |
+| 本轮新增入库 | `docs\REPORT_HOOKEMU_QT2_REBUILD.md`（**修掉上一轮快照里的 404**）· `docs\README.md` · `docs\CORRECTIONS.md` · `docs\REPORT_FINALIZE.md` · `docs\_obsolete\**` · `tools\final_fix\rebuild_base.py` · `tools\final_fix\repro_from_eng.ps1` |
 | 完整记录 | **`docs\REPORT_FINALIZE.md`**（A–D 全命令与原始输出、未达成项） |
 
 > 说明：本小节写在**快照自身**里，因此**无法自指**当前提交哈希。云端 `main` /
