@@ -401,17 +401,20 @@ f0583003ab15e69955c70d2c02b1b66495f7ee07        refs/heads/snapshot-2026-10-11
 （`.gitignore:47 docs/han_v2/*.json`、`:48 docs/han_v2/*.txt`，即早期提取的字符串/码表转储：
 `strings_zh.txt` / `res_strings_all.txt` / `en_zh_dump.txt` / `hanzi_*.json` 等）。
 上一轮快照（`f0583003`，267 文件）**只含 14 个 `han_v2` 文件、不含这批 json/txt** ⇒ 本轮也不应发布。
-处理：快照构建脚本加**硬过滤** —— `git check-ignore --stdin` 命中的路径**一律排除**，
-并把这条口径写进快照 README（"凡是 `.gitignore` 忽略的一律不发布"）。
+处理：快照构建脚本加**硬过滤** —— `git ls-files --others --ignored --exclude-standard -- docs`
+命中的路径**一律排除**（实测命中 **109** 个：其中 16 个是 `.json/.txt`，其余 93 个本是
+`.bin/.MIS/.rsb/.BMB/.png` —— 那批早已被扩展名白名单挡在外面），并把这条口径写进快照 README
+（"凡是 `.gitignore` 忽略的一律不发布"）。
 
 ```
-excluding 16 .gitignore'd docs file(s):
+excluding 109 .gitignore'd docs file(s):
    - docs/han_v2/TRAINING_TEXTS.txt  - docs/han_v2/charset_stats.json  - docs/han_v2/chosen18.json
    - docs/han_v2/code_map.json       - docs/han_v2/covered_values.json - docs/han_v2/hanzi_assign12.json
    - docs/han_v2/hanzi_assign_expanded.json - docs/han_v2/hanzi_cells.json - docs/han_v2/hanzi_freq.json
    - docs/han_v2/hanzi_pair_map.json - docs/han_v2/hanzi_slots.json    - docs/han_v2/res_strings_all.txt
    - docs/han_v2/res_strings_by_prefix.txt - docs/han_v2/res_zh/en_zh_dump.txt
    - docs/han_v2/strings_zh.txt      - docs/han_v2/tutorial_hits.json
+   （另有 93 个 .bin/.MIS/.rsb/.BMB/.png —— 早已被扩展名白名单排除）
 
 PS> git push public snapshot-2026-10-19:refs/heads/snapshot-2026-10-19     # 快进
 PS> git push public snapshot-2026-10-19:refs/heads/main                    # 快进
@@ -419,9 +422,9 @@ PS> git push public snapshot-2026-10-19:refs/heads/main                    # 快
 
 | 项 | 值 |
 |---|---|
-| 快照文件数 | **150**（= 6 tools/final_fix + **141** docs 文档 + README + `.gitignore` + `.gitattributes`） |
-| 一致性复核（脚本） | 快照里 149 个路径的 **blob 与本地 `main` 逐一相同（0 差异、0 缺失）**；唯一例外是快照专用 `README.md`（本项目简介，本地不入库） |
-| 最终推送原文 | 见下方 `git ls-remote`（本节写入时 `main` = `82131159`） |
+| 快照文件数 / 体积 | **150 / 3,936,775 B（3.75 MB）**（= 6 tools/final_fix + **141** docs 文档 + README + `.gitignore` + `.gitattributes`） |
+| 一致性复核（脚本） | 快照里除快照专用 `README.md` 外的路径，**blob 与本地 `main` 逐一相同（0 差异、0 缺失）** |
+| 最终推送原文 | 见下方 `git ls-remote`（本节写入时的上一值 = `82131159`） |
 | **`main` / `snapshot-2026-10-19` 当前值** | 以 `git ls-remote --heads public` 为准（收尾回报里给出实测值） |
 
 ---
