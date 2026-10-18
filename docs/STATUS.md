@@ -105,16 +105,21 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\final_fix\repro.ps1
 
 | 项 | 值 |
 |---|---|
-| **公开快照分支** | **`snapshot-2026-10-18`** = 提交 **`2c899a418593a31ebacd11f2b8b734ee61311052`**（孤儿） |
-| 快照体积 | **66 文件 / 1,979,767 B ≈ 1.89 MB**，全文本（无 ISO / 无游戏数据 / 无模拟器二进制） |
-| **云端 `main`** | **`2c899a41`**（与快照同一提交）—— `git push public snapshot:refs/heads/main --force-with-lease` 成功，原文 `+ f0583003...2c899a41 (forced update)` |
+| **公开快照分支** | **`snapshot-2026-10-18`** —— 与云端 `main` **同指一个提交**（= 快照链最新提交） |
+| 首推的修复落点 | 提交 **`2c899a418593a31ebacd11f2b8b734ee61311052`**（孤儿；**修复内容就在这个提交里**，始终留在 `main` 历史中） |
+| 快照体积 | **67 文件 / 2,007,423 B ≈ 1.91 MB**，全文本（无 ISO / 无游戏数据 / 无模拟器二进制） |
+| **云端 `main`** | 首推把它从 `f0583003` 强更到 `2c899a41`（`git push public snapshot:refs/heads/main --force-with-lease`，原文 `+ f0583003...2c899a41 (forced update)`，exit 0）；随后为同步本小节等文档**快进**到 `59e43d45` 及后续文档提交 ⇒ 与 `snapshot-2026-10-18` 恒同指 |
 | 旧公开状态备份 | 分支 **`snapshot-2026-10-11`** = `f0583003`（267 文件，**未删除、未改写**） |
-| 远端 | `public` = `https://github.com/AFishD/GR2001-ZH.git`；推送后 `git ls-tree -r --name-only public/main` = **66** |
-| 快照内容 | `tools\final_fix\**`(4) + `docs\**`(59 = 本轮 48 + 被引用 11) + 公开版 `README.md` + `.gitignore`/`.gitattributes` |
+| 远端 | `public` = `https://github.com/AFishD/GR2001-ZH.git`；`git ls-tree -r --name-only public/main` = 67 |
+| 快照内容 | `tools\final_fix\**`(4) + `docs\**`(60 = 本轮 48 + 被引用 12) + 公开版 `README.md` + `.gitignore`/`.gitattributes` |
 | 推送结果 | **达成，无未达成项**（无网络/凭据/权限错误；未用裸 `--force`、未删远端分支、未改本地历史） |
 | `work\` 精简 | 释放 **10.83 GB**；保留清单与"未动"清单见 `REPORT_ARCHIVE2.md` §C.1/§C.6 |
 | 仓库当前树 | `a48c4241` ⇒ 树 **432 文件**；pack 体积变化见 `REPORT_ARCHIVE2.md` §D.2 |
 | 完整记录 | **`docs\REPORT_ARCHIVE2.md`**（A–F 全命令与原始输出、取舍说明、未达成/需确认项） |
+
+> 说明：本小节写在**快照自身**里，因此**无法自指**当前提交哈希（每一次「记录推送结果」都会产生新提交）。
+> 云端 `main` / `snapshot-2026-10-18` 的**当前值**以 `git ls-remote --heads public` 为准；
+> 而**修复落点**永远是 `2c899a41`（在其历史中）。
 
 > ⚠ **一处按任务书执行、但与旧文档记载冲突的事**：`GR_LAYOUT\LAY_fix1_bytecount.iso`（未修对照盘，基底已删、
 > **不可重建**）本轮被**点名删除**。「同现场回归（70,266 Trap vs 0）」今后**不能原样复跑**，其结论与日志/截图

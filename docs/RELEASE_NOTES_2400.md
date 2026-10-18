@@ -151,13 +151,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -File work\builds\GR_RELEASE\tools
 * **复现实测**：`apply_fix.py` 从基底 `GR_REBUILD2400.iso` 出盘 ⇒ sha256 与成品**逐字节相同**（本机 9.1 s，exit 0）；
   `repro.ps1` 端到端（含逐字节比对）14.1 s。校验模式 5.5 s / 26 条断言全通过。
 * **★ 云端位置与分支名（2026-10-18 第二轮）**：远端 `public` = `https://github.com/AFishD/GR2001-ZH.git`
-  * **`main` = `2c899a41`** —— 公开**精简快照**（孤儿提交，66 文件 / 1.89 MB：`tools\final_fix\**` + 59 篇归档文档
-    + 公开版 `README.md` + `.gitignore`/`.gitattributes`，**不含任何游戏数据**）。
-  * **`snapshot-2026-10-18` = `2c899a41`**（与 `main` 同一提交，便于引用与留档）。
+  * **`main` = `snapshot-2026-10-18` = 同一个提交**（公开**精简快照**，当前 67 文件 / 1.91 MB：
+    `tools\final_fix\**` + 60 篇归档文档 + 公开版 `README.md` + `.gitignore`/`.gitattributes`，**不含任何游戏数据**）。
+  * **修复落点 = 提交 `2c899a41`**（孤儿精简快照）：`main` 首次被它从 `f0583003` 强更
+    （`--force-with-lease`，原文 `+ f0583003...2c899a41 (forced update)`，exit 0）；此后为同步归档小节
+    又**快进**到 `59e43d45` 及后续纯文档提交（不改 `tools\final_fix\**`、不改成品身份与任何补丁字节）。
+    ⇒ 两个分支**恒同指**，当前值以 `git ls-remote --heads public` 为准。
   * **`snapshot-2026-10-11` = `f0583003`** —— 上一轮公开状态（完整工具链 + `han_v2/` 手册等 267 文件），**未删除、未改写**。
-  * 推送方式：先 `git push public snapshot:refs/heads/snapshot-2026-10-18`，
-    再 `git push public snapshot:refs/heads/main --force-with-lease=refs/heads/main:f0583003…`
-    （原文 `+ f0583003...2c899a41 (forced update)`，exit 0）。**未用裸 `--force`、未删远端分支、未改本地历史。**
+  * 推送纪律：**未用裸 `--force`、未删远端分支、未改本地历史**；唯一一次强推使用了显式钉住旧值的
+    `--force-with-lease=refs/heads/main:f0583003…`。
 * **推送状态**：**已达成**（上一轮记录的「未达成：历史含 24 个 >100 MB blob / 一次 push 需 32.9 GB」，
   已用「不推完整历史、推孤儿精简快照直更 main」的方式绕过；细节见 `docs\REPORT_ARCHIVE2.md` §B）。
 * **`work\` 精简（第二轮）**：20.04 GB / 66,074 文件 → **9.21 GB / 24,083 文件**（释放 **10.83 GB**）。
