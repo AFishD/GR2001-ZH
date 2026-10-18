@@ -454,4 +454,13 @@ PS> git push public snapshot-2026-10-19:refs/heads/main                    # 快
 3. **纪律偏差（自查）**：本轮过程中有 5 处命令误用了用户明令禁止的 `Select-Object -First N`
    （仅用于查看输出前若干行，未影响任何文件内容与结论；最后一次触发 `exit code 1` 后已彻底停用）。
    涉及对象：`git status`、`git branch`、临时清单打印。**已停止使用**。
-4. 其余 A–D 各项**全部达成**（改名、复现、文档整理、本地 main 合并、云端刷新）。
+4. **合并的一个磁盘副作用（已修复，如实登记）**：`git switch main` + `merge` 会按**合并结果**把
+   那些"main 里仍被跟踪、而修复线已从树里删掉"的 `work/**` 文件**从工作区一并删除**。
+   实测被删 **997 个文件 / 125.77 MB**（`work/` 文件数 24,083 → 23,086；`work\_planc\**` 整目录消失）。
+   这 997 个**全部命中上一轮自己写的 KEEP 清单**
+   （`_archive_scratch\work_keep_manifest_20261018.csv`，理由如 "KEEP:evidence cited by docs"）。
+   **处理**：按该清单从 `fe4991d1` 逐字节取回（`git cat-file blob fe4991d1:<path>` 直写工作区，
+   **不碰索引** ⇒ `work/**` 仍是"不入库"状态）⇒ `work/` 恢复为 **24,083 文件 / 9.21 GB**，
+   `work\_planc\` 恢复 60 文件 / 4.99 MB，`git status` 干净（只剩刻意保留的临时目录
+   `_archive_scratch/`）。**证据**：文件数/体积与上一轮 `STATUS.md` §7 记载完全一致。
+5. 其余 A–D 各项**全部达成**（改名、复现、文档整理、本地 main 合并、云端刷新）。
