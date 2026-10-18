@@ -148,6 +148,11 @@ tools/final_fix/          补丁 + 基底重建 + 复现（6 个文件）
 .gitignore .gitattributes 防止 ISO / 大二进制 / 第三方资产被带进版本库
 ```
 
+> 快照文件清单 = `tools/final_fix/**`（6）+ `docs/**` 的 **Markdown 文档** + 本 README + `.gitignore`
+> / `.gitattributes`。**凡是 `.gitignore` 忽略的一律不发布**（例如 `docs/han_v2/*.json`、
+> `docs/han_v2/*.txt` 这类早期提取的字符串/码表转储），也不含任何二进制游戏资源
+> （字库 / 图形 / 纹理 / 容器 / 镜像 / 模拟器二进制）。
+
 **关键入口**：现状 `docs/STATUS.md` · 索引 `docs/README.md` · 订正 `docs/CORRECTIONS.md` ·
 交付说明 `docs/RELEASE_NOTES_2400.md` · 全量验收 `docs/REPORT_RELEASE_VERIFY.md` ·
 根因链 `docs/REPORT_COMBFIX.md` + `REPORT_SPINFIX.md` + `REPORT_OOMFIX.md` +
