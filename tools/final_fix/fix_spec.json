@@ -1,0 +1,244 @@
+{
+ "schema": "gr-ps2-zh-final-fix/1",
+ "generated": "2026-10-18",
+ "project": "《幽灵行动》PS2 版 (SLUS-206.13 / SLUS_206.13) 汉化 —— 2400 产品线正式交付",
+ "single_source_of_truth": {
+  "patch_tool": "tools/final_fix/apply_fix.py",
+  "spec": "tools/final_fix/fix_spec.json",
+  "repro": "tools/final_fix/repro.ps1",
+  "note": "本工程此前分散在 work/builds/GR_COMBFIX|GR_SPINFIX|GR_OOMFIX/tools/ 的补丁脚本已归并为这一份；A/B 实验分支（F1/F1b、flavor A/B）已删除，只保留成品盘真正使用的那一组。"
+ },
+ "iso_layout": {
+  "elf_name": "SLUS_206.13",
+  "elf_lba": 295,
+  "sector": 2048,
+  "iso_of_va": "0x6C780",
+  "elf_off_formula": "elf_off = VA - 0x6C780 - 295*2048",
+  "note": "iso_off = VA - 0x6C780（ISO 内绝对偏移）"
+ },
+ "base_chain": [
+  {
+   "step": 0,
+   "role": "英文原盘（只读输入，仓库外不入库）",
+   "path": "third_party\\orig\\ps2\\Tom Clancy's Ghost Recon (USA).iso",
+   "sha256": "2b42ea7ce9bd0a85972a07ca59b1b9d79422ed318b85737db3cfd17daa788531",
+   "bytes": 1648164864,
+   "verified_on_disk": true
+  },
+  {
+   "step": 1,
+   "role": "2400 产品线重建盘（几何 h=644 / 64 列 / SKIP=2 / Y0=3 / GATE 0xBA / 字库 2350 槽 / 文本已迁移）",
+   "path": "work\\builds\\GR_REBUILD\\GR_REBUILD2400.iso",
+   "sha256": "d7f83d7ec4a8fe1ec8d60de4b17b94513bd1540dc929d3b667086f4910443ca0",
+   "elf_sha256": "5cb59175d28bfea3f37a9eb485399ea3925a2ca6f73d32d65e226d274abf47d8",
+   "bytes": 1648164864,
+   "builder": "work\\builds\\GR_REBUILD\\tools\\rb_build.py --out work\\builds\\GR_REBUILD\\GR_REBUILD2400.iso",
+   "builder_external_inputs": [
+   {
+     "path": "%LOCALAPPDATA%\\PCSX2\\cdvd-dump\\GR_FA2400_K2 (2026-10-17 15-08-20).dump",
+     "bytes": 74227399,
+     "sha256": "11f371f294e4f8e353c21931a9c38d73c1309832a21e74cfb3e31d7095daadd9",
+     "why": "K2 盘 4.5% 扇区转储（ELF/图集/FONT.RES/中文文本表/SF XML 全链 100% 覆盖）"
+   },
+   {
+     "path": "%LOCALAPPDATA%\\PCSX2\\cdvd-dump\\GR_ZH113b (2026-10-15 19-39-44).dump",
+     "bytes": 77701019,
+     "sha256": "57c9e9d147106c7c7dbc5e41b6a80ffa6ce7ea984ec21b33505fb765b40dbf74",
+     "why": "GR#3451 COMMON.PAK 旁证候选（GR 侧死拷贝）"
+   }
+   ],
+   "note": "rb_build.py 依赖 work/tools/zx_lib.py 与 tools/text_csv/tcslib.py（均在库内）；--out 目标必须不存在（防覆盖）。"
+  },
+  {
+   "step": 2,
+   "role": "修复盘 = 基底 + 三件套（F4 + OOMFIX + F7）",
+   "path": "work\\builds\\GR_COMBFIX\\COMBFIX_2400.iso",
+   "sha256": "d8007873957f81ab44f37cf4c773ac5bdf0d3d66fd5f975b48f69abea21b2ab5",
+   "bytes": 1648164864,
+   "builder": "tools\\final_fix\\apply_fix.py --base <step1> --out <任意输出>"
+  },
+  {
+   "step": 3,
+   "role": "交付成品（与 step 2 逐字节相同，0 差异；仅改名归档）",
+   "path": "work\\builds\\GR_RELEASE\\GR_ZH2400_FINAL.iso",
+   "sha256": "d8007873957f81ab44f37cf4c773ac5bdf0d3d66fd5f975b48f69abea21b2ab5",
+   "bytes": 1648164864
+  }
+ ],
+ "product_identity": {
+  "tag": "GR_ZH2400_FINAL",
+  "bytes": 1648164864,
+  "sha256": "d8007873957f81ab44f37cf4c773ac5bdf0d3d66fd5f975b48f69abea21b2ab5",
+  "md5": "d24c324eb955a8c8dbaf92f6c766da2c",
+  "elf": {
+   "sha256": "6fce4f45967d32593eb940bff91886a829e8871910c0c4a01a7981fc7738e73a",
+   "crc32_xor": "CFDB8C97",
+   "savestate_name": "SLUS-20613 (CFDB8C97).01.p2s",
+   "lba": 295,
+   "bytes": 37453732
+  },
+  "diff_vs_base": {
+   "bytes": 78,
+   "runs": 25,
+   "all_inside_declared_windows": true,
+   "outside_windows_bytes": 0
+  },
+  "meta": "work\\builds\\GR_RELEASE\\GR_ZH2400_FINAL.meta.json"
+ },
+ "gates_readback": [
+  {"va": "0x00416EE8", "word": "0x2CA900BA"},
+  {"va": "0x00417160", "word": "0x2D0900BA"},
+  {"va": "0x0041751C", "word": "0x2D4B00BA"},
+  {"va": "0x005656A4", "word": "0x2D6C00BA"}
+ ],
+ "patches": [
+  {
+   "name": "F4",
+   "why": "malloc 大块桶链扫描：链头落在 RAM 之外时不再原地无限自旋，改走既有的「本桶无可用块」出口",
+   "va": "0x00102588",
+   "iso_off": "0x00095E08",
+   "elf_off": "0x0002608",
+   "old_word": "0x1459FFD1",
+   "old_dis": "bne $v0,$t9,-47",
+   "new_word": "0x081068D7",
+   "new_dis": "j 0x0041A35C",
+   "delay_slot": {"va": "0x0010258C", "word": "0x00000000", "changed": false},
+   "exits": "合法 j 0x001024D0（回原循环体）/ 不合法 j 0x00102590（本桶无可用块出口）",
+   "cave": {
+    "va": "0x0041A35C",
+    "iso_off": "0x003ADBDC",
+    "elf_off": "0x031A3DC",
+    "bytes": 36,
+    "words": ["0x0322082B", "0x004D582B", "0x002B0824", "0x10200002", "0x00000000", "0x08040934", "0x00000000", "0x08040964", "0x00000000"],
+    "dis": [
+     "0x0041A35C  0322082B  sltu $at, $t9, $v0      ; at = (v0 > 桶哨兵 t9)",
+     "0x0041A360  004D582B  sltu $t3, $v0, $t5      ; t3 = (v0 < 0x1FFFFFFE)，t5 由 malloc 在 0x1024BC 设定",
+     "0x0041A364  002B0824  and $at, $at, $t3       ; at != 0 ⇔ 链头看起来是 RAM 内的块",
+     "0x0041A368  10200002  beq $at, $zero, +2 -> 0x0041A374",
+     "0x0041A36C  00000000  nop",
+     "0x0041A370  08040934  j 0x001024D0            ; 合法：回原循环体",
+     "0x0041A374  00000000  nop",
+     "0x0041A378  08040964  j 0x00102590            ; 不合法：走既有出口",
+     "0x0041A37C  00000000  nop"
+    ]
+   },
+   "provenance": "work/builds/GR_SPINFIX/tools/spinfix_apply.py 的 CAVE_F4（逐字相同）；GR_COMBFIX/tools/combfix_apply.py 原样继承"
+  },
+  {
+   "name": "OOMFIX",
+   "why": "解压器里 malloc 返回 NULL 时不再写 NULL+4（会踩 0 页），改走失败分支并把 s0 置 0 复用调用者的失败处理",
+   "va": "0x00539174",
+   "iso_off": "0x004CC9F4",
+   "elf_off": "0x04391F4",
+   "old_word": "0xAE620004",
+   "old_dis": "sw $v0,4($s3)",
+   "new_word": "0x08154012",
+   "new_dis": "j 0x00550048",
+   "delay_slot": {"va": "0x00539178", "word": "0xAE620008", "changed": false},
+   "exits": "成功 j 0x0053917C（延迟槽 0x539178 原指令照跑）/ 失败 j 0x005392A0（s0=0，走既有尾声）",
+   "cave": {
+    "va": "0x00550048",
+    "iso_off": "0x004E38C8",
+    "elf_off": "0x04500C8",
+    "bytes": 44,
+    "words": ["0x10400005", "0x00000000", "0xAE620004", "0xAE620008", "0x0814E45F", "0x00000000", "0xAE600004", "0xAE600008", "0x0000802D", "0x0814E4A8", "0x00000000"],
+    "dis": [
+     "0x00550048  10400005  beq $v0, $zero, +5 -> 0x00550060   ; malloc 返回 0 ?",
+     "0x0055004C  00000000  nop",
+     "0x00550050  AE620004  sw $v0, 4($s3)          ; 成功：输出缓冲基址",
+     "0x00550054  AE620008  sw $v0, 8($s3)          ; 成功：输出游标",
+     "0x00550058  0814E45F  j 0x0053917C            ; 回原流程",
+     "0x0055005C  00000000  nop",
+     "0x00550060  AE600004  sw $zero, 4($s3)        ; .fail：基址 = 0",
+     "0x00550064  AE600008  sw $zero, 8($s3)        ; .fail：游标 = 0",
+     "0x00550068  0000802D  daddu $s0, $zero, $zero ; ★ s0 = 0 ⇒ 返回 0",
+     "0x0055006C  0814E4A8  j 0x005392A0            ; 走既有尾声",
+     "0x00550070  00000000  nop"
+    ]
+   },
+   "provenance": "work/builds/GR_OOMFIX/tools/oomfix_apply.py 原样（含 s0 置 0）"
+  },
+  {
+   "name": "F7",
+   "why": "分配器 own-bin 回边（0x1021D4）最小修复：链头非法就 bail 到既有的「换下一个桶」出口，截断自旋",
+   "va": "0x001021D4",
+   "iso_off": "0x00095A54",
+   "elf_off": "0x0002254",
+   "old_word": "0x1447FFEA",
+   "old_dis": "bne $v0,$a3,-22",
+   "new_word": "0x08177B31",
+   "new_dis": "j 0x005DECC4",
+   "delay_slot": {"va": "0x001021D8", "word": "0x00000000", "changed": false},
+   "exits": "合法 j 0x00102180（回本桶扫描循环体）/ 不合法 j 0x001021E0（换下一个桶）",
+   "cave": {
+    "va": "0x005DECC4",
+    "iso_off": "0x00572544",
+    "elf_off": "0x04DED44",
+    "bytes": 36,
+    "words": ["0x00E2082B", "0x0046182B", "0x00230824", "0x10200003", "0x00000000", "0x08040860", "0x00000000", "0x08040878", "0x00000000"],
+    "dis": [
+     "0x005DECC4  00E2082B  sltu $at, $a3, $v0      ; v0 > 桶哨兵 a3（严格）",
+     "0x005DECC8  0046182B  sltu $v1, $v0, $a2      ; v0 < 0x1FFFFFFE（a2 在 0x10217C 设的掩码）",
+     "0x005DECCC  00230824  and $at, $at, $v1",
+     "0x005DECD0  10200003  beq $at, $zero, +3 -> 0x005DECE0",
+     "0x005DECD4  00000000  nop",
+     "0x005DECD8  08040860  j 0x00102180            ; 合法：回本桶扫描循环体",
+     "0x005DECDC  00000000  nop",
+     "0x005DECE0  08040878  j 0x001021E0            ; bail：换下一个桶",
+     "0x005DECE4  00000000  nop"
+    ]
+   },
+   "provenance": "GR_COMBFIX/tools/combfix_apply.py 新写（本轮病灶），SPINFIX 里没有这一条"
+  }
+ ],
+ "declared_windows": [
+  {"why": "F4 站点", "va_lo": "0x00102588", "va_hi": "0x0010258C"},
+  {"why": "F7 站点", "va_lo": "0x001021D4", "va_hi": "0x001021D8"},
+  {"why": "OOMFIX 站点", "va_lo": "0x00539174", "va_hi": "0x00539178"},
+  {"why": "F4 cave", "va_lo": "0x0041A35C", "va_hi": "0x0041A380"},
+  {"why": "F7 cave", "va_lo": "0x005DECC4", "va_hi": "0x005DED00"},
+  {"why": "OOMFIX cave", "va_lo": "0x00550048", "va_hi": "0x00550080"}
+ ],
+ "must_stay_identical_regions": [
+  {"why": "DBCS cave 全区", "va_lo": "0x00416E00", "va_hi": "0x00417800"},
+  {"why": "ZH cave block B", "va_lo": "0x00565600", "va_hi": "0x00565B00"},
+  {"why": "SPINFIX CAVE_F1 区（本轮未使用）", "va_lo": "0x0055B730", "va_hi": "0x0055B780"},
+  {"why": "解压器本体", "va_lo": "0x00539110", "va_hi": "0x00539310"},
+  {"why": "解压器调用者", "va_lo": "0x0051BE10", "va_hi": "0x0051C000"},
+  {"why": "RSFont 被替换区", "va_lo": "0x0021AC00", "va_hi": "0x0021AE00"},
+  {"why": "分配器镜像", "va_lo": "0x00101C00", "va_hi": "0x00102700"},
+  {"why": "ELF 头 0x1000 B", "va_lo": "0x0006C780", "va_hi": "0x0006D780"}
+ ],
+ "acceptance_index": [
+  {"what": "成品身份 / 差异窗口 / ELF 指纹（成品 == 候选盘；vs 基底 78 B 全在声明窗口内，窗口外 0 B）", "where": "docs/REPORT_RELEASE_VERIFY.md §A · work/builds/GR_RELEASE/temp/rel_identity.json", "verdict": "通过"},
+  {"what": "三闸门 + 槽 0..2349 + 保留槽 473 + 借槽 5 + ASCII 182 条（同几何基底逐 texel）", "where": "docs/REPORT_RELEASE_VERIFY.md §B · temp/rel_atlas_base.json", "verdict": "通过"},
+  {"what": "dump_font 家族：full 2350/2350（473 保留槽空）/ live 0..1871 全有墨 0 错", "where": "docs/REPORT_RELEASE_VERIFY.md §C · temp/rel_font_dump.txt", "verdict": "通过"},
+  {"what": "文本层：载荷级裸旧码 0 / 载荷逐字节与基底相同 0 差异 / 全量解码未解析字节 0（SF 5 处 0xA4 为上游既有）", "where": "docs/REPORT_RELEASE_VERIFY.md §D · temp/rel_text.json", "verdict": "通过"},
+  {"what": "实机 6000 帧冷启动：191 截图 / TLB Miss 0 / Trap 0 / 未识别指令 0 / 暂停 0", "where": "docs/REPORT_RELEASE_VERIFY.md §E · work/builds/GR_RELEASE/runs/smoke_GR_ZH2400_FINAL/", "verdict": "通过"},
+  {"what": "与基底逐帧对照：191/191 帧 sha256 相同（0 差异）", "where": "docs/REPORT_RELEASE_VERIFY.md §E · temp/frames_vs_base.json", "verdict": "通过"},
+  {"what": "补丁存活回读（第 5970 帧 RAM 里 3 站点 + 3 cave 共 29 字逐字相符）", "where": "docs/REPORT_RELEASE_VERIFY.md §E · GR_SPINFIX/tools/spinfix_ramcheck.py", "verdict": "通过"},
+  {"what": "同现场回归 S1（桶 126 坏链头）：未修盘 70,266 Trap / 46 帧即死 vs 本盘 300 帧跑完 Trap 0（F4/OOMFIX 命中）", "where": "docs/REPORT_RELEASE_VERIFY.md §F · states/S1_FINAL.p2s", "verdict": "通过"},
+  {"what": "同现场回归 S1b（桶 121 毒化 + 低端清零）：未修纯读死循环 vs 本盘 60 帧跑完、F7 bail 命中 3 次", "where": "docs/REPORT_RELEASE_VERIFY.md §F · states/S1b_low0_FINAL.p2s", "verdict": "通过"},
+  {"what": "用户实机会话旁证（COMBFIX_2400 跑到 33,330 帧：Trap 0 / 未识别 0 / TLB 0）", "where": "work/builds/GR_RELEASE/temp/userlog_LIVE_2400/emulog_snapshot.txt", "verdict": "旁证"}
+ ],
+ "known_residuals": [
+  "分配器 unsorted 桶回边（0x102200 一带）仍未校验；F7 只护住 own-bin 回边。补第三个 36 B 零区在 ELF 里已扫不到（docs/REPORT_COMBFIX.md §3.2）",
+  "F7 上界取 0x1FFFFFFE（512 MB）：坏值落在 [32 MB, 512 MB) 时会多跑一轮，代价是日志里多 1~2 行 TLB Miss（不会自旋、不会定死）",
+  "「汉化是否抬高触发率」未判定：没有做同场景「汉化 vs 英文」的定量对照；本轮只是把已发生的堆损坏从致命改成可恢复",
+  "ES / FR 语言表：抬闸门后仍带旧单字节码 (28+29)×2 处，主机语言 = ES/FR 时界面会吞字；DE/IT 结构异常（约 74+76 处）明确未动。主机语言 = 中文/英文时不渲染这些表，无影响",
+  "保留槽 1872..2344 共 473 个无字形：按设计，文本不引用（成品盘上引用 >1735 的只有 2345..2349 五个借槽）⇒ 不会出现空白方块",
+  "SF XML 里 5 处「配不出对的前导 0xA4」：上游既有缺陷（docs/REPORT_SENTINEL_FIX.md §4/§8.1 已登记），本轮原样保留",
+  "本轮不在盘上的参照盘（已被清理删除，非本工程决定）：GR_ZH124.iso、GR_F364.iso、GR_FA2400_K2*.iso、GR_REBUILD2400_allpat.iso、GR_SPINFIX_F4.iso；受影响的验收已用等价/更强的方式替代（docs/REPORT_RELEASE_VERIFY.md §B/§D）"
+ ],
+ "archived_away_disks": [
+  {"path": "work/builds/GR_COMBFIX/COMBFIX_A.iso", "sha256": "e12f2770d041f5ac02079c37fcb7137a49310538adb79dba026224cbb4edccc2", "why": "单变量变体（基底 SPINFIX_F4 + OOMFIX），已被 flavor 2400 取代；meta.json 与 runs/ 证据保留", "deleted": "2026-10-18 归档清理"},
+  {"path": "work/builds/GR_COMBFIX/COMBFIX_B.iso", "sha256": "3959498be967447b0404745885a0fc7f616c85d97dfa7833979b563531c16b41", "why": "单变量变体（+F1/F1b，实测带来 660..810 帧 6 帧像素差异，未被采纳）；meta.json 与 runs/ 证据保留", "deleted": "2026-10-18 归档清理"}
+ ],
+ "retained_disks": [
+  {"path": "work/builds/GR_RELEASE/GR_ZH2400_FINAL.iso", "why": "交付成品（与 COMBFIX_2400.iso 逐字节相同）"},
+  {"path": "work/builds/GR_COMBFIX/COMBFIX_2400.iso", "why": "成品同源候选盘"},
+  {"path": "work/builds/GR_COMBFIX/COMBFIX_C.iso", "why": "用户在实机上验证过的那一张（LAY 线同补丁集合）"},
+  {"path": "work/builds/GR_REBUILD/GR_REBUILD2400.iso", "why": "★ 修复链的基底（一键复跑的第 1 步输入）；可由 rb_build.py 从英文原盘重建，但重建依赖 PCSX2 cdvd 转储，故实体保留"},
+  {"path": "work/builds/GR_LAYOUT/LAY_fix1_bytecount.iso", "why": "★ 同现场回归的「未修对照盘」（70,266 Trap 的来源）；其基底已删除 ⇒ 不可重建，故保留"}
+ ]
+}

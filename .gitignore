@@ -1,0 +1,69 @@
+# =====================================================================
+# GR PS2 汉化仓库 — 公开版白名单策略
+# 原则: 自研脚本(.py/.sh)/文档(.md)/导航/配置 入库;
+#       游戏衍生数据资产 (游戏文本/字库/图形/解码 dump/字体映射) 一律不入库
+#       (本地保留, 公开库使用者需自备原盘经工具链再生);
+#       ISO 原盘、模拟器、转储目录、第三方源码/依赖 一律不入库。
+# =====================================================================
+
+# ---- 第一层: 根入口默认忽略, 放行目录遍历与白名单文件类型 ----
+/*
+!.gitignore
+!.gitattributes
+!*/
+!README.md
+!*.py
+!*.md
+!*.txt
+!*.json
+!*.csv
+!*.png
+!*.elf
+
+# ---- 第二层: 大件/生成物排除 ----
+*.iso
+*.img
+*.pss
+*.npy
+*.pkl
+*.bin
+_*.png
+__pycache__/
+dump_*/
+dumps_*/
+dumps/
+Mcd*.ps2
+*.migrate_new
+*.dat
+
+# ---- 第三层: 游戏衍生数据资产剥离 (公开发行; 本地保留) ----
+docs/han_v2/artifacts/**
+!docs/han_v2/artifacts/.gitkeep
+docs/han_v2/mis_decoded/**
+!docs/han_v2/mis_decoded/.gitkeep
+docs/han_v2/k99final2_text/**
+docs/han_v2/res_zh/en_zh_dump.txt
+docs/han_v2/*.png
+docs/han_v2/*.json
+docs/han_v2/*.txt
+docs/han_v2/*.BMB
+docs/han_v2/*.MIS
+tools/hanliu/texts/*.csv
+tools/hanliu/fonts/charset_*.json
+tools/hanliu/fonts/layout_*.txt
+tools/font_pipeline/data/**
+!tools/font_pipeline/data/.gitkeep
+
+# ---- 其它 ----
+.zcode/
+
+# ---- work/: 会话产物整体不入库, 仅按版本整理的构筑夹骨架占位 ----
+work/**
+!work/.gitkeep
+
+# ---- third_party: 原盘/字体/模拟器/依赖 全部不入库, 仅 readme.md 清单跟踪 ----
+third_party/**
+!third_party/readme.md
+!third_party/**/
+!third_party/**/.gitkeep
+third_party/emu/pcsx2_src/
