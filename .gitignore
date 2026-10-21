@@ -1,0 +1,46 @@
+# =====================================================================
+# 《幽灵行动》PS2 (SLUS-206.13) 汉化 —— 白名单式 .gitignore
+#
+# 进库的只有两个目录：
+#     tools/**   构筑链（18 个阶段脚本 + 共用库 + 非第三方资产）
+#     docs/**    文档（STATUS / BUILD_GUIDE / MOD_GUIDE / 报告 / 试错记录）
+# 其余一律「本地自备」或「会话产物」：
+#     third_party/**  英文原盘 ISO、cdvd 转储、方正像素16.ttf（版权 / 体积）
+#     work/**         每轮的中间盘与取证 dump（几十 GB）
+# =====================================================================
+
+# ---- 第一层：默认全部忽略，再逐个放行 ----
+*
+!*/
+!.gitignore
+!.gitattributes
+!README.md
+!tools/**
+!docs/**
+!third_party/readme.md
+
+# ---- 第二层：白名单里的排除项 ----
+__pycache__/
+*.pyc
+*.pyo
+*.iso
+*.img
+*.pss
+*.bin
+*.npy
+*.pkl
+*.ttf
+*.otf
+*.p2s
+*.dump
+*.log
+
+# ---- 第三层：第三方版权内容，永不入库 ----
+third_party/**
+!third_party/readme.md
+
+# ---- 第四层：会话产物 ----
+work/**
+_archive_scratch/
+.zcode/
+.kilo/
